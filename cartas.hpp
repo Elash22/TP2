@@ -2,11 +2,11 @@
 #define CARTAS_H_
 
 
+#include <string>
+
 class Cartas{
 private:
-    char tipo;
+    std::string tipo;
 };
-
-
 
 #endif

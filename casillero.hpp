@@ -10,13 +10,19 @@ enum EstadoDeCasilla{
     Ocupada
 };
 
+enum TipoTerreno{
+    tierra,
+    agua,
+    aire
+}
+
 class Casillero{
 private:
-    EstadoDeCasilla estado;
     Coordenada posicion;
+    EstadoDeCasilla estado;
+    TipoTerreno tipoTerreno;
 
 public:
-
     //Pre:
     //Post:
     Casillero(Coordenada posicion);
@@ -24,7 +30,6 @@ public:
     //Pre:
     //Post:
     virtual ~Casillero();
-
 };
 
 

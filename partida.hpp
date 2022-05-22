@@ -6,8 +6,11 @@
 
 class Partida{
 private:
-    Tablero terrenoDeJuego;
+    Tablero * tablero;
     Jugador* jugadores;
+    int cantidadDeJugadores;
+    int turno;
+
 };
 
 

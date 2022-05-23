@@ -6,7 +6,7 @@
 
 
 class Jugador{
-private:
+private: 
     int nroJugador;
     Cartas* cartas;
     Soldado* soldados;

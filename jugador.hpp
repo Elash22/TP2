@@ -6,11 +6,20 @@
 
 
 class Jugador{
-private:
-    Soldado* soldados;
-    Cartas* cartas;
-    int cantidadSoldados;
+private: 
     int nroJugador;
+    Cartas* cartas;
+    Soldado* soldados;
+    int cantidadSoldados;
+    Avion * aviones;
+    int cantidadAviones;
+    Barco * barcos;
+    int cantidadBarcos;
+
+public:
+    // PRE: 
+    // POST: 
+    bool poseeUnidades();
 };
 
 

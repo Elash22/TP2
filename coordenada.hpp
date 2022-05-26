@@ -3,7 +3,6 @@
 
 #include <iostream>
 
-
 class Coordenada{
 private:
     int fila;
@@ -16,12 +15,17 @@ public:
     //Post:
     Coordenada(int fila, int columna, int altura);
 
-    //Pre:
-    //Post:
-    virtual ~Coordenada();
+    void setFila(int fila);
+    void setColumna(int columna);
+    void setAltura(int altura);
+
+    int getFila();
+    int getColumna();
+    int getAltura();
 
     //Pre:
     //Post:
+    virtual ~Coordenada();
     
 };
 

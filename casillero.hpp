@@ -14,18 +14,22 @@ enum TipoTerreno{
     tierra,
     agua,
     aire
-}
+};
 
 class Casillero{
 private:
-    Coordenada posicion;
+    Coordenada* posicion;
     EstadoDeCasillero estado;
     TipoTerreno tipoTerreno;
 
 public:
     // PRE: posicion de coordenada valida
     // POST: se crea un casillero en una posicion valida con un tipo de terreno
-    Casillero(Coordenada posicion);
+    Casillero(int fila, int columna, int altura);
+
+    // PRE: posicion de coordenada valida
+    // POST: se crea un casillero en una posicion valida con un tipo de terreno
+//    Casillero(Coordenada posicion);
 
     // PRE
     // POST: retorna el estado del casillero

@@ -1,14 +1,14 @@
 #ifndef JUGADOR_H_
 #define JUGADOR_H_
 
-#include "cartas.hpp"
+#include "carta.hpp"
 #include "soldado.hpp"
 
 
 class Jugador{
 private: 
     int nroJugador;
-    Cartas* cartas;
+    Carta* cartas;
     Soldado* soldados;
     int cantidadSoldados;
     Avion * aviones;

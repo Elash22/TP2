@@ -4,15 +4,10 @@
 
 using namespace std;
 
-Casillero::Casillero(int fila, int columna, int altura){
+Casillero::Casillero(int fila, int columna, int altura, TipoTerreno terreno){
     this->posicion->setFila(fila);
     this->posicion->setColumna(columna);
     this->posicion->setAltura(altura);
+    this->tipoTerreno = terreno;
 }
 
-/*
-Casillero::Casillero(Coordenada posicion){
-    this->posicion = posicion;
-    this->estado = Vacia;
-}
-*/

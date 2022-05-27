@@ -1,5 +1,5 @@
 #include <iostream>
-#include "cartas.hpp"
+#include "carta.hpp"
 #include "coordenada.hpp"
 #include "jugador.hpp"
 #include "soldado.hpp"

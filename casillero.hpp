@@ -25,7 +25,7 @@ private:
 public:
     // PRE: posicion de coordenada valida
     // POST: se crea un casillero en una posicion valida con un tipo de terreno
-    Casillero(int fila, int columna, int altura, TipoTerreno terreno);
+    Casillero(int fila, int columna, int altura);
 
     // PRE
     // POST: retorna el estado del casillero

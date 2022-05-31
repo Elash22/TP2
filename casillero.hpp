@@ -2,29 +2,66 @@
 #define CASILLERO_H_
 
 #include "coordenada.hpp"
+#include "jugador.hpp"
+#include "unidad.hpp"
 #include <iostream>
 
-enum EstadoDeCasilla{
-    Inactiva,
-    Vacia,
-    Ocupada
+enum EstadoDeCasillero{
+    inhabilitada,
+    vacia,
+    ocupada
+};
+
+enum TipoTerreno{
+    tierra,
+    agua,
+    aire
 };
 
 class Casillero{
 private:
-    EstadoDeCasilla estado;
-    Coordenada posicion;
+    Coordenada* posicion;
+    EstadoDeCasillero estado;
+    TipoTerreno tipoTerreno;
+    Jugador* jugador;
+    Unidad* unidad;
 
 public:
+    // PRE: posicion de coordenada valida
+    // POST: se crea un casillero en una posicion valida con un tipo de terreno.
+    Casillero(int fila, int columna, int altura, TipoTerreno tipo);
 
-    //Pre:
-    //Post:
-    Casillero(Coordenada posicion);
+    // PRE: 
+    // POST: retorna la coordenada del casillero
+    Coordenada* getCoordenada();
 
-    //Pre:
-    //Post:
+    // PRE
+    // POST: retorna el estado del casillero
+    EstadoDeCasillero getEstado();
+    
+    // PRE: 
+    // POST: cambia el estado del casillero
+    void setEstado(EstadoDeCasillero);
+   
+    // PRE: 
+    // POST: devuelve el tipo de terreno
+    TipoTerreno getTipoDeTerreno();
+    
+    // PRE: 
+    // POST: agrega el jugador cuya unidad se encuentra en el casillero
+    void setJugador(Jugador* jugador);
+        
+    // PRE: 
+    // POST: retorna el jugador cuya unidad se encuentra en el casillero
+    Jugador* getJugador();
+    
+    // PRE: 
+    // POST: coloca la unidad en el casillero
+    void setUnidad(Unidad* unidad);
+
+    // PRE: exista un casillero
+    // POST: elimina el casillero y la coordenada asociada
     virtual ~Casillero();
-
 };
 
 

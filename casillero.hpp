@@ -5,9 +5,9 @@
 #include <iostream>
 
 enum EstadoDeCasillero{
-    Inactiva,
-    Vacia,
-    Ocupada
+    inhabilitada,
+    vacia,
+    ocupada
 };
 
 enum TipoTerreno{
@@ -21,11 +21,17 @@ private:
     Coordenada* posicion;
     EstadoDeCasillero estado;
     TipoTerreno tipoTerreno;
+    Jugador* jugador;
+    Unidad* unidad;
 
 public:
     // PRE: posicion de coordenada valida
-    // POST: se crea un casillero en una posicion valida con un tipo de terreno
-    Casillero(int fila, int columna, int altura);
+    // POST: se crea un casillero en una posicion valida con un tipo de terreno.
+    Casillero(int fila, int columna, int altura, TipoTerreno tipo);
+
+    // PRE: 
+    // POST: retorna la coordenada del casillero
+    Coordenada* getCoordenada();
 
     // PRE
     // POST: retorna el estado del casillero
@@ -40,11 +46,19 @@ public:
     TipoTerreno getTipoDeTerreno();
     
     // PRE: 
-    // POST: retorna la coordenada del casillero
-    Coordenada getCoordenada();
+    // POST: agrega el jugador cuya unidad se encuentra en el casillero
+    void setJugador(Jugador* jugador);
+        
+    // PRE: 
+    // POST: retorna el jugador cuya unidad se encuentra en el casillero
+    Jugador* getJugador();
+    
+    // PRE: 
+    // POST: coloca la unidad en el casillero
+    void setUnidad(Unidad* unidad);
 
     // PRE: exista un casillero
-    // POST: -
+    // POST: elimina el casillero y la coordenada asociada
     virtual ~Casillero();
 };
 

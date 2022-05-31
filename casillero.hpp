@@ -27,10 +27,6 @@ public:
     // POST: se crea un casillero en una posicion valida con un tipo de terreno
     Casillero(int fila, int columna, int altura);
 
-    // PRE: posicion de coordenada valida
-    // POST: se crea un casillero en una posicion valida con un tipo de terreno
-//    Casillero(Coordenada posicion);
-
     // PRE
     // POST: retorna el estado del casillero
     EstadoDeCasillero getEstado();

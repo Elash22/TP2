@@ -10,9 +10,3 @@ Casillero::Casillero(int fila, int columna, int altura){
     this->posicion->setAltura(altura);
 }
 
-/*
-Casillero::Casillero(Coordenada posicion){
-    this->posicion = posicion;
-    this->estado = Vacia;
-}
-*/

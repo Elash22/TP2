@@ -22,7 +22,8 @@ private:
     bool misilAdicionalEnProximoTurno;
 
     unsigned int cantidadTurnosInhabilitado;
-
+    bool gano; 
+    
 public:
     // PRE: ingresar un numero unico identificador
     // POST: crea un jugador

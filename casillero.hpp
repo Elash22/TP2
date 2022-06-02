@@ -2,6 +2,8 @@
 #define CASILLERO_H_
 
 #include "coordenada.hpp"
+#include "jugador.hpp"
+#include "unidad.hpp"
 #include <iostream>
 
 enum EstadoDeCasillero{

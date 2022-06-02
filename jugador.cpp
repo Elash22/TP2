@@ -14,6 +14,7 @@ Jugador::Jugador(unsigned int numeroJugador){
     this->misilAdicionalEnProximoTurno = false;
 
     this->cantidadTurnosInhabilitado = 0;
+    this->gano = false;
 }
 
 void Jugador::asignarUnidad(Unidad* unidadDeBatalla){

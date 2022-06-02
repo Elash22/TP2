@@ -4,6 +4,9 @@
 using namespace std;
 
 Tablero::Tablero(int largo, int ancho, int alto){
+    int nroMapa;
+    cout << "Ingrese nro de mapa: (de 1 a 3)" << endl;
+    cin >> nroMapa;
     this->largo = largo;
     this->ancho = ancho;
     this->alto = alto;
@@ -14,21 +17,32 @@ Tablero::Tablero(int largo, int ancho, int alto){
 	    for(int y=1; y<=ancho; y++){
 		    this->tablero->get(x)->add(new Lista<Casillero*>(), y);
 		    for(int z=1; z<=alto; z++){
-//                Coordenada* coordenada = new Coordenada(x,y,z);
-			    this->tablero->get(x)->get(y)->add(new Casillero(x,y,z), z);
+          if(nroMapa ==1){
+            if(x<largo/2 && y<ancho/2 && z==1){
+              this->tablero->get(x)->get(y)->add(new Casillero(x,y,z, agua), z);
+            }else if(z==1){
+              this->tablero->get(x)->get(y)->add(new Casillero(x,y,z, tierra), z);
+            }else{
+              this->tablero->get(x)->get(y)->add(new Casillero(x,y,z, aire), z);
+            }
+          }
 		    }
 	    }
     }
 }
+
 int Tablero::getLargo(){
   return this->largo;
 }
+
 int Tablero::getAncho(){
   return this->ancho;
 }
+
 int Tablero::getAlto(){
   return this->alto;
 }
+
 Casillero* Tablero::getCasillero(int largo, int ancho, int alto){
     if(largo<1|| ancho<1 || alto<1 || 
     largo>this->getLargo() || ancho>this->getAncho() || alto>this->getAlto() ){

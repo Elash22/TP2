@@ -3,10 +3,7 @@
 #include <iostream>
 using namespace std;
 
-Tablero::Tablero(int largo, int ancho, int alto){
-    int nroMapa;
-    cout << "Ingrese nro de mapa: (de 1 a 3)" << endl;
-    cin >> nroMapa;
+Tablero::Tablero(int largo, int ancho, int alto, int nroMapa){
     this->largo = largo;
     this->ancho = ancho;
     this->alto = alto;

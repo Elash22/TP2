@@ -1,10 +1,8 @@
 #include <iostream>
 #include "partida.hpp"
 
-#define CANTIDAD_CARTAS_POR_JUGADOR 4
-
 using namespace std;
-
+/*
 Partida::Partida(int cantidadDeJugadores, int nroMapa, int largo, int ancho, int alto){
     int largo;
     int ancho;
@@ -15,6 +13,45 @@ Partida::Partida(int cantidadDeJugadores, int nroMapa, int largo, int ancho, int
     }
     this->tablero = new Tablero(largo, ancho, alto, nroMapa);
     this->estado = 0;
+}
+*/
+Partida::Partida(){
+    this->tablero = NULL;
+    this->jugadores = NULL;
+    this->mazoDeCartas = NULL;
+
+    this->cantidadDeJugadores = 0;
+    this->cantidadDeSoldadosPorJugador = 0;
+    this->turno = 1;
+    this->nroMapa = 1;
+}
+
+void Partida::pedirDatos(int& mapaLargo, int& mapaAncho, int& mapaAlto){
+    cout << "Bienvenidos, ingrese la cantidad de jugadores: ";
+    this->cantidadDeJugadores = this->ingresarNumeroYValidar(MINIMO_JUGADORES, MAXIMO_JUGADORES);
+    cout << endl << "Ingrese la cantidad de soldados por jugador con la que van a jugar: ";
+    this->cantidadDeSoldadosPorJugador = this->ingresarNumeroYValidar(MINIMO_SOLDADOS, MAXIMO_SOLDADOS);
+
+    unsigned int mapaLargo, mapaAncho, mapaAlto;
+    cout << endl << "Ingrese el largo del mapa: ";
+    mapaLargo = this->ingresarNumeroYValidar(MINIMO_LARGO_ANCHO_TABLERO,MAXIMO_LARGO_ANCHO_TABLERO);
+    cout << endl << "Ingrese el ancho del mapa: ";
+    mapaAncho = this->ingresarNumeroYValidar(MINIMO_LARGO_ANCHO_TABLERO,MAXIMO_LARGO_ANCHO_TABLERO);
+    cout << endl << "Ingrese el alto del mapa: ";
+    mapaAlto = this->ingresarNumeroYValidar(MINIMO_ALTO_TABLERO,MAXIMO_ALTO_TABLERO);
+
+    cout << endl << "En que mapa desea jugar? (1 - " << CANTIDAD_MAPAS<< ")";
+    this->nroMapa = this->ingresarNumeroYValidar(MINIMO_ALTO_TABLERO,MAXIMO_ALTO_TABLERO);
+}
+
+unsigned int ingresarNumeroYValidar(int minimo, int maximo){
+    int numeroIngresado;
+    cin << numeroIngresado;
+    while(numeroIngresado < minimo || numeroIngresado > maximo){
+        cout << endl << "Entrada incorrecta. Ingrese una cantidad mayor a " << minimo-1 << " y menor a " << maximo+1<<": ";
+        cin << numeroIngresado;
+    }
+    return numeroIngresado;
 }
 
 int Partida::getCantidadJugadores(){
@@ -30,24 +67,7 @@ void Partida::setCantidadJugadores(int cantidadNueva){
     this->cantidadDeJugadores = cantidadNueva;
 }
 
-void pedirDatos(int& cantidadJugadores, int& cantidadSoldados, int& largo, int& ancho, int& alto, int& nroMapa){
-    cout << "Bienvenidos, ingrese la cantidad de jugadores: ";
-    cin >> cantidadJugadores;
-    cout << endl << "Ingrese la cantidad de soldados con la que van a jugar: ";
-    cin >> cantidadSoldados;
-    pedirDatosMapa(largo, ancho, alto);
-    cout << endl << "En que mapa desea jugar? (1 - 4)";
-    cin >> nroMapa;
-}
 
-void pedirDatosMapa(int& largo, int&ancho, int& alto){
-    cout << endl << "Ingrese el largo del mapa: ";
-    cin >> largo;
-    cout << endl << "Ingrese el ancho del mapa: ";
-    cin >> ancho;
-    cout << endl << "Ingrese el alto del mapa: ";
-    cin >> alto;
-}
 
 //Pre: La coordenada debe ser previamente declarada
 //Post: Asigna los datos a la coordenada

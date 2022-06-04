@@ -4,6 +4,17 @@
 #include "tablero.hpp"
 #include "jugador.hpp"
 
+#define MINIMO_JUGADORES 2
+#define MAXIMO_JUGADORES 10
+#define MINIMO_SOLDADOS 2
+#define MAXIMO_SOLDADOS 10
+#define MINIMO_LARGO_ANCHO_TABLERO 2
+#define MAXIMO_LARGO_ANCHO_TABLERO 20
+#define MINIMO_ALTO_TABLERO 2
+#define MAXIMO_ALTO_TABLERO 10  
+#define CANTIDAD_MAPAS
+#define CANTIDAD_CARTAS_POR_JUGADOR 4
+
 class Partida{
 private:
     Tablero* tablero;
@@ -14,11 +25,29 @@ private:
     unsigned int cantidadDeSoldadosPorJugador;
     unsigned int turno;
     unsigned int nroMapa;
+    int const cantidadMapas;
+
+    // PRE: 
+    // POST: Pide los datos necesarios de la partida para iniciar el juego
+    void pedirDatos(int& largo, int& ancho, int& alto);
+
+    // PRE: Ingreso de entero sin signo mayor o igual a 2
+    // POST: solicita y valida si el dato ingresado es un entero sin signo, y lo retorna
+    unsigned int ingresarNumeroYValidar();
 
 public:
     // PRE: La cantidad de jugadores debe ser mayor a 1
     // POST: Crea una partida
-    Partida(int cantidadDeJugadores, int nroMapa, int largo, int ancho, int alto);
+    // Partida(int cantidadDeJugadores, int nroMapa, int largo, int ancho, int alto);
+
+    // PRE: -
+    // POST: Crea una partida
+    Partida();
+
+    // PRE:
+    // POST:
+    inicializarPartida();
+
 
     // PRE: - 
     // POST: Devuelve la cantidad de jugadores con soldados en la partida
@@ -37,13 +66,9 @@ public:
     // es necesario?
     void setCantidadJugadores(int cantidadNueva);
 
-    // PRE: 
-    // POST: Pide los datos necesarios de los jugadores para iniciar el juego
-    void pedirDatos(int& cantidadJugadores, int& cantidadSoldados, int& largo, int& ancho, int& alto, int& nroMapa);
+    
 
-    // PRE:
-    // POST: Pide los datos del mapa para iniciar el juego
-    void pedirDatosMapa(int& largo, int&ancho, int& alto)
+    
 
     // PRE:
     // POST:

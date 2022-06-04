@@ -3,10 +3,7 @@
 #include <iostream>
 using namespace std;
 
-Tablero::Tablero(int largo, int ancho, int alto){
-    int nroMapa;
-    cout << "Ingrese nro de mapa: (de 1 a 3)" << endl;
-    cin >> nroMapa;
+Tablero::Tablero(int largo, int ancho, int alto, int nroMapa){
     this->largo = largo;
     this->ancho = ancho;
     this->alto = alto;
@@ -17,6 +14,8 @@ Tablero::Tablero(int largo, int ancho, int alto){
 	    for(int y=1; y<=ancho; y++){
 		    this->tablero->get(x)->add(new Lista<Casillero*>(), y);
 		    for(int z=1; z<=alto; z++){
+
+          // TODO: METODO
           if(nroMapa ==1){
             if(x<largo/2 && y<ancho/2 && z==1){
               this->tablero->get(x)->get(y)->add(new Casillero(x,y,z, agua), z);

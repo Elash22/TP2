@@ -2,19 +2,7 @@
 #include "partida.hpp"
 
 using namespace std;
-/*
-Partida::Partida(int cantidadDeJugadores, int nroMapa, int largo, int ancho, int alto){
-    int largo;
-    int ancho;
-    int alto;
-    this->turno = 1;
-    for(int i = 1; i <= cantidadDeJugadores; i++){
-        jugadores[i] = new Jugador(i);
-    }
-    this->tablero = new Tablero(largo, ancho, alto, nroMapa);
-    this->estado = 0;
-}
-*/
+
 Partida::Partida(){
     this->tablero = NULL;
     this->jugadores = NULL;
@@ -32,7 +20,6 @@ void Partida::pedirDatos(int& mapaLargo, int& mapaAncho, int& mapaAlto){
     cout << endl << "Ingrese la cantidad de soldados por jugador con la que van a jugar: ";
     this->cantidadDeSoldadosPorJugador = this->ingresarNumeroYValidar(MINIMO_SOLDADOS, MAXIMO_SOLDADOS);
 
-    unsigned int mapaLargo, mapaAncho, mapaAlto;
     cout << endl << "Ingrese el largo del mapa: ";
     mapaLargo = this->ingresarNumeroYValidar(MINIMO_LARGO_ANCHO_TABLERO,MAXIMO_LARGO_ANCHO_TABLERO);
     cout << endl << "Ingrese el ancho del mapa: ";
@@ -44,19 +31,40 @@ void Partida::pedirDatos(int& mapaLargo, int& mapaAncho, int& mapaAlto){
     this->nroMapa = this->ingresarNumeroYValidar(MINIMO_ALTO_TABLERO,MAXIMO_ALTO_TABLERO);
 }
 
-unsigned int ingresarNumeroYValidar(int minimo, int maximo){
+unsigned int Partida::ingresarNumeroYValidar(int minimo, int maximo){
     int numeroIngresado;
-    cin << numeroIngresado;
+    cin >> numeroIngresado;
     while(numeroIngresado < minimo || numeroIngresado > maximo){
-        cout << endl << "Entrada incorrecta. Ingrese una cantidad mayor a " << minimo-1 << " y menor a " << maximo+1<<": ";
-        cin << numeroIngresado;
+        cout << endl << "Entrada incorrecta. Ingrese una cantidad mayor a " << (minimo-1) << " y menor a " << maximo+1 << ": ";
+        cin >> numeroIngresado;
     }
     return numeroIngresado;
+}
+
+void Partida::inicializarPartida(){
+    int mapaLargo, mapaAncho, mapaAlto;
+    this->pedirDatos(mapaLargo, mapaAncho, mapaAlto);
+
+    this->jugadores = new Jugador*[this->getCantidadJugadores()];
+    
+    for(int i=0; i<this->getCantidadJugadores(); i++){
+        this->jugadores[i] = new Jugador(i);
+    }
+
+    this->tablero = new Tablero(mapaLargo, mapaAncho, mapaAlto, this->nroMapa);
+
+    this->inicializarMazo();
+    
+    this->inicializarSoldadosAJugadores();
 }
 
 int Partida::getCantidadJugadores(){
     // recorrer el arreglo de jugadores y contar aquellos que tienen soldados
     // return this->cantidadDeJugadores;
+}
+
+unsigned int Partida::getCantidadDeSoldadosPorJugador(){
+    return this->cantidadDeSoldadosPorJugador;
 }
 
 int Partida::getTurno(){
@@ -67,12 +75,10 @@ void Partida::setCantidadJugadores(int cantidadNueva){
     this->cantidadDeJugadores = cantidadNueva;
 }
 
-
-
 //Pre: La coordenada debe ser previamente declarada
 //Post: Asigna los datos a la coordenada
 //Para el grupo: hice las funciones con tipo de unidad por si en un futuro las necesitamos para asignar barcos y aviones
-void pedirDatosUnidad(Coordenada* posicion, string tipoUnidad){
+void pedirDatosUnidad(Coordenada* posicion, Unidad tipoUnidad){
     int fila, columna, altura;
     cout << "Ingrese fila: " << endl;
     cin >> fila;
@@ -80,7 +86,7 @@ void pedirDatosUnidad(Coordenada* posicion, string tipoUnidad){
     cout << "Ingrese columna: " << endl;
     cin >> columna;
     posicion->setColumna(columna);
-    if(tipoUnidad != "soldado"){
+    if(tipoUnidad.getTipoDeUnidad() != Soldado){
         cout << "Ingrese Altura: " << endl;
         cin >> altura;
         posicion->setAltura(altura);
@@ -88,25 +94,31 @@ void pedirDatosUnidad(Coordenada* posicion, string tipoUnidad){
     else{
         posicion->setAltura(0); //Altura del terreno basico
     }
+
 }
 
-// Es necesaria?
-void asignarUnidad(Partida* partida, Jugador* player, int nroUnidad, string tipoUnidad){
+void Partida::asignarUnidadAlCasillero(Jugador* player, int nroUnidad, Unidad tipoUnidad){
+    // obtener casillero asignarle la unidad
+    // Casillero* Tablero::getCasillero(int largo, int ancho, int alto)
+    
     Coordenada auxiliar;
-    pedirDatosUnidad(&auxiliar, tipoUnidad);
+    //pedirCoordenadaUnidad(&auxiliar, tipoUnidad);
+    this->tablero.getCasillero()
+    
+    new Unidad(tipoUnidad, nroUnidad, &auxiliar);
     //Aca habria que asignar la unidad a la lista de unidades de cada jugador
 }
 
-// Es necesaria?
-bool esSoldado(string tipoUnidad){
-    return (tipoUnidad == "Soldado");
+bool esSoldado(Unidad tipoUnidad){
+    return (tipoUnidad.getTipoDeUnidad() == Soldado);
 }
 
-void inicializarSoldadosAJugadores(Partida* partida, int soldadosXJugador){
-    // REHACER
-    for(int i = 0; i <= partida->getCantidadJugadores(); i++){
-        for(int j = 0; j <= soldadosXJugador; j++){
-            //Aca habria que asignar soldados con asignar unidad, i es el nro del jugador, j el nro del soldado
+
+void Partida::inicializarSoldadosAJugadores(){
+    for(int i = 0; i <= this->getCantidadJugadores(); i++){
+        for(int j = 0; j <= this->getCantidadDeSoldadosPorJugador(); j++){
+
+            asignarUnidadAlCasillero(this->jugadores[i], j, Soldado);
         }
     }   
 }

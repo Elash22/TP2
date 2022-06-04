@@ -1,57 +1,68 @@
 #ifndef PARTIDA_H_
 #define PARTIDA_H_
 
+#include <cstdlib>
 #include "tablero.hpp"
 #include "jugador.hpp"
 
-#define MINIMO_JUGADORES 2
-#define MAXIMO_JUGADORES 10
-#define MINIMO_SOLDADOS 2
-#define MAXIMO_SOLDADOS 10
-#define MINIMO_LARGO_ANCHO_TABLERO 2
-#define MAXIMO_LARGO_ANCHO_TABLERO 20
-#define MINIMO_ALTO_TABLERO 2
-#define MAXIMO_ALTO_TABLERO 10  
-#define CANTIDAD_MAPAS
-#define CANTIDAD_CARTAS_POR_JUGADOR 4
+const int MINIMO_JUGADORES= 2;
+const int MAXIMO_JUGADORES= 10;
+const int MINIMO_SOLDADOS= 2;
+const int MAXIMO_SOLDADOS= 10;
+const int MINIMO_LARGO_ANCHO_TABLERO= 2;
+const int MAXIMO_LARGO_ANCHO_TABLERO= 20;
+const int MINIMO_ALTO_TABLERO= 2;
+const int MAXIMO_ALTO_TABLERO= 10;
+const int CANTIDAD_MAPAS= 4;
+const int CANTIDAD_CARTAS_POR_JUGADOR= 4;
 
 class Partida{
 private:
     Tablero* tablero;
     Jugador** jugadores;
-    Carta* mazoDeCartas;
+    Carta** mazoDeCartas;
 
     unsigned int cantidadDeJugadores;
     unsigned int cantidadDeSoldadosPorJugador;
     unsigned int turno;
     unsigned int nroMapa;
-    int const cantidadMapas;
 
     // PRE: 
-    // POST: Pide los datos necesarios de la partida para iniciar el juego
+    // POST: Solicita al usuario los datos necesarios de la partida
     void pedirDatos(int& largo, int& ancho, int& alto);
 
     // PRE: Ingreso de entero sin signo mayor o igual a 2
     // POST: solicita y valida si el dato ingresado es un entero sin signo, y lo retorna
-    unsigned int ingresarNumeroYValidar();
+    unsigned int ingresarNumeroYValidar(int minimo, int maximo);
+
+    // PRE:
+    // POST: crea punteros a Carta. Agrega cartas en forma aleatoria al vector de punteros a carta.
+    void inicializarMazo();
+
+    // PRE:
+    // POST: saca una carta en orden y coloca el puntero a NULL (libera memoria)
+    Carta sacarCartaDelMazo();
+
+    // PRE:
+    // POST: 
+    void activarCarta(Carta carta);
 
 public:
-    // PRE: La cantidad de jugadores debe ser mayor a 1
-    // POST: Crea una partida
-    // Partida(int cantidadDeJugadores, int nroMapa, int largo, int ancho, int alto);
-
     // PRE: -
     // POST: Crea una partida
     Partida();
 
     // PRE:
-    // POST:
-    inicializarPartida();
-
+    // POST: 
+    void inicializarPartida();
 
     // PRE: - 
     // POST: Devuelve la cantidad de jugadores con soldados en la partida
     int getCantidadJugadores();
+
+    // PRE:
+    // POST
+    unsigned int getCantidadDeSoldadosPorJugador();
 
     // PRE:
     // POST: Devuelve el turno actual de la partida
@@ -66,22 +77,22 @@ public:
     // es necesario?
     void setCantidadJugadores(int cantidadNueva);
 
-    
-
-    
-
     // PRE:
     // POST:
     void generarTablero();
+
+    // PRE: 
+    // POST: Asigna soldados al iniciar la partida, pidiendo al usuario las coordenadas correspondientes.
+    void inicializarSoldadosAJugadores();
 
     // PRE: La coordenada debe ser previamente declarada
     // POST: Asigna los datos a la coordenada
     // Para el grupo: hice las funciones con tipo de unidad por si en un futuro las necesitamos para asignar barcos y aviones
     void pedirDatosUnidad(Coordenada* posicion, string tipoUnidad);
 
-    // PRE: 
-    // POST: Asigna soldados al iniciar la partida, pidiendo al usuario las coordenadas correspondientes.
-    void inicializarSoldadosAJugadores();
+    //
+    // 
+    void asignarUnidadAlCasillero();
 
     // PRE: 
     // POST: jugador realiza disparos

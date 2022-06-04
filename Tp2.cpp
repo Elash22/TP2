@@ -12,15 +12,12 @@ const int EN_JUEGO = 1;
 const int FINALIZADO = -1;
 
 int main(){
-    /*
-    int cantidadJugadores, cantidadSoldados, largo, ancho, alto;
+
+    Partida* partida = new Partida();
     // INGRESO DE DATOS
-    pedirDatos(cantidadJugadores, cantidadSoldados, largo, ancho, alto)
+    partida->inicializarPartida();
 
-    // INICIALIZAR PARTIDA
-    Partida partida(cantidadJugadores, nroMapa, largo, ancho, alto);
-    iniciarPartida();
-
+    /*
     // EXPORTAR TABLERO PARA TODOS LOS JUGADORES, de forma tal que el jugador pueda ver el terreno antes de colocar sus soldados
 
     // INGRESAR POSICION DE SOLDADOS PARA CADA JUGADOR

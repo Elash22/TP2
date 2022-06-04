@@ -15,7 +15,7 @@ public:
 
     //Pre: La cantidad de jugadores debe ser mayor a 1
     //Post: Crea una partida
-    Partida(int cantidadDeJugadores);
+    Partida(int cantidadDeJugadores, int nroMapa, int largo, int ancho, int alto);
 
     //Pre:
     //Post: Destruye la partida

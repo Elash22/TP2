@@ -13,10 +13,9 @@ const int FINALIZADO = -1;
 
 int main(){
     /*
-    int cantidadDeJugadores;
-    cout << "Ingrese cant de jugadores: " << endl;
-    cin >> cantidadDeJugadores;
-    Partida partida(cantidadDeJugadores);
+    int cantidadJugadores, cantidadSoldados, largo, ancho, alto;
+    pedirDatos(cantidadJugadores, cantidadSoldados, largo, ancho, alto)
+    Partida partida(cantidadJugadores, nroMapa, largo, ancho, alto);
     iniciarPartida();
     while(partida.getEstado() == EN_JUEGO){
         robarCarta(JugadorActual); jugador actual seria el jugador que esta en el momento
@@ -30,3 +29,4 @@ int main(){
     */
     return 0;
 }
+

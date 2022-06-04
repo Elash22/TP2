@@ -3,40 +3,40 @@
 
 using namespace std;
 
-Coordenada::Coordenada(int fila, int columna, int altura){
-    this->fila = fila;
-    this->columna = columna;
-    this->altura = altura;
+Coordenada::Coordenada(int largo, int ancho, int alto){
+    this->largo = largo;
+    this->ancho = ancho;
+    this->alto = alto;
 }
 
 Coordenada::Coordenada(){
-    this->fila = 0;
-    this->columna = 0;
-    this->altura = 0;
+    this->largo = 0;
+    this->ancho = 0;
+    this->alto = 0;
 }
 
-void Coordenada::setFila(int fila){
-    this->fila = fila;
+void Coordenada::setLargo(int largo){
+    this->largo = largo;
 }
 
-void Coordenada::setColumna(int columna){
-    this->columna = columna;
+void Coordenada::setAncho(int ancho){
+    this->ancho = ancho;
 }
 
-void Coordenada::setAltura(int altura){
-    this->altura = altura;
+void Coordenada::setAlto(int alto){
+    this->alto = alto;
 }
 
 
-int Coordenada::getFila(){
-    return (this->fila);
+int Coordenada::getLargo(){
+    return (this->largo);
 }
 
-int Coordenada::getColumna(){
-    return (this->columna);
+int Coordenada::getAncho(){
+    return (this->ancho);
 }
 
-int Coordenada::getAltura(){
-    return (this->altura);
+int Coordenada::getAlto(){
+    return (this->alto);
 }
 

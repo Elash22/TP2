@@ -26,6 +26,7 @@ int main(){
     // INGRESAR POSICION DE SOLDADOS PARA CADA JUGADOR
 
     // MIENTRAS EL JUEGO NO TERMINA, ALTERNAR JUGADORES, realizar checkeo si el juego finalizo
+    // ¿esto no deberia ser un metodo de partida?
     while(partida.getEstado() == EN_JUEGO){
 
         // EXPORTAR TABLERO PARA EL JUGADOR EN TURNO

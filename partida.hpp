@@ -8,40 +8,79 @@ class Partida{
 private:
     Tablero* tablero;
     Jugador** jugadores;
-    int cantidadDeJugadores;
-    int turno;
-    int estado; // 1 en juego, -1 finalizado, 0 sin iniciar
-public:
+    Carta* mazoDeCartas;
 
-    //Pre: La cantidad de jugadores debe ser mayor a 1
-    //Post: Crea una partida
+    unsigned int cantidadDeJugadores;
+    unsigned int cantidadDeSoldadosPorJugador;
+    unsigned int turno;
+    unsigned int nroMapa;
+
+public:
+    // PRE: La cantidad de jugadores debe ser mayor a 1
+    // POST: Crea una partida
     Partida(int cantidadDeJugadores, int nroMapa, int largo, int ancho, int alto);
 
-    //Pre:
-    //Post: Destruye la partida
-    virtual ~Partida();
-
-    //Pre: - 
-    //Post: Devuelve la cantidad de jugadores en la partida
+    // PRE: - 
+    // POST: Devuelve la cantidad de jugadores con soldados en la partida
     int getCantidadJugadores();
 
-    //Pre:
-    //Post: Nos devuelve el turno actual de la partida
+    // PRE:
+    // POST: Devuelve el turno actual de la partida
     int getTurno();
 
-    //Pre: El turno debe ser diferente al anterior y valido (concuerda con el nro de jugador)
-    //Post: Cambia el turno de la partida por uno nuevo
-    void setTurno(int turnoNuevo);
+    // PRE: 
+    // POST: Añade uno a la cantidad de turnos de la partida
+    void siguienteTurno();
 
-    //Pre: La nueva cantidad de jugadores no puede ser mayor a la anterior
-    //Post: En caso de tener que cambiar o reducir la cantidad de jugadores, cambiamos la cantidad de jugadores por una nueva
+    // PRE: La nueva cantidad de jugadores no puede ser mayor a la anterior
+    // POST: En caso de tener que cambiar o reducir la cantidad de jugadores, cambiamos la cantidad de jugadores por una nueva
+    // es necesario?
     void setCantidadJugadores(int cantidadNueva);
 
-    //Pre: - 
-    //Post: Cambia el turno automaticamente al siguiente
-    void cambiarTurno();
-    
-};
+    // PRE: 
+    // POST: Pide los datos necesarios de los jugadores para iniciar el juego
+    void pedirDatos(int& cantidadJugadores, int& cantidadSoldados, int& largo, int& ancho, int& alto, int& nroMapa);
 
+    // PRE:
+    // POST: Pide los datos del mapa para iniciar el juego
+    void pedirDatosMapa(int& largo, int&ancho, int& alto)
+
+    // PRE:
+    // POST:
+    void generarTablero();
+
+    // PRE: La coordenada debe ser previamente declarada
+    // POST: Asigna los datos a la coordenada
+    // Para el grupo: hice las funciones con tipo de unidad por si en un futuro las necesitamos para asignar barcos y aviones
+    void pedirDatosUnidad(Coordenada* posicion, string tipoUnidad);
+
+    // PRE: 
+    // POST: Asigna soldados al iniciar la partida, pidiendo al usuario las coordenadas correspondientes.
+    void inicializarSoldadosAJugadores();
+
+    // PRE: 
+    // POST: jugador realiza disparos
+    void realizarDisparosJugador();
+
+    // PRE: 
+    // POST:
+    void moverUnidad();
+    
+    // PRE: 
+    // POST:
+    void exportarTablero();
+
+    // PRE
+    // POST: chequea si el juego ha terminado
+    bool haTerminado();
+
+    // PRE:
+    // POST: devuelve el jugador ganador de la partida, en caso de que haya terminado en empate retorna 0;
+    unsigned int jugadorGanador();
+
+    // PRE:
+    // POST: Destruye la partida
+    virtual ~Partida();
+};
 
 #endif

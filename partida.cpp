@@ -1,10 +1,10 @@
 #include <iostream>
 #include "partida.hpp"
 
+#define CANTIDAD_CARTAS_POR_JUGADOR 4
+
 using namespace std;
 
-//Pre.
-//Post:
 Partida::Partida(int cantidadDeJugadores, int nroMapa, int largo, int ancho, int alto){
     int largo;
     int ancho;
@@ -17,43 +17,19 @@ Partida::Partida(int cantidadDeJugadores, int nroMapa, int largo, int ancho, int
     this->estado = 0;
 }
 
-//Pre.
-//Post:
 int Partida::getCantidadJugadores(){
-    return this->cantidadDeJugadores;
+    // recorrer el arreglo de jugadores y contar aquellos que tienen soldados
+    // return this->cantidadDeJugadores;
 }
 
-//Pre.
-//Post:
 int Partida::getTurno(){
     return this->turno;
 }
-  
-//Pre.
-//Post:
-void Partida::setTurno(int turnoNuevo){
-    this->turno = turnoNuevo;
-}
 
-//Pre.
-//Post:
 void Partida::setCantidadJugadores(int cantidadNueva){
     this->cantidadDeJugadores = cantidadNueva;
 }
 
-//Pre.
-//Post:
-void Partida::cambiarTurno(){
-    if(this->turno == this->cantidadDeJugadores){
-        setTurno(1);
-    }
-    else{
-        setTurno(this->turno++);
-    }
-}
-
-//Pre:
-//Post: Pide los datos necesarios de los jugadores para iniciar el juego
 void pedirDatos(int& cantidadJugadores, int& cantidadSoldados, int& largo, int& ancho, int& alto, int& nroMapa){
     cout << "Bienvenidos, ingrese la cantidad de jugadores: ";
     cin >> cantidadJugadores;
@@ -64,8 +40,6 @@ void pedirDatos(int& cantidadJugadores, int& cantidadSoldados, int& largo, int& 
     cin >> nroMapa;
 }
 
-//Pre:
-//Post: Pide los datos del mapa para iniciar el juego
 void pedirDatosMapa(int& largo, int&ancho, int& alto){
     cout << endl << "Ingrese el largo del mapa: ";
     cin >> largo;
@@ -74,7 +48,6 @@ void pedirDatosMapa(int& largo, int&ancho, int& alto){
     cout << endl << "Ingrese el alto del mapa: ";
     cin >> alto;
 }
-
 
 //Pre: La coordenada debe ser previamente declarada
 //Post: Asigna los datos a la coordenada
@@ -97,24 +70,20 @@ void pedirDatosUnidad(Coordenada* posicion, string tipoUnidad){
     }
 }
 
-//Pre: La partida debe ser creada previamente
-//Post: Asigna la unidad correspondiente al jugador
+// Es necesaria?
 void asignarUnidad(Partida* partida, Jugador* player, int nroUnidad, string tipoUnidad){
     Coordenada auxiliar;
     pedirDatosUnidad(&auxiliar, tipoUnidad);
     //Aca habria que asignar la unidad a la lista de unidades de cada jugador
 }
 
-
-//Pre: - 
-//Post: Devuelve true si el tipo de unidad es soldado
+// Es necesaria?
 bool esSoldado(string tipoUnidad){
     return (tipoUnidad == "Soldado");
 }
 
-//Pre:
-//Post:
-void iniciarPartida(Partida* partida, int soldadosXJugador){
+void inicializarSoldadosAJugadores(Partida* partida, int soldadosXJugador){
+    // REHACER
     for(int i = 0; i <= partida->getCantidadJugadores(); i++){
         for(int j = 0; j <= soldadosXJugador; j++){
             //Aca habria que asignar soldados con asignar unidad, i es el nro del jugador, j el nro del soldado

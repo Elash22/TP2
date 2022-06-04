@@ -3,7 +3,10 @@
 #include <iostream>
 using namespace std;
 
-Tablero::Tablero(int largo, int ancho, int alto, int nroMapa){
+Tablero::Tablero(int largo, int ancho, int alto){
+    int nroMapa;
+    cout << "Ingrese nro de mapa: (de 1 a 3)" << endl;
+    cin >> nroMapa;
     this->largo = largo;
     this->ancho = ancho;
     this->alto = alto;
@@ -27,6 +30,24 @@ Tablero::Tablero(int largo, int ancho, int alto, int nroMapa){
 	    }
     }
 }
+
+// NECESITA TERMINARSE 
+/*
+Tablero::~Tablero(){
+	while(this->vacia() == false){
+		while(this->get(1)->vacia() == false){
+			while(this->get(1)->get(1)->vacia() == false){
+				delete this->get(1)->get(1)->get(1);
+				this->get(1)->get(1)->remover(1);
+			}
+			delete this->get(1)->get(1);
+			this->get(1)->remover(1);
+		}
+		delete this->get(1);
+		this->remover(1);
+	}
+}
+*/
 
 int Tablero::getLargo(){
   return this->largo;

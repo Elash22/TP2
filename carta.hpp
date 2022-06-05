@@ -3,8 +3,8 @@
 
 enum TipoDeCarta{
     Misil,
-    Avion, 
-    Barco,
+    NuevoAvion, 
+    NuevoBarco,
     Somnifero,  //Stun por un turno
     Francotirador,   //Dispara matando un soldado enemigo
     Harakiri //Se te muere una unidad random

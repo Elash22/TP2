@@ -40,3 +40,6 @@ int Coordenada::getAlto(){
     return (this->alto);
 }
 
+Coordenada::~Coordenada(){
+
+}

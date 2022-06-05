@@ -58,7 +58,7 @@ public:
 
     // PRE: - 
     // POST: Devuelve la cantidad de jugadores con soldados en la partida
-    int getCantidadJugadores();
+    unsigned int getCantidadJugadores();
 
     // PRE:
     // POST
@@ -85,14 +85,17 @@ public:
     // POST: Asigna soldados al iniciar la partida, pidiendo al usuario las coordenadas correspondientes.
     void inicializarSoldadosAJugadores();
 
-    // PRE: La coordenada debe ser previamente declarada
-    // POST: Asigna los datos a la coordenada
-    // Para el grupo: hice las funciones con tipo de unidad por si en un futuro las necesitamos para asignar barcos y aviones
-    void pedirDatosUnidad(Coordenada* posicion, string tipoUnidad);
+    //Pre: Las coordenadas deben ser validas, entre 1 y el tamaño del tablero.
+    //Post: Solicita datos de una la coordenada para colocar una unidad
+    void pedirCoordenadasUnidad(unsigned int& largo, unsigned int& ancho , unsigned int& alto, TipoDeUnidad tipo);
 
-    //
-    // 
-    void asignarUnidadAlCasillero();
+    // PRE:
+    // POST:
+    void asignarUnidadAlCasillero(Jugador* jugador, int nroUnidad, TipoDeUnidad tipo);
+
+    // PRE:
+    // POST:
+    bool esSoldado(Unidad unidad);
 
     // PRE: 
     // POST: jugador realiza disparos

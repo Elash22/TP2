@@ -1,5 +1,7 @@
 #include <iostream>
 #include "partida.hpp"
+#include "unidad.hpp"
+#include "jugador.hpp"
 
 using namespace std;
 
@@ -47,7 +49,7 @@ void Partida::inicializarPartida(){
 
     this->jugadores = new Jugador*[this->getCantidadJugadores()];
     
-    for(int i=0; i<this->getCantidadJugadores(); i++){
+    for(unsigned int i=0; i<this->getCantidadJugadores(); i++){
         this->jugadores[i] = new Jugador(i);
     }
 
@@ -58,7 +60,7 @@ void Partida::inicializarPartida(){
     this->inicializarSoldadosAJugadores();
 }
 
-int Partida::getCantidadJugadores(){
+unsigned int Partida::getCantidadJugadores(){
     // recorrer el arreglo de jugadores y contar aquellos que tienen soldados
     // return this->cantidadDeJugadores;
 }
@@ -75,50 +77,44 @@ void Partida::setCantidadJugadores(int cantidadNueva){
     this->cantidadDeJugadores = cantidadNueva;
 }
 
-//Pre: La coordenada debe ser previamente declarada
-//Post: Asigna los datos a la coordenada
-//Para el grupo: hice las funciones con tipo de unidad por si en un futuro las necesitamos para asignar barcos y aviones
-void pedirDatosUnidad(Coordenada* posicion, Unidad tipoUnidad){
-    int fila, columna, altura;
-    cout << "Ingrese fila: " << endl;
-    cin >> fila;
-    posicion->setFila(fila);
-    cout << "Ingrese columna: " << endl;
-    cin >> columna;
-    posicion->setColumna(columna);
-    if(tipoUnidad.getTipoDeUnidad() != Soldado){
-        cout << "Ingrese Altura: " << endl;
-        cin >> altura;
-        posicion->setAltura(altura);
+void Partida::pedirCoordenadasUnidad(unsigned int& largo, unsigned int& ancho , unsigned int& alto, TipoDeUnidad tipo){
+    cout << endl << "Ingrese largo: ";
+    largo = this->ingresarNumeroYValidar(1,this->tablero->getLargo());
+    cout << endl << "Ingrese ancho: ";
+    ancho = this->ingresarNumeroYValidar(1,this->tablero->getAncho());
+    // Se coloca a la unidad en tierra firme
+    while(this->tablero->getCasillero(largo, ancho, 1)->getTipoDeTerreno() == agua){
+        cout << endl << "Posicion Invalida. La posicion corresponde a agua.";
+        cout << endl << "Ingrese largo: ";
+        largo = this->ingresarNumeroYValidar(1,tablero->getLargo());
+        cout << endl << "Ingrese ancho: ";
+        ancho = this->ingresarNumeroYValidar(1,tablero->getAncho());
     }
-    else{
-        posicion->setAltura(0); //Altura del terreno basico
+    alto = 0;
+    if(tipo != soldado && tipo != barco){
+        cout << "Ingrese altura: ";
+        alto = this->ingresarNumeroYValidar(1, tablero->getAlto());
     }
-
 }
 
-void Partida::asignarUnidadAlCasillero(Jugador* player, int nroUnidad, Unidad tipoUnidad){
-    // obtener casillero asignarle la unidad
-    // Casillero* Tablero::getCasillero(int largo, int ancho, int alto)
+void Partida::asignarUnidadAlCasillero(Jugador* jugador, int nroUnidad, TipoDeUnidad tipo){
+    unsigned int largo, ancho, alto;
     
-    Coordenada auxiliar;
-    //pedirCoordenadaUnidad(&auxiliar, tipoUnidad);
-    this->tablero.getCasillero()
-    
-    new Unidad(tipoUnidad, nroUnidad, &auxiliar);
-    //Aca habria que asignar la unidad a la lista de unidades de cada jugador
+    pedirCoordenadasUnidad(largo, ancho, alto, tipo);
+    Casillero * casillero = this->tablero->getCasillero(largo, ancho, alto);
+    Unidad* unidad = new Unidad(tipo, nroUnidad, casillero->getCoordenada());
+    casillero->setUnidad(unidad);
+    jugador->asignarUnidad(unidad);    
 }
 
-bool esSoldado(Unidad tipoUnidad){
-    return (tipoUnidad.getTipoDeUnidad() == Soldado);
+bool Partida::esSoldado(Unidad unidad){
+    return (unidad.getTipoDeUnidad() == soldado);
 }
-
 
 void Partida::inicializarSoldadosAJugadores(){
-    for(int i = 0; i <= this->getCantidadJugadores(); i++){
-        for(int j = 0; j <= this->getCantidadDeSoldadosPorJugador(); j++){
-
-            asignarUnidadAlCasillero(this->jugadores[i], j, Soldado);
+    for(unsigned int i = 0; i <= this->getCantidadJugadores(); i++){
+        for(unsigned int j = 0; j <= this->getCantidadDeSoldadosPorJugador(); j++){
+            asignarUnidadAlCasillero(this->jugadores[i], j, soldado);
         }
     }   
 }

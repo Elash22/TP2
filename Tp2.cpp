@@ -2,7 +2,6 @@
 #include "carta.hpp"
 #include "coordenada.hpp"
 #include "jugador.hpp"
-#include "soldado.hpp"
 #include "tablero.hpp"
 #include "partida.hpp"
 

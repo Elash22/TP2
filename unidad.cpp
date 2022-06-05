@@ -2,7 +2,7 @@
 #include "unidad.hpp"
 #include "coordenada.hpp"
 
-Unidad::Unidad(TipoDeUnidad tipo, int nroUnidad, Coordenada* posicion){
+Unidad::Unidad(TipoDeUnidad tipo, unsigned int nroUnidad, Coordenada* posicion){
     this->tipo = tipo;
     this->nroUnidad = nroUnidad;
     this->posicion = posicion;
@@ -12,7 +12,7 @@ TipoDeUnidad Unidad::getTipoDeUnidad(){
     return this->tipo;
 }
 
-int Unidad::getNroUnidad(){
+unsigned int Unidad::getNroUnidad(){
     return this->nroUnidad;
 }
 

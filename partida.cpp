@@ -54,9 +54,7 @@ void Partida::inicializarPartida(){
     }
 
     this->tablero = new Tablero(mapaLargo, mapaAncho, mapaAlto, this->nroMapa);
-
     this->inicializarMazo();
-    
     this->inicializarSoldadosAJugadores();
 }
 
@@ -92,9 +90,18 @@ int Partida::getTurno(){
 }
 
 // PRE: 
-// POST: Añade uno a la cantidad de turnos de la partida
+// POST: Se juega el siguiente turno de la partida, añade uno a la cantidad de turnos
 void Partida::siguienteTurno(){
     // TODO
+    unsigned int nroJugadorEnTurno = this->getTurno() % this->getCantidadJugadores();
+    this->exportarTablero(nroJugadorEnTurno);
+    this->realizarDisparosJugador(nroJugadorEnTurno)
+    // check si termino el juego (luego de cada disparo?)
+    this->moverUnidad(nroJugador);
+    // check si termino el juego
+    this->sacarCartaDelMazo(nroJugador);
+    // check si termino el juego
+    // sumar uno a la cantidad de turnos
 }
 
 void Partida::setCantidadJugadores(int cantidadNueva){

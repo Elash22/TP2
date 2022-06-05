@@ -41,7 +41,7 @@ private:
 
     // PRE: haya cartas en el mazo
     // POST: saca una carta en orden y coloca el puntero a NULL (libera memoria)
-    Carta sacarCartaDelMazo();
+    Carta sacarCartaDelMazo(unsigned int nroJugador);
 
     // PRE:
     // POST: 
@@ -73,7 +73,7 @@ public:
     int getTurno();
 
     // PRE: 
-    // POST: Añade uno a la cantidad de turnos de la partida
+    // POST: Se juega el siguiente turno de la partida, añade uno a la cantidad de turnos
     void siguienteTurno();
 
     // PRE: La nueva cantidad de jugadores no puede ser mayor a la anterior
@@ -95,18 +95,18 @@ public:
 
     // PRE: 
     // POST: jugador realiza disparos dependiendo del a cantidad de unidades y del tipo de unidades que posea
-    void realizarDisparosJugador();
+    void realizarDisparosJugador(unsigned int nroJugador);
 
     // PRE: 
     // POST: jugador elije una unidad y realiza un movimiento con ella
     // Jugador ingresa el numero de unidad para obtener su posicion, luego
     // usar pedirCoordenadasUnidad() y asignarUnidadAlCasillero()
-    void moverUnidad();
+    void moverUnidad(unsigned int nroJugador);
     
     // PRE: 
     // POST: se crea un archivo bitmap con el mapa de la partida
     // al comenzar el turno para un jugador se exporta el tablero para el solo
-    void exportarTablero();
+    void exportarTablero(unsigned int nroJugador);
 
     // PRE
     // POST: chequea si el juego ha terminado

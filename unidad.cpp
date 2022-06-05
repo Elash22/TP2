@@ -23,3 +23,18 @@ Coordenada* Unidad::getPosicion(){
 void Unidad::setPosicionUnidad(Coordenada* posicion){
     this->posicion = posicion;
 }
+
+std::string Unidad::imprimirTipo(TipoDeUnidad tipo){
+    if(tipo == soldado){
+        return "soldado";
+    }else if(tipo == barco){
+        return "barco";
+    }else{
+        return "avion";
+    }
+}
+
+
+Unidad::~Unidad(){
+    // TODO
+}

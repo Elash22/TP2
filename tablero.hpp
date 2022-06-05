@@ -19,10 +19,6 @@ public:
     //Post: Crea un tablero de juego
     Tablero(int largo, int ancho, int alto, int nroMapa);
 
-    //Pre.
-    //Post: Destruye el tablero
-    virtual ~Tablero();
-
     //Pre:
     //Post: Devuelve el largo del tablero
     int getLargo();
@@ -38,7 +34,9 @@ public:
     //POST: devuelve un puntero a casillero según las coordenadas que se indiquen
     Casillero* getCasillero(int largo, int ancho, int alto);
 
-
+    //Pre.
+    //Post: Destruye el tablero
+    virtual ~Tablero();
 };
 
 

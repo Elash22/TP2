@@ -83,7 +83,7 @@ public:
 
     //Pre: Las coordenadas deben ser validas, entre 1 y el tamaño del tablero.
     //Post: Solicita datos de una la coordenada para colocar una unidad
-    void pedirCoordenadasUnidad(unsigned int& largo, unsigned int& ancho , unsigned int& alto, TipoDeUnidad tipo);
+    void pedirCoordenadasUnidad(unsigned int nroJugador, unsigned int& largo, unsigned int& ancho , unsigned int& alto, TipoDeUnidad tipo);
 
     // PRE:
     // POST:

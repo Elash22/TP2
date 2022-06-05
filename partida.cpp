@@ -29,8 +29,8 @@ void Partida::pedirDatos(int& mapaLargo, int& mapaAncho, int& mapaAlto){
     cout << endl << "Ingrese el alto del mapa: ";
     mapaAlto = this->ingresarNumeroYValidar(MINIMO_ALTO_TABLERO,MAXIMO_ALTO_TABLERO);
 
-    cout << endl << "En que mapa desea jugar? (1 - " << CANTIDAD_MAPAS<< ")";
-    this->nroMapa = this->ingresarNumeroYValidar(MINIMO_ALTO_TABLERO,MAXIMO_ALTO_TABLERO);
+    cout << endl << "En que mapa desea jugar? (1 - " << CANTIDAD_MAPAS<< "): ";
+    this->nroMapa = this->ingresarNumeroYValidar(0,CANTIDAD_MAPAS);
 }
 
 unsigned int Partida::ingresarNumeroYValidar(int minimo, int maximo){
@@ -101,7 +101,8 @@ void Partida::setCantidadJugadores(int cantidadNueva){
     this->cantidadDeJugadores = cantidadNueva;
 }
 
-void Partida::pedirCoordenadasUnidad(unsigned int& largo, unsigned int& ancho , unsigned int& alto, TipoDeUnidad tipo){
+void Partida::pedirCoordenadasUnidad(unsigned int numeroJugador, unsigned int& largo, unsigned int& ancho , unsigned int& alto, TipoDeUnidad tipo){
+    cout << endl << "Jugador #" << numeroJugador << ", ingrese coordenadas para un nuevo " << Unidad::imprimirTipo(tipo);
     cout << endl << "Ingrese largo: ";
     largo = this->ingresarNumeroYValidar(1,this->tablero->getLargo());
     cout << endl << "Ingrese ancho: ";
@@ -124,13 +125,13 @@ void Partida::pedirCoordenadasUnidad(unsigned int& largo, unsigned int& ancho , 
 void Partida::asignarUnidadAlCasillero(Jugador* jugador, int nroUnidad, TipoDeUnidad tipo){
     unsigned int largo, ancho, alto;
     
-    pedirCoordenadasUnidad(largo, ancho, alto, tipo);
+    pedirCoordenadasUnidad(jugador->getNumeroJugador(), largo, ancho, alto, tipo);
     Casillero * casillero = this->tablero->getCasillero(largo, ancho, alto);
+    Unidad* unidad = new Unidad(tipo, nroUnidad, casillero->getCoordenada());
 
     // Si el casillero tiene esta inhabilitado pedir nuevamente coordenadas
     // Si el casillero esta ocupado, ambas unidades mueren, liberar la que esta en el casillero y retornar
 
-    Unidad* unidad = new Unidad(tipo, nroUnidad, casillero->getCoordenada());
     casillero->setUnidad(unidad);
     jugador->asignarUnidad(unidad);    
 }

@@ -37,6 +37,10 @@ public:
     // POST: Cambia la posicion de la unidad.
     void setPosicionUnidad(Coordenada* posicion);
 
+    // PRE:
+    // POST: imprime el tipo de unidad por consola
+    static std::string imprimirTipo(TipoDeUnidad);
+
     // PRE: -
     // POST: elimina la unidad
     virtual ~Unidad();

@@ -67,3 +67,7 @@ Casillero* Tablero::getCasillero(int largo, int ancho, int alto){
     }
     return this->tablero->get(largo)->get(ancho)->get(alto);
 }
+
+Tablero::~Tablero(){
+  // TODO
+}

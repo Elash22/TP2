@@ -17,6 +17,10 @@ Jugador::Jugador(unsigned int numeroJugador){
     this->gano = false;
 }
 
+unsigned int Jugador::getNumeroJugador(){
+    return this->nroJugador;
+}
+
 void Jugador::asignarUnidad(Unidad* unidadDeBatalla){
     this->unidades->add(unidadDeBatalla);
 

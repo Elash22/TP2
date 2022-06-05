@@ -29,6 +29,10 @@ public:
     // POST: crea un jugador
     Jugador(unsigned int numeroJugador);
 
+    // PRE: 
+    // POST: devuelve el numero de jugador
+    unsigned int getNumeroJugador();
+
     // PRE: ingreso de una unidad de batalla que ya ha sido creado con memoria dinamica
     // POST: añade la unidad a la lista de unidades
     void asignarUnidad(Unidad* unidadDeBatalla);

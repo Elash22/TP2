@@ -5,15 +5,15 @@
 
 class Coordenada{
 private:
-    int fila;
-    int columna;
-    int altura;
+    int largo;
+    int ancho;
+    int alto;
 
 public:
 
     //Pre:
     //Post:
-    Coordenada(int fila, int columna, int altura);
+    Coordenada(int largo, int ancho, int alto);
 
     //Pre:
     //Post:
@@ -21,27 +21,27 @@ public:
 
     //Pre:
     //Post:
-    void setFila(int fila);
+    void setLargo(int largo);
 
     //Pre:
     //Post:
-    void setColumna(int columna);
+    void setAncho(int ancho);
 
     //Pre:
     //Post:
-    void setAltura(int altura);
+    void setAlto(int alto);
 
     //Pre:
     //Post:
-    int getFila();
+    int getLargo();
 
     //Pre:
     //Post:
-    int getColumna();
+    int getAncho();
 
     //Pre:
     //Post:
-    int getAltura();
+    int getAlto();
 
     //Pre:
     //Post:

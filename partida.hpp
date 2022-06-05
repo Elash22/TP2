@@ -1,47 +1,125 @@
 #ifndef PARTIDA_H_
 #define PARTIDA_H_
 
+#include <cstdlib>
 #include "tablero.hpp"
 #include "jugador.hpp"
+
+const int MINIMO_JUGADORES= 2;
+const int MAXIMO_JUGADORES= 10;
+const int MINIMO_SOLDADOS= 2;
+const int MAXIMO_SOLDADOS= 10;
+const int MINIMO_LARGO_ANCHO_TABLERO= 2;
+const int MAXIMO_LARGO_ANCHO_TABLERO= 20;
+const int MINIMO_ALTO_TABLERO= 2;
+const int MAXIMO_ALTO_TABLERO= 10;
+const int CANTIDAD_MAPAS= 4;
+const int CANTIDAD_CARTAS_POR_JUGADOR= 4;
 
 class Partida{
 private:
     Tablero* tablero;
     Jugador** jugadores;
-    int cantidadDeJugadores;
-    int turno;
-    int estado; // 1 en juego, -1 finalizado, 0 sin iniciar
+    Carta** mazoDeCartas;
+
+    unsigned int cantidadDeJugadores;
+    unsigned int cantidadDeSoldadosPorJugador;
+    unsigned int turno;
+    unsigned int nroMapa;
+
+    // PRE: 
+    // POST: Solicita al usuario los datos necesarios de la partida
+    void pedirDatos(int& largo, int& ancho, int& alto);
+
+    // PRE: Ingreso de entero sin signo mayor o igual a 2
+    // POST: solicita y valida si el dato ingresado es un entero sin signo, y lo retorna
+    unsigned int ingresarNumeroYValidar(int minimo, int maximo);
+
+    // PRE:
+    // POST: crea punteros a Carta. Agrega cartas en forma aleatoria al vector de punteros a carta.
+    void inicializarMazo();
+
+    // PRE: haya cartas en el mazo
+    // POST: saca una carta en orden y coloca el puntero a NULL (libera memoria)
+    Carta sacarCartaDelMazo();
+
+    // PRE:
+    // POST: 
+    void activarCarta(Carta carta);
+
+    // PRE: 
+    // POST: Asigna soldados al iniciar la partida, pidiendo al usuario las coordenadas correspondientes.
+    void inicializarSoldadosAJugadores();
+
 public:
+    // PRE: -
+    // POST: Crea una partida
+    Partida();
 
-    //Pre: La cantidad de jugadores debe ser mayor a 1
-    //Post: Crea una partida
-    Partida(int cantidadDeJugadores, int nroMapa, int largo, int ancho, int alto);
+    // PRE:
+    // POST: 
+    void inicializarPartida();
 
-    //Pre:
-    //Post: Destruye la partida
-    virtual ~Partida();
+    // PRE: - 
+    // POST: Devuelve la cantidad de jugadores con soldados en la partida
+    unsigned int getCantidadJugadores();
 
-    //Pre: - 
-    //Post: Devuelve la cantidad de jugadores en la partida
-    int getCantidadJugadores();
+    // PRE:
+    // POST
+    unsigned int getCantidadDeSoldadosPorJugador();
 
-    //Pre:
-    //Post: Nos devuelve el turno actual de la partida
+    // PRE:
+    // POST: Devuelve el turno actual de la partida
     int getTurno();
 
-    //Pre: El turno debe ser diferente al anterior y valido (concuerda con el nro de jugador)
-    //Post: Cambia el turno de la partida por uno nuevo
-    void setTurno(int turnoNuevo);
+    // PRE: 
+    // POST: Añade uno a la cantidad de turnos de la partida
+    void siguienteTurno();
 
-    //Pre: La nueva cantidad de jugadores no puede ser mayor a la anterior
-    //Post: En caso de tener que cambiar o reducir la cantidad de jugadores, cambiamos la cantidad de jugadores por una nueva
+    // PRE: La nueva cantidad de jugadores no puede ser mayor a la anterior
+    // POST: En caso de tener que cambiar o reducir la cantidad de jugadores, cambiamos la cantidad de jugadores por una nueva
+    // es necesario?
     void setCantidadJugadores(int cantidadNueva);
 
-    //Pre: - 
-    //Post: Cambia el turno automaticamente al siguiente
-    void cambiarTurno();
-    
-};
+    //Pre: Las coordenadas deben ser validas, entre 1 y el tamaño del tablero.
+    //Post: Solicita datos de una la coordenada para colocar una unidad
+    void pedirCoordenadasUnidad(unsigned int nroJugador, unsigned int& largo, unsigned int& ancho , unsigned int& alto, TipoDeUnidad tipo);
 
+    // PRE:
+    // POST:
+    void asignarUnidadAlCasillero(Jugador* jugador, int nroUnidad, TipoDeUnidad tipo);
+
+    // PRE:
+    // POST:
+    bool esSoldado(Unidad unidad);
+
+    // PRE: 
+    // POST: jugador realiza disparos dependiendo del a cantidad de unidades y del tipo de unidades que posea
+    void realizarDisparosJugador();
+
+    // PRE: 
+    // POST: jugador elije una unidad y realiza un movimiento con ella
+    // Jugador ingresa el numero de unidad para obtener su posicion, luego
+    // usar pedirCoordenadasUnidad() y asignarUnidadAlCasillero()
+    void moverUnidad();
+    
+    // PRE: 
+    // POST: se crea un archivo bitmap con el mapa de la partida
+    // al comenzar el turno para un jugador se exporta el tablero para el solo
+    void exportarTablero();
+
+    // PRE
+    // POST: chequea si el juego ha terminado
+    // recorre el arreglo de jugadores y observa si existe como maximo 1 jugador con soldados, caso contrario: false
+    bool haTerminado();
+
+    // PRE:
+    // POST: devuelve el jugador ganador de la partida, en caso de que haya terminado en empate retorna 0;
+    unsigned int jugadorGanador();
+
+    // PRE:
+    // POST: Destruye la partida
+    virtual ~Partida();
+};
 
 #endif

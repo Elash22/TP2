@@ -1,124 +1,187 @@
 #include <iostream>
 #include "partida.hpp"
+#include "unidad.hpp"
+#include "jugador.hpp"
 
 using namespace std;
 
-//Pre.
-//Post:
-Partida::Partida(int cantidadDeJugadores, int nroMapa, int largo, int ancho, int alto){
-    int largo;
-    int ancho;
-    int alto;
+Partida::Partida(){
+    this->tablero = NULL;
+    this->jugadores = NULL;
+    this->mazoDeCartas = NULL;
+
+    this->cantidadDeJugadores = 0;
+    this->cantidadDeSoldadosPorJugador = 0;
     this->turno = 1;
-    for(int i = 1; i <= cantidadDeJugadores; i++){
-        jugadores[i] = new Jugador(i);
+    this->nroMapa = 1;
+}
+
+void Partida::pedirDatos(int& mapaLargo, int& mapaAncho, int& mapaAlto){
+    cout << "Bienvenidos, ingrese la cantidad de jugadores: ";
+    this->cantidadDeJugadores = this->ingresarNumeroYValidar(MINIMO_JUGADORES, MAXIMO_JUGADORES);
+    cout << endl << "Ingrese la cantidad de soldados por jugador con la que van a jugar: ";
+    this->cantidadDeSoldadosPorJugador = this->ingresarNumeroYValidar(MINIMO_SOLDADOS, MAXIMO_SOLDADOS);
+
+    cout << endl << "Ingrese el largo del mapa: ";
+    mapaLargo = this->ingresarNumeroYValidar(MINIMO_LARGO_ANCHO_TABLERO,MAXIMO_LARGO_ANCHO_TABLERO);
+    cout << endl << "Ingrese el ancho del mapa: ";
+    mapaAncho = this->ingresarNumeroYValidar(MINIMO_LARGO_ANCHO_TABLERO,MAXIMO_LARGO_ANCHO_TABLERO);
+    cout << endl << "Ingrese el alto del mapa: ";
+    mapaAlto = this->ingresarNumeroYValidar(MINIMO_ALTO_TABLERO,MAXIMO_ALTO_TABLERO);
+
+    cout << endl << "En que mapa desea jugar? (1 - " << CANTIDAD_MAPAS<< "): ";
+    this->nroMapa = this->ingresarNumeroYValidar(0,CANTIDAD_MAPAS);
+}
+
+unsigned int Partida::ingresarNumeroYValidar(int minimo, int maximo){
+    int numeroIngresado;
+    cin >> numeroIngresado;
+    while(numeroIngresado < minimo || numeroIngresado > maximo){
+        cout << endl << "Entrada incorrecta. Ingrese una cantidad mayor a " << (minimo-1) << " y menor a " << maximo+1 << ": ";
+        cin >> numeroIngresado;
     }
-    this->tablero = new Tablero(largo, ancho, alto, nroMapa);
-    this->estado = 0;
+    return numeroIngresado;
 }
 
-//Pre.
-//Post:
-int Partida::getCantidadJugadores(){
-    return this->cantidadDeJugadores;
+void Partida::inicializarPartida(){
+    int mapaLargo, mapaAncho, mapaAlto;
+    this->pedirDatos(mapaLargo, mapaAncho, mapaAlto);
+
+    this->jugadores = new Jugador*[this->getCantidadJugadores()];
+    
+    for(unsigned int i=0; i<this->getCantidadJugadores(); i++){
+        this->jugadores[i] = new Jugador(i);
+    }
+
+    this->tablero = new Tablero(mapaLargo, mapaAncho, mapaAlto, this->nroMapa);
+
+    this->inicializarMazo();
+    
+    this->inicializarSoldadosAJugadores();
 }
 
-//Pre.
-//Post:
+// PRE:
+// POST: crea punteros a Carta. Agrega cartas en forma aleatoria al vector de punteros a carta.
+void Partida::inicializarMazo(){
+    // TODO
+}
+
+// PRE: haya cartas en el mazo
+// POST: saca una carta en orden y coloca el puntero a NULL (libera memoria)
+Carta Partida::sacarCartaDelMazo(){
+    // TODO
+}
+
+// PRE:
+// POST: dependiento el tipo de carta, realizar la accion correspondiente
+void Partida::activarCarta(Carta carta){
+    // TODO
+}
+
+unsigned int Partida::getCantidadJugadores(){
+    // recorrer el arreglo de jugadores y contar aquellos que tienen soldados
+    // return this->cantidadDeJugadores;
+}
+
+unsigned int Partida::getCantidadDeSoldadosPorJugador(){
+    return this->cantidadDeSoldadosPorJugador;
+}
+
 int Partida::getTurno(){
     return this->turno;
 }
-  
-//Pre.
-//Post:
-void Partida::setTurno(int turnoNuevo){
-    this->turno = turnoNuevo;
+
+// PRE: 
+// POST: Añade uno a la cantidad de turnos de la partida
+void Partida::siguienteTurno(){
+    // TODO
 }
 
-//Pre.
-//Post:
 void Partida::setCantidadJugadores(int cantidadNueva){
     this->cantidadDeJugadores = cantidadNueva;
 }
 
-//Pre.
-//Post:
-void Partida::cambiarTurno(){
-    if(this->turno == this->cantidadDeJugadores){
-        setTurno(1);
+void Partida::pedirCoordenadasUnidad(unsigned int numeroJugador, unsigned int& largo, unsigned int& ancho , unsigned int& alto, TipoDeUnidad tipo){
+    cout << endl << "Jugador #" << numeroJugador << ", ingrese coordenadas para un nuevo " << Unidad::imprimirTipo(tipo);
+    cout << endl << "Ingrese largo: ";
+    largo = this->ingresarNumeroYValidar(1,this->tablero->getLargo());
+    cout << endl << "Ingrese ancho: ";
+    ancho = this->ingresarNumeroYValidar(1,this->tablero->getAncho());
+    // Se coloca a la unidad en tierra firme
+    while(this->tablero->getCasillero(largo, ancho, 1)->getTipoDeTerreno() == agua){
+        cout << endl << "Posicion Invalida. La posicion corresponde a agua.";
+        cout << endl << "Ingrese largo: ";
+        largo = this->ingresarNumeroYValidar(1,tablero->getLargo());
+        cout << endl << "Ingrese ancho: ";
+        ancho = this->ingresarNumeroYValidar(1,tablero->getAncho());
     }
-    else{
-        setTurno(this->turno++);
-    }
-}
-
-//Pre:
-//Post: Pide los datos necesarios de los jugadores para iniciar el juego
-void pedirDatos(int& cantidadJugadores, int& cantidadSoldados, int& largo, int& ancho, int& alto, int& nroMapa){
-    cout << "Bienvenidos, ingrese la cantidad de jugadores: ";
-    cin >> cantidadJugadores;
-    cout << endl << "Ingrese la cantidad de soldados con la que van a jugar: ";
-    cin >> cantidadSoldados;
-    pedirDatosMapa(largo, ancho, alto);
-    cout << endl << "En que mapa desea jugar? (1 - 4)";
-    cin >> nroMapa;
-}
-
-//Pre:
-//Post: Pide los datos del mapa para iniciar el juego
-void pedirDatosMapa(int& largo, int&ancho, int& alto){
-    cout << endl << "Ingrese el largo del mapa: ";
-    cin >> largo;
-    cout << endl << "Ingrese el ancho del mapa: ";
-    cin >> ancho;
-    cout << endl << "Ingrese el alto del mapa: ";
-    cin >> alto;
-}
-
-
-//Pre: La coordenada debe ser previamente declarada
-//Post: Asigna los datos a la coordenada
-//Para el grupo: hice las funciones con tipo de unidad por si en un futuro las necesitamos para asignar barcos y aviones
-void pedirDatosUnidad(Coordenada* posicion, string tipoUnidad){
-    int fila, columna, altura;
-    cout << "Ingrese fila: " << endl;
-    cin >> fila;
-    posicion->setFila(fila);
-    cout << "Ingrese columna: " << endl;
-    cin >> columna;
-    posicion->setColumna(columna);
-    if(tipoUnidad != "soldado"){
-        cout << "Ingrese Altura: " << endl;
-        cin >> altura;
-        posicion->setAltura(altura);
-    }
-    else{
-        posicion->setAltura(0); //Altura del terreno basico
+    alto = 0;
+    if(tipo != soldado && tipo != barco){
+        cout << "Ingrese altura: ";
+        alto = this->ingresarNumeroYValidar(1, tablero->getAlto());
     }
 }
 
-//Pre: La partida debe ser creada previamente
-//Post: Asigna la unidad correspondiente al jugador
-void asignarUnidad(Partida* partida, Jugador* player, int nroUnidad, string tipoUnidad){
-    Coordenada auxiliar;
-    pedirDatosUnidad(&auxiliar, tipoUnidad);
-    //Aca habria que asignar la unidad a la lista de unidades de cada jugador
+void Partida::asignarUnidadAlCasillero(Jugador* jugador, int nroUnidad, TipoDeUnidad tipo){
+    unsigned int largo, ancho, alto;
+    
+    pedirCoordenadasUnidad(jugador->getNumeroJugador(), largo, ancho, alto, tipo);
+    Casillero * casillero = this->tablero->getCasillero(largo, ancho, alto);
+    Unidad* unidad = new Unidad(tipo, nroUnidad, casillero->getCoordenada());
+
+    // Si el casillero tiene esta inhabilitado pedir nuevamente coordenadas
+    // Si el casillero esta ocupado, ambas unidades mueren, liberar la que esta en el casillero y retornar
+
+    casillero->setUnidad(unidad);
+    jugador->asignarUnidad(unidad);    
 }
 
-
-//Pre: - 
-//Post: Devuelve true si el tipo de unidad es soldado
-bool esSoldado(string tipoUnidad){
-    return (tipoUnidad == "Soldado");
+bool Partida::esSoldado(Unidad unidad){
+    return (unidad.getTipoDeUnidad() == soldado);
 }
 
-//Pre:
-//Post:
-void iniciarPartida(Partida* partida, int soldadosXJugador){
-    for(int i = 0; i <= partida->getCantidadJugadores(); i++){
-        for(int j = 0; j <= soldadosXJugador; j++){
-            //Aca habria que asignar soldados con asignar unidad, i es el nro del jugador, j el nro del soldado
+void Partida::inicializarSoldadosAJugadores(){
+    for(unsigned int i = 0; i <= this->getCantidadJugadores(); i++){
+        for(unsigned int j = 0; j <= this->getCantidadDeSoldadosPorJugador(); j++){
+            asignarUnidadAlCasillero(this->jugadores[i], j, soldado);
         }
     }   
 }
-    
+
+// PRE: 
+// POST: jugador realiza disparos dependiendo del a cantidad de unidades y del tipo de unidades que posea
+void Partida::realizarDisparosJugador(){
+    // TODO
+}
+
+// PRE: 
+// POST: jugador elije una unidad y realiza un movimiento con ella
+// Jugador ingresa el numero de unidad para obtener su posicion, luego
+// usar pedirCoordenadasUnidad() y asignarUnidadAlCasillero()
+void Partida::moverUnidad(){
+    // TODO
+}
+
+// PRE: 
+// POST: se crea un archivo bitmap con el mapa de la partida
+// al comenzar el turno para un jugador se exporta el tablero para el solo
+void Partida::exportarTablero(){
+    // TODO
+}
+
+// PRE
+// POST: chequea si el juego ha terminado
+// recorre el arreglo de jugadores y observa si existe como maximo 1 jugador con soldados, caso contrario: false
+bool Partida::haTerminado(){
+    // TODO
+}
+
+// PRE:
+// POST: devuelve el jugador ganador de la partida, en caso de que haya terminado en empate retorna 0;
+unsigned int Partida::jugadorGanador(){
+    // TODO
+}
+
+Partida::~Partida(){
+    // TODO
+}

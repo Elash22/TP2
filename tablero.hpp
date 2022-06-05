@@ -13,7 +13,6 @@ private:
     //Puntero a la estructura de casilleros
     Lista<Lista<Lista<Casillero*>*>*>* tablero; 
 
-    //int turno;
 public:
 
     //Pre: largo, ancho y alto deben ser mayores a 0

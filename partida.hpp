@@ -39,13 +39,17 @@ private:
     // POST: crea punteros a Carta. Agrega cartas en forma aleatoria al vector de punteros a carta.
     void inicializarMazo();
 
-    // PRE:
+    // PRE: haya cartas en el mazo
     // POST: saca una carta en orden y coloca el puntero a NULL (libera memoria)
     Carta sacarCartaDelMazo();
 
     // PRE:
     // POST: 
     void activarCarta(Carta carta);
+
+    // PRE: 
+    // POST: Asigna soldados al iniciar la partida, pidiendo al usuario las coordenadas correspondientes.
+    void inicializarSoldadosAJugadores();
 
 public:
     // PRE: -
@@ -77,14 +81,6 @@ public:
     // es necesario?
     void setCantidadJugadores(int cantidadNueva);
 
-    // PRE:
-    // POST:
-    void generarTablero();
-
-    // PRE: 
-    // POST: Asigna soldados al iniciar la partida, pidiendo al usuario las coordenadas correspondientes.
-    void inicializarSoldadosAJugadores();
-
     //Pre: Las coordenadas deben ser validas, entre 1 y el tamaño del tablero.
     //Post: Solicita datos de una la coordenada para colocar una unidad
     void pedirCoordenadasUnidad(unsigned int& largo, unsigned int& ancho , unsigned int& alto, TipoDeUnidad tipo);
@@ -98,19 +94,23 @@ public:
     bool esSoldado(Unidad unidad);
 
     // PRE: 
-    // POST: jugador realiza disparos
+    // POST: jugador realiza disparos dependiendo del a cantidad de unidades y del tipo de unidades que posea
     void realizarDisparosJugador();
 
     // PRE: 
-    // POST:
+    // POST: jugador elije una unidad y realiza un movimiento con ella
+    // Jugador ingresa el numero de unidad para obtener su posicion, luego
+    // usar pedirCoordenadasUnidad() y asignarUnidadAlCasillero()
     void moverUnidad();
     
     // PRE: 
-    // POST:
+    // POST: se crea un archivo bitmap con el mapa de la partida
+    // al comenzar el turno para un jugador se exporta el tablero para el solo
     void exportarTablero();
 
     // PRE
     // POST: chequea si el juego ha terminado
+    // recorre el arreglo de jugadores y observa si existe como maximo 1 jugador con soldados, caso contrario: false
     bool haTerminado();
 
     // PRE:

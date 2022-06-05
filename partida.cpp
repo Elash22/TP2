@@ -60,6 +60,24 @@ void Partida::inicializarPartida(){
     this->inicializarSoldadosAJugadores();
 }
 
+// PRE:
+// POST: crea punteros a Carta. Agrega cartas en forma aleatoria al vector de punteros a carta.
+void Partida::inicializarMazo(){
+    // TODO
+}
+
+// PRE: haya cartas en el mazo
+// POST: saca una carta en orden y coloca el puntero a NULL (libera memoria)
+Carta Partida::sacarCartaDelMazo(){
+    // TODO
+}
+
+// PRE:
+// POST: dependiento el tipo de carta, realizar la accion correspondiente
+void Partida::activarCarta(Carta carta){
+    // TODO
+}
+
 unsigned int Partida::getCantidadJugadores(){
     // recorrer el arreglo de jugadores y contar aquellos que tienen soldados
     // return this->cantidadDeJugadores;
@@ -71,6 +89,12 @@ unsigned int Partida::getCantidadDeSoldadosPorJugador(){
 
 int Partida::getTurno(){
     return this->turno;
+}
+
+// PRE: 
+// POST: Añade uno a la cantidad de turnos de la partida
+void Partida::siguienteTurno(){
+    // TODO
 }
 
 void Partida::setCantidadJugadores(int cantidadNueva){
@@ -102,6 +126,10 @@ void Partida::asignarUnidadAlCasillero(Jugador* jugador, int nroUnidad, TipoDeUn
     
     pedirCoordenadasUnidad(largo, ancho, alto, tipo);
     Casillero * casillero = this->tablero->getCasillero(largo, ancho, alto);
+
+    // Si el casillero tiene esta inhabilitado pedir nuevamente coordenadas
+    // Si el casillero esta ocupado, ambas unidades mueren, liberar la que esta en el casillero y retornar
+
     Unidad* unidad = new Unidad(tipo, nroUnidad, casillero->getCoordenada());
     casillero->setUnidad(unidad);
     jugador->asignarUnidad(unidad);    
@@ -118,4 +146,41 @@ void Partida::inicializarSoldadosAJugadores(){
         }
     }   
 }
-    
+
+// PRE: 
+// POST: jugador realiza disparos dependiendo del a cantidad de unidades y del tipo de unidades que posea
+void Partida::realizarDisparosJugador(){
+    // TODO
+}
+
+// PRE: 
+// POST: jugador elije una unidad y realiza un movimiento con ella
+// Jugador ingresa el numero de unidad para obtener su posicion, luego
+// usar pedirCoordenadasUnidad() y asignarUnidadAlCasillero()
+void Partida::moverUnidad(){
+    // TODO
+}
+
+// PRE: 
+// POST: se crea un archivo bitmap con el mapa de la partida
+// al comenzar el turno para un jugador se exporta el tablero para el solo
+void Partida::exportarTablero(){
+    // TODO
+}
+
+// PRE
+// POST: chequea si el juego ha terminado
+// recorre el arreglo de jugadores y observa si existe como maximo 1 jugador con soldados, caso contrario: false
+bool Partida::haTerminado(){
+    // TODO
+}
+
+// PRE:
+// POST: devuelve el jugador ganador de la partida, en caso de que haya terminado en empate retorna 0;
+unsigned int Partida::jugadorGanador(){
+    // TODO
+}
+
+Partida::~Partida(){
+    // TODO
+}

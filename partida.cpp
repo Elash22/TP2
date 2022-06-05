@@ -33,8 +33,8 @@ void Partida::pedirDatos(int& mapaLargo, int& mapaAncho, int& mapaAlto){
     this->nroMapa = this->ingresarNumeroYValidar(0,CANTIDAD_MAPAS);
 }
 
-unsigned int Partida::ingresarNumeroYValidar(int minimo, int maximo){
-    int numeroIngresado;
+unsigned int Partida::ingresarNumeroYValidar(unsigned int minimo, unsigned int maximo){
+    unsigned int numeroIngresado;
     cin >> numeroIngresado;
     while(numeroIngresado < minimo || numeroIngresado > maximo){
         cout << endl << "Entrada incorrecta. Ingrese una cantidad mayor a " << (minimo-1) << " y menor a " << maximo+1 << ": ";
@@ -101,8 +101,7 @@ void Partida::setCantidadJugadores(int cantidadNueva){
     this->cantidadDeJugadores = cantidadNueva;
 }
 
-void Partida::pedirCoordenadasUnidad(unsigned int numeroJugador, unsigned int& largo, unsigned int& ancho , unsigned int& alto, TipoDeUnidad tipo){
-    cout << endl << "Jugador #" << numeroJugador << ", ingrese coordenadas para un nuevo " << Unidad::imprimirTipo(tipo);
+void Partida::pedirCoordenadasUnidad(unsigned int& largo, unsigned int& ancho , unsigned int& alto, TipoDeUnidad tipo){
     cout << endl << "Ingrese largo: ";
     largo = this->ingresarNumeroYValidar(1,this->tablero->getLargo());
     cout << endl << "Ingrese ancho: ";
@@ -115,7 +114,7 @@ void Partida::pedirCoordenadasUnidad(unsigned int numeroJugador, unsigned int& l
         cout << endl << "Ingrese ancho: ";
         ancho = this->ingresarNumeroYValidar(1,tablero->getAncho());
     }
-    alto = 0;
+    alto = 1;
     if(tipo != soldado && tipo != barco){
         cout << "Ingrese altura: ";
         alto = this->ingresarNumeroYValidar(1, tablero->getAlto());
@@ -125,7 +124,9 @@ void Partida::pedirCoordenadasUnidad(unsigned int numeroJugador, unsigned int& l
 void Partida::asignarUnidadAlCasillero(Jugador* jugador, int nroUnidad, TipoDeUnidad tipo){
     unsigned int largo, ancho, alto;
     
-    pedirCoordenadasUnidad(jugador->getNumeroJugador(), largo, ancho, alto, tipo);
+    cout << endl << "Jugador #" << jugador->getNumeroJugador() << ", ingrese coordenadas para un nuevo " << Unidad::imprimirTipo(tipo)
+        << " #" << nroUnidad << "";
+    pedirCoordenadasUnidad(largo, ancho, alto, tipo);
     Casillero * casillero = this->tablero->getCasillero(largo, ancho, alto);
     Unidad* unidad = new Unidad(tipo, nroUnidad, casillero->getCoordenada());
 
@@ -141,8 +142,8 @@ bool Partida::esSoldado(Unidad unidad){
 }
 
 void Partida::inicializarSoldadosAJugadores(){
-    for(unsigned int i = 0; i <= this->getCantidadJugadores(); i++){
-        for(unsigned int j = 0; j <= this->getCantidadDeSoldadosPorJugador(); j++){
+    for(unsigned int i = 1; i <= this->cantidadDeJugadores; i++){
+        for(unsigned int j = 1; j <= this->getCantidadDeSoldadosPorJugador(); j++){
             asignarUnidadAlCasillero(this->jugadores[i], j, soldado);
         }
     }   

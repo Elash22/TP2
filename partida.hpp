@@ -33,7 +33,7 @@ private:
 
     // PRE: Ingreso de entero sin signo mayor o igual a 2
     // POST: solicita y valida si el dato ingresado es un entero sin signo, y lo retorna
-    unsigned int ingresarNumeroYValidar(int minimo, int maximo);
+    unsigned int ingresarNumeroYValidar(unsigned int minimo, unsigned int maximo);
 
     // PRE:
     // POST: crea punteros a Carta. Agrega cartas en forma aleatoria al vector de punteros a carta.
@@ -83,7 +83,7 @@ public:
 
     //Pre: Las coordenadas deben ser validas, entre 1 y el tamaño del tablero.
     //Post: Solicita datos de una la coordenada para colocar una unidad
-    void pedirCoordenadasUnidad(unsigned int nroJugador, unsigned int& largo, unsigned int& ancho , unsigned int& alto, TipoDeUnidad tipo);
+    void pedirCoordenadasUnidad(unsigned int& largo, unsigned int& ancho , unsigned int& alto, TipoDeUnidad tipo);
 
     // PRE:
     // POST:

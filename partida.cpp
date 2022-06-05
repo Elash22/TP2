@@ -106,35 +106,57 @@ void Partida::pedirCoordenadasUnidad(unsigned int& largo, unsigned int& ancho , 
     largo = this->ingresarNumeroYValidar(1,this->tablero->getLargo());
     cout << endl << "Ingrese ancho: ";
     ancho = this->ingresarNumeroYValidar(1,this->tablero->getAncho());
-    // Se coloca a la unidad en tierra firme
-    while(this->tablero->getCasillero(largo, ancho, 1)->getTipoDeTerreno() == agua){
-        cout << endl << "Posicion Invalida. La posicion corresponde a agua.";
-        cout << endl << "Ingrese largo: ";
-        largo = this->ingresarNumeroYValidar(1,tablero->getLargo());
-        cout << endl << "Ingrese ancho: ";
-        ancho = this->ingresarNumeroYValidar(1,tablero->getAncho());
+    if(tipo == soldado){
+        while(this->tablero->getCasillero(largo, ancho, 1)->getTipoDeTerreno() == agua){
+            cout << endl << "Posicion Invalida. La posicion corresponde a agua.";
+            cout << endl << "Ingrese largo: ";
+            largo = this->ingresarNumeroYValidar(1,tablero->getLargo());
+            cout << endl << "Ingrese ancho: ";
+            ancho = this->ingresarNumeroYValidar(1,tablero->getAncho());
+        }
+    }else if(tipo == barco){
+        while(this->tablero->getCasillero(largo, ancho, 1)->getTipoDeTerreno() == tierra){
+            cout << endl << "Posicion Invalida. La posicion corresponde a tierra firme.";
+            cout << endl << "Ingrese largo: ";
+            largo = this->ingresarNumeroYValidar(1,tablero->getLargo());
+            cout << endl << "Ingrese ancho: ";
+            ancho = this->ingresarNumeroYValidar(1,tablero->getAncho());
+        }
     }
     alto = 1;
     if(tipo != soldado && tipo != barco){
         cout << "Ingrese altura: ";
-        alto = this->ingresarNumeroYValidar(1, tablero->getAlto());
+        alto = this->ingresarNumeroYValidar(2, tablero->getAlto());
     }
 }
 
 void Partida::asignarUnidadAlCasillero(Jugador* jugador, int nroUnidad, TipoDeUnidad tipo){
     unsigned int largo, ancho, alto;
-    
     cout << endl << "Jugador #" << jugador->getNumeroJugador() << ", ingrese coordenadas para un nuevo " << Unidad::imprimirTipo(tipo)
         << " #" << nroUnidad << "";
     pedirCoordenadasUnidad(largo, ancho, alto, tipo);
     Casillero * casillero = this->tablero->getCasillero(largo, ancho, alto);
+    while(casillero->getEstado() == inhabilitado){
+        cout << endl << "El casillero ingresado se encuentra inhabilitado. Intente nuevamente";
+        pedirCoordenadasUnidad(largo, ancho, alto, tipo);
+        casillero = this->tablero->getCasillero(largo, ancho, alto);
+    }
+    if(casillero->getEstado() == ocupado){
+        cout << endl << "El soldado #" << nroUnidad << " del jugador #" << jugador->getNumeroJugador() << "ha muerto en combate cuerpo a cuerpo";
+        if(!casillero->getUnidad()){
+            throw "el puntero de la unidad que ocupa el casillero es NULL";
+        }
+        cout << endl << "El soldado #" << casillero->getUnidad()->getNroUnidad() << " del jugador #" << casillero->getJugador() << "ha muerto en combate cuerpo a cuerpo";
+        casillero->getJugador()->removerUnidad(casillero->getUnidad());
+        delete casillero->getUnidad();
+        casillero->inhabilitar();
+        return;
+    }
     Unidad* unidad = new Unidad(tipo, nroUnidad, casillero->getCoordenada());
-
-    // Si el casillero tiene esta inhabilitado pedir nuevamente coordenadas
-    // Si el casillero esta ocupado, ambas unidades mueren, liberar la que esta en el casillero y retornar
-
-    casillero->setUnidad(unidad);
     jugador->asignarUnidad(unidad);    
+    casillero->setUnidad(unidad);
+    casillero->setJugador(jugador);
+    casillero->setEstado(ocupado);
 }
 
 bool Partida::esSoldado(Unidad unidad){

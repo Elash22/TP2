@@ -44,7 +44,7 @@ public:
     // PRE: ingresar una unidad
     // POST: Remueve la unidad de la lista de unidades, disminuye en uno la cantidad del tipo de unidad.
     //       No libera memoria, de eso se encarga tablero.
-    void removerUnidad(Unidad unidad);
+    void removerUnidad(Unidad* unidad);
 
     // PRE: 
     // POST: devuelve los disparos que el jugador tiene disponible dependiendo del tipo de unidad

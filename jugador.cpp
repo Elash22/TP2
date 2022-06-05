@@ -46,18 +46,21 @@ Unidad* Jugador::buscarUnidad(unsigned int numeroDeUnidad){
     return NULL;    
 }
 
-void Jugador::removerUnidad(Unidad unidad){
+void Jugador::removerUnidad(Unidad* unidad){
+    if(unidad == NULL){
+        throw "EL PUNTERO A LA UNIDAD A REMOVER ES NULO";
+    }
     Unidad* aux;
     unsigned int posicionUnidad = 1;
 
     this->unidades->reiniciarCursor();
     while(this->unidades->avanzarCursor()!= false){
         aux = this->unidades->getCursor();
-        if(aux->getNroUnidad() == unidad.getNroUnidad() && aux->getTipoDeUnidad() == unidad.getTipoDeUnidad()){
+        if(aux->getNroUnidad() == unidad->getNroUnidad() && aux->getTipoDeUnidad() == unidad->getTipoDeUnidad()){
             this->unidades->remover(posicionUnidad);
-            if(unidad.getTipoDeUnidad() == soldado){
+            if(unidad->getTipoDeUnidad() == soldado){
                 this->cantidadSoldados--;
-            }else if(unidad.getTipoDeUnidad() == avion){
+            }else if(unidad->getTipoDeUnidad() == avion){
                 this->cantidadAviones--;
             }else{
                 this->cantidadBarcos--;

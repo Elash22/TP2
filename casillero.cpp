@@ -4,7 +4,7 @@
 
 Casillero::Casillero(int fila, int columna, int altura, TipoTerreno tipo){
     this->posicion = new Coordenada(fila, columna, altura);
-    this->estado = vacia;
+    this->estado = vacio;
     this->tipoTerreno = tipo;
     this->jugador = NULL;
     this->unidad = NULL;
@@ -14,13 +14,13 @@ Coordenada* Casillero::getCoordenada(){
     return this->posicion;
 }
 
-EstadoDeCasillero Casillero::getEstado(){
-    return this->estado;
-}
-
 void Casillero::setEstado(EstadoDeCasillero e){
     this->estado = e;
     return;
+}
+
+EstadoDeCasillero Casillero::getEstado(){
+    return this->estado;
 }
 
 TipoTerreno Casillero::getTipoDeTerreno(){
@@ -43,6 +43,16 @@ void Casillero::setUnidad(Unidad* unidad){
         this->unidad = unidad;
     }
     return;
+}
+
+Unidad* Casillero::getUnidad(){
+    return this->unidad;
+}
+
+void Casillero::inhabilitar(){
+    this->estado = inhabilitado;
+    this->jugador = NULL;
+    this->unidad = NULL;
 }
 
 Casillero::~Casillero(){

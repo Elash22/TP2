@@ -82,8 +82,8 @@ public:
     void setCantidadJugadores(int cantidadNueva);
 
     //Pre: Las coordenadas deben ser validas, entre 1 y el tamaño del tablero.
-    //Post: Solicita datos de una la coordenada para colocar una unidad
-    void pedirCoordenadasUnidad(unsigned int& largo, unsigned int& ancho , unsigned int& alto, TipoDeUnidad tipo);
+    //Post: Solicita datos de una la coordenada para colocar una unidad, retorna el casillero correspondiente
+    Casillero* pedirCoordenadasUnidad(TipoDeUnidad tipo);
 
     // PRE:
     // POST:

@@ -66,7 +66,7 @@ void Partida::inicializarMazo(){
 
 // PRE: haya cartas en el mazo
 // POST: saca una carta en orden y coloca el puntero a NULL (libera memoria)
-Carta Partida::sacarCartaDelMazo(){
+Carta Partida::sacarCartaDelMazo(unsigned int nroJugador){
     // TODO
 }
 
@@ -95,11 +95,11 @@ void Partida::siguienteTurno(){
     // TODO
     unsigned int nroJugadorEnTurno = this->getTurno() % this->getCantidadJugadores();
     this->exportarTablero(nroJugadorEnTurno);
-    this->realizarDisparosJugador(nroJugadorEnTurno)
+    this->realizarDisparosJugador(nroJugadorEnTurno);
     // check si termino el juego (luego de cada disparo?)
-    this->moverUnidad(nroJugador);
+    this->moverUnidad(nroJugadorEnTurno);
     // check si termino el juego
-    this->sacarCartaDelMazo(nroJugador);
+    this->sacarCartaDelMazo(nroJugadorEnTurno);
     // check si termino el juego
     // sumar uno a la cantidad de turnos
 }
@@ -108,7 +108,8 @@ void Partida::setCantidadJugadores(int cantidadNueva){
     this->cantidadDeJugadores = cantidadNueva;
 }
 
-void Partida::pedirCoordenadasUnidad(unsigned int& largo, unsigned int& ancho , unsigned int& alto, TipoDeUnidad tipo){
+Casillero* Partida::pedirCoordenadasUnidad(TipoDeUnidad tipo){
+    unsigned int largo, ancho, alto;
     cout << endl << "Ingrese largo: ";
     largo = this->ingresarNumeroYValidar(1,this->tablero->getLargo());
     cout << endl << "Ingrese ancho: ";
@@ -135,18 +136,17 @@ void Partida::pedirCoordenadasUnidad(unsigned int& largo, unsigned int& ancho , 
         cout << "Ingrese altura: ";
         alto = this->ingresarNumeroYValidar(2, tablero->getAlto());
     }
+    return this->tablero->getCasillero(largo, ancho, alto);
 }
 
 void Partida::asignarUnidadAlCasillero(Jugador* jugador, int nroUnidad, TipoDeUnidad tipo){
     unsigned int largo, ancho, alto;
     cout << endl << "Jugador #" << jugador->getNumeroJugador() << ", ingrese coordenadas para un nuevo " << Unidad::imprimirTipo(tipo)
         << " #" << nroUnidad << "";
-    pedirCoordenadasUnidad(largo, ancho, alto, tipo);
-    Casillero * casillero = this->tablero->getCasillero(largo, ancho, alto);
+    Casillero * casillero= pedirCoordenadasUnidad(tipo);
     while(casillero->getEstado() == inhabilitado){
         cout << endl << "El casillero ingresado se encuentra inhabilitado. Intente nuevamente";
-        pedirCoordenadasUnidad(largo, ancho, alto, tipo);
-        casillero = this->tablero->getCasillero(largo, ancho, alto);
+        casillero = pedirCoordenadasUnidad(tipo);
     }
     if(casillero->getEstado() == ocupado){
         cout << endl << "El soldado #" << nroUnidad << " del jugador #" << jugador->getNumeroJugador() << "ha muerto en combate cuerpo a cuerpo";
@@ -180,7 +180,7 @@ void Partida::inicializarSoldadosAJugadores(){
 
 // PRE: 
 // POST: jugador realiza disparos dependiendo del a cantidad de unidades y del tipo de unidades que posea
-void Partida::realizarDisparosJugador(){
+void Partida::realizarDisparosJugador(unsigned int nroJugador){
     // TODO
 }
 
@@ -188,14 +188,14 @@ void Partida::realizarDisparosJugador(){
 // POST: jugador elije una unidad y realiza un movimiento con ella
 // Jugador ingresa el numero de unidad para obtener su posicion, luego
 // usar pedirCoordenadasUnidad() y asignarUnidadAlCasillero()
-void Partida::moverUnidad(){
+void Partida::moverUnidad(unsigned int nroJugador){
     // TODO
 }
 
 // PRE: 
 // POST: se crea un archivo bitmap con el mapa de la partida
 // al comenzar el turno para un jugador se exporta el tablero para el solo
-void Partida::exportarTablero(){
+void Partida::exportarTablero(unsigned int nroJugador){
     // TODO
 }
 

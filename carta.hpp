@@ -17,6 +17,10 @@ public:
     //Pre:  TipoDeCarta pasado por parámetro debe ser Misil, Avion, Barco, Somnifero, Francotirador, o Harakiri.
     //Post: Crea una carta del tipo pasado por parámetro
     Carta(TipoDeCarta tipo);
+
+    //Pre:
+    //Post: retorna el tipo de carta.
+    TipoDeCarta getTipo();
 };
 
 #endif

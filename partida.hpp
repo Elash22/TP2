@@ -15,6 +15,7 @@ const int MINIMO_ALTO_TABLERO= 2;
 const int MAXIMO_ALTO_TABLERO= 10;
 const int CANTIDAD_MAPAS= 4;
 const int CANTIDAD_CARTAS_POR_JUGADOR= 4;
+const int CANTIDAD_DISTINTA_CARTAS = 6;
 
 class Partida{
 private:
@@ -33,19 +34,25 @@ private:
 
     // PRE: Ingreso de entero sin signo mayor o igual a 2
     // POST: solicita y valida si el dato ingresado es un entero sin signo, y lo retorna
-    unsigned int ingresarNumeroYValidar(int minimo, int maximo);
+    unsigned int ingresarNumeroYValidar(unsigned int minimo, unsigned int maximo);
 
     // PRE:
     // POST: crea punteros a Carta. Agrega cartas en forma aleatoria al vector de punteros a carta.
     void inicializarMazo();
 
-    // PRE: haya cartas en el mazo
-    // POST: saca una carta en orden y coloca el puntero a NULL (libera memoria)
-    Carta sacarCartaDelMazo();
+    // PRE: mazo haya sido creado
+    // POST: saca una carta en orden
+    void sacarCartaDelMazo(unsigned int nroJugador);
 
     // PRE:
     // POST: 
-    void activarCarta(Carta carta);
+    void activarCarta(Carta* carta);
+
+    void activarCartaMisil();
+
+    void activarCartaSomnifero();
+
+    void activarCartaHarakiri(unsigned int nroJugadorEnTurno);
 
     // PRE: 
     // POST: Asigna soldados al iniciar la partida, pidiendo al usuario las coordenadas correspondientes.
@@ -61,8 +68,12 @@ public:
     void inicializarPartida();
 
     // PRE: - 
-    // POST: Devuelve la cantidad de jugadores con soldados en la partida
+    // POST: Devuelve la cantidad de jugadores
     unsigned int getCantidadJugadores();
+
+    // PRE: - 
+    // POST: Devuelve la cantidad de jugadores con soldados en la partida, aviones y barcos no cuentan.
+    unsigned int getCantidadJugadoresConSoldados();
 
     // PRE:
     // POST
@@ -73,7 +84,7 @@ public:
     int getTurno();
 
     // PRE: 
-    // POST: Añade uno a la cantidad de turnos de la partida
+    // POST: Se juega el siguiente turno de la partida, añade uno a la cantidad de turnos
     void siguienteTurno();
 
     // PRE: La nueva cantidad de jugadores no puede ser mayor a la anterior
@@ -81,9 +92,13 @@ public:
     // es necesario?
     void setCantidadJugadores(int cantidadNueva);
 
-    //Pre: Las coordenadas deben ser validas, entre 1 y el tamaño del tablero.
-    //Post: Solicita datos de una la coordenada para colocar una unidad
-    void pedirCoordenadasUnidad(unsigned int nroJugador, unsigned int& largo, unsigned int& ancho , unsigned int& alto, TipoDeUnidad tipo);
+    // PRE: -
+    // POST: Solicita datos de una coordenada para realizar un ataque, retorna el casillero
+    Casillero* pedirCoordenadasAtaque();
+
+    // PRE: Las coordenadas deben ser validas, entre 1 y el tamaño del tablero.
+    // POST: Solicita datos de una coordenada para colocar una unidad, retorna el casillero correspondiente
+    Casillero* pedirCoordenadasUnidad(TipoDeUnidad tipo);
 
     // PRE:
     // POST:
@@ -95,23 +110,30 @@ public:
 
     // PRE: 
     // POST: jugador realiza disparos dependiendo del a cantidad de unidades y del tipo de unidades que posea
-    void realizarDisparosJugador();
+    void realizarDisparosJugador(unsigned int nroJugador, unsigned int disparos);
+
+    // PRE: coordenadas validas
+    // POST: Devuelve true si la coordenada2 es vecina de la coordenada1
+    bool esCoordenadaVecina(Coordenada* coordenada1, Coordenada* coordenada2);
 
     // PRE: 
     // POST: jugador elije una unidad y realiza un movimiento con ella
     // Jugador ingresa el numero de unidad para obtener su posicion, luego
     // usar pedirCoordenadasUnidad() y asignarUnidadAlCasillero()
-    void moverUnidad();
+    void moverUnidad(unsigned int nroJugador);
     
     // PRE: 
     // POST: se crea un archivo bitmap con el mapa de la partida
     // al comenzar el turno para un jugador se exporta el tablero para el solo
-    void exportarTablero();
+    void exportarTablero(unsigned int nroJugador);
 
     // PRE
     // POST: chequea si el juego ha terminado
-    // recorre el arreglo de jugadores y observa si existe como maximo 1 jugador con soldados, caso contrario: false
     bool haTerminado();
+
+    // PRE: indice del jugador que no posee soldados
+    // POST: Las unidades que han quedado, emprenden retirada. Libera memoria
+    void jugadorEmprendeRetirada(unsigned int nroJugador);
 
     // PRE:
     // POST: devuelve el jugador ganador de la partida, en caso de que haya terminado en empate retorna 0;

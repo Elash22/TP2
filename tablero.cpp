@@ -31,8 +31,8 @@ Tablero::Tablero(int largo, int ancho, int alto, int nroMapa){
 }
 
 // NECESITA TERMINARSE 
-/*
 Tablero::~Tablero(){
+/*
 	while(this->vacia() == false){
 		while(this->get(1)->vacia() == false){
 			while(this->get(1)->get(1)->vacia() == false){
@@ -45,8 +45,8 @@ Tablero::~Tablero(){
 		delete this->get(1);
 		this->remover(1);
 	}
-}
 */
+}
 
 int Tablero::getLargo(){
   return this->largo;
@@ -63,11 +63,8 @@ int Tablero::getAlto(){
 Casillero* Tablero::getCasillero(int largo, int ancho, int alto){
     if(largo<1|| ancho<1 || alto<1 || 
     largo>this->getLargo() || ancho>this->getAncho() || alto>this->getAlto() ){
-	    throw "El casillero solicitado se va del rango.";
+      return NULL;
+	    //throw "El casillero solicitado se va del rango.";
     }
     return this->tablero->get(largo)->get(ancho)->get(alto);
-}
-
-Tablero::~Tablero(){
-  // TODO
 }

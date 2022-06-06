@@ -16,6 +16,7 @@ private:
     unsigned int cantidadSoldados;
     unsigned int cantidadAviones;
     unsigned int cantidadBarcos;
+    unsigned int cantidadTotalUnidades;
 
     unsigned int cantidadDisparosDisponibles;
     unsigned int cantidadMisilesDisponibles;
@@ -33,9 +34,17 @@ public:
     // POST: devuelve el numero de jugador
     unsigned int getNumeroJugador();
 
+    // PRE:
+    // POST: retorna la cantidad total de unidades que el jugador ha poseido a lo largo del juego
+    unsigned int getCantidadTotalUnidades();
+
     // PRE: ingreso de una unidad de batalla que ya ha sido creado con memoria dinamica
     // POST: añade la unidad a la lista de unidades
     void asignarUnidad(Unidad* unidadDeBatalla);
+
+    // PRE
+    // POST: retorna la primer unidad en la lista de unidades
+    Unidad* buscarPrimerUnidad();
 
     // PRE: ingreso del ID de una unidad de batalla
     // POST: busca la unidad en la lista de punteros a unidad
@@ -43,8 +52,7 @@ public:
 
     // PRE: ingresar una unidad
     // POST: Remueve la unidad de la lista de unidades, disminuye en uno la cantidad del tipo de unidad.
-    //       No libera memoria, de eso se encarga tablero.
-    void removerUnidad(Unidad unidad);
+    void removerUnidad(Unidad* unidad);
 
     // PRE: 
     // POST: devuelve los disparos que el jugador tiene disponible dependiendo del tipo de unidad

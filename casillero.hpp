@@ -7,9 +7,9 @@
 #include <iostream>
 
 enum EstadoDeCasillero{
-    inhabilitada,
-    vacia,
-    ocupada
+    inhabilitado,
+    vacio,
+    ocupado
 };
 
 enum TipoTerreno{
@@ -58,6 +58,14 @@ public:
     // PRE: 
     // POST: coloca la unidad en el casillero
     void setUnidad(Unidad* unidad);
+
+    // PRE:
+    // POST: devuelve un puntero a la unidad que se encuentra en el casillero
+    Unidad* getUnidad();
+
+    // PRE:
+    // POST: coloca en NULL los punteros y cambia el estado del casillero
+    void inhabilitar();
 
     // PRE: exista un casillero
     // POST: elimina el casillero y la coordenada asociada

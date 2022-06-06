@@ -43,7 +43,6 @@ public:
 
     // PRE: ingresar una unidad
     // POST: Remueve la unidad de la lista de unidades, disminuye en uno la cantidad del tipo de unidad.
-    //       No libera memoria, de eso se encarga tablero.
     void removerUnidad(Unidad* unidad);
 
     // PRE: 

@@ -61,8 +61,12 @@ public:
     void inicializarPartida();
 
     // PRE: - 
-    // POST: Devuelve la cantidad de jugadores con soldados en la partida
+    // POST: Devuelve la cantidad de jugadores
     unsigned int getCantidadJugadores();
+
+    // PRE: - 
+    // POST: Devuelve la cantidad de jugadores con soldados en la partida, aviones y barcos no cuentan.
+    unsigned int getCantidadJugadoresConSoldados();
 
     // PRE:
     // POST
@@ -81,8 +85,12 @@ public:
     // es necesario?
     void setCantidadJugadores(int cantidadNueva);
 
-    //Pre: Las coordenadas deben ser validas, entre 1 y el tamaño del tablero.
-    //Post: Solicita datos de una la coordenada para colocar una unidad, retorna el casillero correspondiente
+    // PRE: -
+    // POST: Solicita datos de una coordenada para realizar un ataque, retorna el casillero
+    Casillero* pedirCoordenadasAtaque();
+
+    // PRE: Las coordenadas deben ser validas, entre 1 y el tamaño del tablero.
+    // POST: Solicita datos de una coordenada para colocar una unidad, retorna el casillero correspondiente
     Casillero* pedirCoordenadasUnidad(TipoDeUnidad tipo);
 
     // PRE:
@@ -110,8 +118,11 @@ public:
 
     // PRE
     // POST: chequea si el juego ha terminado
-    // recorre el arreglo de jugadores y observa si existe como maximo 1 jugador con soldados, caso contrario: false
     bool haTerminado();
+
+    // PRE: indice del jugador que no posee soldados
+    // POST: Las unidades que han quedado, emprenden retirada. Libera memoria
+    void jugadorEmprendeRetirada(unsigned int nroJugador);
 
     // PRE:
     // POST: devuelve el jugador ganador de la partida, en caso de que haya terminado en empate retorna 0;

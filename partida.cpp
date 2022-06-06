@@ -12,7 +12,7 @@ Partida::Partida(){
 
     this->cantidadDeJugadores = 0;
     this->cantidadDeSoldadosPorJugador = 0;
-    this->turno = 1;
+    this->turno = 0;
     this->nroMapa = 1;
 }
 
@@ -24,12 +24,12 @@ void Partida::pedirDatos(int& mapaLargo, int& mapaAncho, int& mapaAlto){
 
     cout << endl << "Ingrese el largo del mapa: ";
     mapaLargo = this->ingresarNumeroYValidar(MINIMO_LARGO_ANCHO_TABLERO,MAXIMO_LARGO_ANCHO_TABLERO);
-    cout << endl << "Ingrese el ancho del mapa: ";
+    cout << "Ingrese el ancho del mapa: ";
     mapaAncho = this->ingresarNumeroYValidar(MINIMO_LARGO_ANCHO_TABLERO,MAXIMO_LARGO_ANCHO_TABLERO);
-    cout << endl << "Ingrese el alto del mapa: ";
+    cout << "Ingrese el alto del mapa: ";
     mapaAlto = this->ingresarNumeroYValidar(MINIMO_ALTO_TABLERO,MAXIMO_ALTO_TABLERO);
 
-    cout << endl << "En que mapa desea jugar? (1 - " << CANTIDAD_MAPAS<< "): ";
+    cout << "En que mapa desea jugar? (1 - " << CANTIDAD_MAPAS<< "): ";
     this->nroMapa = this->ingresarNumeroYValidar(0,CANTIDAD_MAPAS);
 }
 
@@ -70,7 +70,6 @@ void Partida::inicializarMazo(){
         }
         nroAnterior = randomNumber;
         TipoDeCarta tipo;
-        cout << "NUMERO RANDOM " << randomNumber << endl;
         if(randomNumber==0){
             tipo = Misil;
         }else if(randomNumber==1){
@@ -109,19 +108,19 @@ void Partida::activarCarta(Carta* carta){
     if(tipo == Misil){
         this->activarCartaMisil();
     }else if(tipo == NuevoAvion){
-        cout << endl << "El jugador " << nroJugadorEnTurno << "saco la carta nuevo Avion";
+        cout << endl << "El jugador " << nroJugadorEnTurno << " saco la carta nuevo Avion";
         this->asignarUnidadAlCasillero(jugadorEnTurno, cantidadTotalUnidades+1, avion);
     }else if(tipo == NuevoBarco){
-        cout << endl << "El jugador " << nroJugadorEnTurno << "saco la carta nuevo Barco";
+        cout << endl << "El jugador " << nroJugadorEnTurno << " saco la carta nuevo Barco";
         this->asignarUnidadAlCasillero(jugadorEnTurno, cantidadTotalUnidades+1, barco);
     }else if(tipo == Somnifero){
-        cout << endl << "El jugador " << nroJugadorEnTurno << "saco la carta Somnifero. El jugador " << nroJugadorEnTurno+1 << "pierde su turno";
+        cout << endl << "El jugador " << nroJugadorEnTurno << " saco la carta Somnifero. El jugador " << nroJugadorEnTurno+1 << " pierde su turno";
         this->activarCartaSomnifero();
     }else if(tipo == Francotirador){
-        cout << endl << "El jugador " << nroJugadorEnTurno << "saco la carta Francotirador.";
+        cout << endl << "El jugador " << nroJugadorEnTurno << " saco la carta Francotirador.";
         this->realizarDisparosJugador(nroJugadorEnTurno, 1);
     }else if(tipo == Harakiri){
-        cout << endl << "El jugador " << nroJugadorEnTurno << "saco la carta Harakiri. Uno de sus soldados ha muerto";
+        cout << endl << "El jugador " << nroJugadorEnTurno << " saco la carta Harakiri. Uno de sus soldados ha muerto";
         activarCartaHarakiri(nroJugadorEnTurno);
     }
 }
@@ -212,7 +211,7 @@ Casillero* Partida::pedirCoordenadasAtaque(){
     unsigned int largo, ancho, alto;
     cout << endl << "Ingrese largo: ";
     largo = this->ingresarNumeroYValidar(1,this->tablero->getLargo());
-    cout << endl << "Ingrese ancho: ";
+    cout << "Ingrese ancho: ";
     ancho = this->ingresarNumeroYValidar(1,this->tablero->getAncho());    
     cout << "Ingrese altura: ";
     alto = this->ingresarNumeroYValidar(1, this->tablero->getAlto());
@@ -327,8 +326,8 @@ void Partida::inicializarSoldadosAJugadores(){
 }
 
 void Partida::realizarDisparosJugador(unsigned int nroJugador, unsigned int disparos){
-    cout << endl << "El jugador " << nroJugador << "posee " << disparos << "disparos";
     while(disparos >0){
+        cout << endl << "El jugador " << nroJugador << " posee " << disparos << " disparo(s)";
         cout << endl << "Ingrese una coordenada para atacar";
         Casillero* casillero = this->pedirCoordenadasAtaque();
         if(casillero->getEstado() == inhabilitado){
@@ -338,8 +337,8 @@ void Partida::realizarDisparosJugador(unsigned int nroJugador, unsigned int disp
             casillero->inhabilitar();
         }else{
             // existe una unidad en el casillero
-            cout << endl << "El "<< Unidad::imprimirTipo(casillero->getUnidad()->getTipoDeUnidad()) << "#" << casillero->getUnidad()->getNroUnidad()
-                 << " del jugador #" << casillero->getJugador() << "ha muerto";
+            cout << endl << "El "<< Unidad::imprimirTipo(casillero->getUnidad()->getTipoDeUnidad()) << " #" << casillero->getUnidad()->getNroUnidad()
+                 << " del jugador #" << casillero->getJugador()->getNumeroJugador() << " ha muerto";
             casillero->getJugador()->removerUnidad(casillero->getUnidad());
             // delete casillero->getUnidad();
             casillero->inhabilitar();
@@ -367,7 +366,7 @@ bool Partida::esCoordenadaVecina(Coordenada* coordenada1, Coordenada* coordenada
 }
 
 void Partida::moverUnidad(unsigned int nroJugador){
-    if(this->jugadores[nroJugador]){
+    if(this->jugadores[nroJugador] == NULL){
         throw "NUMERO DE JUGADOR INVALIDO AL MOVER UNA UNIDAD";
     }
     unsigned int nroUnidad;

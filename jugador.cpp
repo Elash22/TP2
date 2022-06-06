@@ -21,9 +21,13 @@ unsigned int Jugador::getNumeroJugador(){
     return this->nroJugador;
 }
 
+unsigned int Jugador::getCantidadTotalUnidades(){
+    return this->cantidadTotalUnidades;
+}
+
 void Jugador::asignarUnidad(Unidad* unidadDeBatalla){
     this->unidades->add(unidadDeBatalla);
-
+    this->cantidadTotalUnidades++;
     if(unidadDeBatalla->getTipoDeUnidad() == soldado){
         this->cantidadSoldados++;
     }else if(unidadDeBatalla->getTipoDeUnidad() == avion){
@@ -33,10 +37,18 @@ void Jugador::asignarUnidad(Unidad* unidadDeBatalla){
     }
 }
 
+Unidad* Jugador::buscarPrimerUnidad(){
+    this->unidades->reiniciarCursor();
+    if(this->unidades->avanzarCursor()!= false){
+        return this->unidades->getCursor();
+    }
+    return NULL;    
+}
+
 Unidad* Jugador::buscarUnidad(unsigned int numeroDeUnidad){
     Unidad* aux;
-
     this->unidades->reiniciarCursor();
+
     while(this->unidades->avanzarCursor()!= false){
         aux = this->unidades->getCursor();
         if(aux->getNroUnidad() == numeroDeUnidad){

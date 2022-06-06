@@ -15,6 +15,7 @@ const int MINIMO_ALTO_TABLERO= 2;
 const int MAXIMO_ALTO_TABLERO= 10;
 const int CANTIDAD_MAPAS= 4;
 const int CANTIDAD_CARTAS_POR_JUGADOR= 4;
+const int CANTIDAD_DISTINTA_CARTAS = 6;
 
 class Partida{
 private:
@@ -39,13 +40,19 @@ private:
     // POST: crea punteros a Carta. Agrega cartas en forma aleatoria al vector de punteros a carta.
     void inicializarMazo();
 
-    // PRE: haya cartas en el mazo
-    // POST: saca una carta en orden y coloca el puntero a NULL (libera memoria)
-    Carta sacarCartaDelMazo(unsigned int nroJugador);
+    // PRE: mazo haya sido creado
+    // POST: saca una carta en orden
+    void sacarCartaDelMazo(unsigned int nroJugador);
 
     // PRE:
     // POST: 
-    void activarCarta(Carta carta);
+    void activarCarta(Carta* carta);
+
+    void activarCartaMisil();
+
+    void activarCartaSomnifero();
+
+    void activarCartaHarakiri(unsigned int nroJugadorEnTurno);
 
     // PRE: 
     // POST: Asigna soldados al iniciar la partida, pidiendo al usuario las coordenadas correspondientes.
@@ -103,7 +110,7 @@ public:
 
     // PRE: 
     // POST: jugador realiza disparos dependiendo del a cantidad de unidades y del tipo de unidades que posea
-    void realizarDisparosJugador(unsigned int nroJugador);
+    void realizarDisparosJugador(unsigned int nroJugador, unsigned int disparos);
 
     // PRE: coordenadas validas
     // POST: Devuelve true si la coordenada2 es vecina de la coordenada1

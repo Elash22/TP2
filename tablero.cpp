@@ -63,7 +63,8 @@ int Tablero::getAlto(){
 Casillero* Tablero::getCasillero(int largo, int ancho, int alto){
     if(largo<1|| ancho<1 || alto<1 || 
     largo>this->getLargo() || ancho>this->getAncho() || alto>this->getAlto() ){
-	    throw "El casillero solicitado se va del rango.";
+      return NULL;
+	    //throw "El casillero solicitado se va del rango.";
     }
     return this->tablero->get(largo)->get(ancho)->get(alto);
 }

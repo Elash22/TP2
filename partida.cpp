@@ -58,22 +58,105 @@ void Partida::inicializarPartida(){
     this->inicializarSoldadosAJugadores();
 }
 
-// PRE:
-// POST: crea punteros a Carta. Agrega cartas en forma aleatoria al vector de punteros a carta.
 void Partida::inicializarMazo(){
-    // TODO
+    unsigned int cantidadDeCartas= this->getCantidadJugadores() * CANTIDAD_CARTAS_POR_JUGADOR;
+    this->mazoDeCartas = new Carta*[cantidadDeCartas]();
+    srand((unsigned)time(0));
+    int nroAnterior = -1;
+    for(unsigned int i=0; i<cantidadDeCartas; i++){
+        int randomNumber = (rand() % CANTIDAD_DISTINTA_CARTAS) + 0;
+        while(randomNumber == nroAnterior){
+            randomNumber = (rand() % CANTIDAD_DISTINTA_CARTAS) + 0;
+        }
+        nroAnterior = randomNumber;
+        TipoDeCarta tipo;
+        cout << "NUMERO RANDOM " << randomNumber << endl;
+        if(randomNumber==0){
+            tipo = Misil;
+        }else if(randomNumber==1){
+            tipo = NuevoAvion;
+        }else if(randomNumber==2){
+            tipo = NuevoBarco;
+        }else if(randomNumber==3){
+            tipo = Somnifero;
+        }else if(randomNumber==4){
+            tipo = Francotirador;
+        }else if(randomNumber==5){
+            tipo = Harakiri;
+        }
+        this->mazoDeCartas[i] = new Carta(tipo);
+    }
 }
 
-// PRE: haya cartas en el mazo
-// POST: saca una carta en orden y coloca el puntero a NULL (libera memoria)
-Carta Partida::sacarCartaDelMazo(unsigned int nroJugador){
-    // TODO
+void Partida::sacarCartaDelMazo(unsigned int nroJugador){
+    unsigned int turno = this->getTurno();
+    unsigned int cantidadDeCartas= this->getCantidadJugadores() * CANTIDAD_CARTAS_POR_JUGADOR;
+    Carta* carta = NULL;
+    if (turno < cantidadDeCartas){
+        carta = this->mazoDeCartas[turno];
+    }
+    this->activarCarta(carta);
 }
 
-// PRE:
-// POST: dependiento el tipo de carta, realizar la accion correspondiente
-void Partida::activarCarta(Carta carta){
-    // TODO
+void Partida::activarCarta(Carta* carta){
+    if(carta == NULL){
+        throw "EL PUNTERO A CARTA ES NULO";
+    }
+    TipoDeCarta tipo = carta->getTipo();
+    unsigned int nroJugadorEnTurno = this->getTurno() % this->getCantidadJugadores();
+    Jugador* jugadorEnTurno = this->jugadores[nroJugadorEnTurno];
+    unsigned int cantidadTotalUnidades = this->jugadores[nroJugadorEnTurno]->getCantidadTotalUnidades();
+    if(tipo == Misil){
+        this->activarCartaMisil();
+    }else if(tipo == NuevoAvion){
+        cout << endl << "El jugador " << nroJugadorEnTurno << "saco la carta nuevo Avion";
+        this->asignarUnidadAlCasillero(jugadorEnTurno, cantidadTotalUnidades+1, avion);
+    }else if(tipo == NuevoBarco){
+        cout << endl << "El jugador " << nroJugadorEnTurno << "saco la carta nuevo Barco";
+        this->asignarUnidadAlCasillero(jugadorEnTurno, cantidadTotalUnidades+1, barco);
+    }else if(tipo == Somnifero){
+        cout << endl << "El jugador " << nroJugadorEnTurno << "saco la carta Somnifero. El jugador " << nroJugadorEnTurno+1 << "pierde su turno";
+        this->activarCartaSomnifero();
+    }else if(tipo == Francotirador){
+        cout << endl << "El jugador " << nroJugadorEnTurno << "saco la carta Francotirador.";
+        this->realizarDisparosJugador(nroJugadorEnTurno, 1);
+    }else if(tipo == Harakiri){
+        cout << endl << "El jugador " << nroJugadorEnTurno << "saco la carta Harakiri. Uno de sus soldados ha muerto";
+        activarCartaHarakiri(nroJugadorEnTurno);
+    }
+}
+
+void Partida::activarCartaMisil(){
+    Casillero* casillero = pedirCoordenadasAtaque();
+    Coordenada* coordenadaObjetivo = casillero->getCoordenada();
+    for(int i = coordenadaObjetivo->getLargo() - 1; i <= coordenadaObjetivo->getLargo() + 1; i++){
+        for(int j = coordenadaObjetivo->getAncho() - 1; i <= coordenadaObjetivo->getAncho() + 1; j++){
+            for(int k = coordenadaObjetivo->getAlto() - 1; i <= coordenadaObjetivo->getAlto() + 1; k++){
+                Casillero* auxiliar = this->tablero->getCasillero(i, j, k);
+                if(auxiliar != NULL){
+                    if(auxiliar->getUnidad() != NULL){
+                        auxiliar->getJugador()->removerUnidad(auxiliar->getUnidad());
+                        auxiliar->inhabilitar();
+                    }
+                    else{
+                        auxiliar->inhabilitar();
+                    }
+                }
+            }
+        }
+    }
+}
+
+void Partida::activarCartaSomnifero(){
+    this->turno++;
+}
+
+void Partida::activarCartaHarakiri(unsigned int nroJugadorEnTurno){
+    Unidad* unidad = this->jugadores[nroJugadorEnTurno]->buscarPrimerUnidad();
+    if(unidad == NULL){
+        throw "PUNTERO A UNIDAD NULO EN CARTA HARAKIRI";
+    }
+    this->jugadores[nroJugadorEnTurno]->removerUnidad(unidad);
 }
 
 unsigned int Partida::getCantidadJugadores(){
@@ -102,13 +185,10 @@ int Partida::getTurno(){
     return this->turno;
 }
 
-// PRE: 
-// POST: Se juega el siguiente turno de la partida, añade uno a la cantidad de turnos
 void Partida::siguienteTurno(){
-    // TODO
     unsigned int nroJugadorEnTurno = this->getTurno() % this->getCantidadJugadores();
     this->exportarTablero(nroJugadorEnTurno);
-    this->realizarDisparosJugador(nroJugadorEnTurno);
+    this->realizarDisparosJugador(nroJugadorEnTurno, this->jugadores[nroJugadorEnTurno]->getCantidadDisparosDisponibles());
     if(this->haTerminado() == true){
         return;
     }
@@ -121,6 +201,7 @@ void Partida::siguienteTurno(){
         return;
     }
     // sumar uno a la cantidad de turnos
+    this->turno++;
 }
 
 void Partida::setCantidadJugadores(int cantidadNueva){
@@ -245,8 +326,7 @@ void Partida::inicializarSoldadosAJugadores(){
     }   
 }
 
-void Partida::realizarDisparosJugador(unsigned int nroJugador){
-    unsigned int disparos = this->jugadores[nroJugador]->getCantidadDisparosDisponibles();
+void Partida::realizarDisparosJugador(unsigned int nroJugador, unsigned int disparos){
     cout << endl << "El jugador " << nroJugador << "posee " << disparos << "disparos";
     while(disparos >0){
         cout << endl << "Ingrese una coordenada para atacar";
@@ -345,6 +425,7 @@ void Partida::jugadorEmprendeRetirada(unsigned int nroJugador){
 // POST: devuelve el jugador ganador de la partida, en caso de que haya terminado en empate retorna 0;
 unsigned int Partida::jugadorGanador(){
     // TODO
+    return 0;
 }
 
 Partida::~Partida(){

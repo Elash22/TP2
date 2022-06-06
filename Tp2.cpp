@@ -16,6 +16,10 @@ int main(){
         // INGRESO DE DATOS
         partida->inicializarPartida();
 
+        while(!partida->haTerminado()){
+            partida->siguienteTurno();
+        }
+
         /*
         // EXPORTAR TABLERO PARA TODOS LOS JUGADORES, de forma tal que el jugador pueda ver el terreno antes de colocar sus soldados
 

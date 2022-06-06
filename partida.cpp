@@ -111,7 +111,6 @@ void Partida::siguienteTurno(){
     this->realizarDisparosJugador(nroJugadorEnTurno);
     // check si termino el juego (luego de cada disparo?)
     if(this->haTerminado() == true){
-        cout << endl << "El juego ha terminado!";
         return;
     }
     this->moverUnidad(nroJugadorEnTurno);
@@ -196,6 +195,7 @@ void Partida::asignarUnidadAlCasillero(Jugador* jugador, int nroUnidad, TipoDeUn
         casillero->inhabilitar();
         return;
     }
+    // El casillero esta vacio
     Unidad* unidad = new Unidad(tipo, nroUnidad, casillero->getCoordenada());
     jugador->asignarUnidad(unidad);    
     casillero->setUnidad(unidad);
@@ -249,7 +249,42 @@ void Partida::realizarDisparosJugador(unsigned int nroJugador){
 void Partida::moverUnidad(unsigned int nroJugador){
     // TODO
 }
+/*
+bool Partida::esCoordenadaVecina(Coordenada* coordenada1, Coordenada* coordenada2){
+    if( coordenada1 == NULL || coordenada2 == NULL){
+        throw "PUNTERO A COORDENADA NULO AL DECIDIR SI CASILLEROS SON VECINOS";
+    }
+    bool esVecina = false;
+    if((coordenada2->getLargo() == coordenada1->getLargo() + 1) || (coordenada2->getLargo() == coordenada1->getLargo() - 1) || (coordenada2->getLargo() == coordenada1->getLargo())){
+        if((coordenada2->getAncho() == coordenada1->getAncho() + 1) || (coordenada2->getAncho() == coordenada1->getAncho() - 1) || (coordenada2->getAncho() == coordenada1->getAncho())){
+            esVecina = true;
+        }
+    }
+    return esVecina;
+}
 
+void Partida::moverUnidad(int nroJugador){
+    if(this->jugadores[nroJugador]){
+        throw "NUMERO DE JUGADOR INVALIDO AL MOVER UNA UNIDAD";
+    }
+    unsigned int nroUnidad;
+    cout << endl << "Inserte el numero de la unidad que desea mover: ";
+    cin >> nroUnidad;
+    Unidad* unidadAMover = this->jugadores[nroJugador]->buscarUnidad(nroUnidad);
+    while(unidadAMover == NULL){
+        cout << endl << "El numero es invalido";
+        cout << endl << "Inserte el numero de la unidad que desea mover: ";
+        cin >> nroUnidad;
+        unidadAMover = this->jugadores[nroJugador]->buscarUnidad(nroUnidad);
+    }
+    Casillero* casilleroNuevo = this->pedirCoordenadasUnidad(soldado);
+    while(!esCoordenadaVecina(unidadAMover->getPosicion(), casilleroNuevo->getCoordenada())){
+        cout << "La coordenada ingresada no es vecina." << endl;
+        casilleroNuevo = this->pedirCoordenadasUnidad(soldado);
+    }
+    unidadAMover->setPosicionUnidad(casilleroNuevo->getCoordenada());
+}
+*/
 // PRE: 
 // POST: se crea un archivo bitmap con el mapa de la partida
 // al comenzar el turno para un jugador se exporta el tablero para el solo
@@ -259,6 +294,7 @@ void Partida::exportarTablero(unsigned int nroJugador){
 
 bool Partida::haTerminado(){
     if(this->getCantidadJugadoresConSoldados()<=1){
+        cout << endl << "El juego ha terminado!";
         return true;
     }
     return false;

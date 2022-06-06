@@ -105,6 +105,10 @@ public:
     // POST: jugador realiza disparos dependiendo del a cantidad de unidades y del tipo de unidades que posea
     void realizarDisparosJugador(unsigned int nroJugador);
 
+    // PRE: coordenadas validas
+    // POST: Devuelve true si la coordenada2 es vecina de la coordenada1
+    bool esCoordenadaVecina(Coordenada* coordenada1, Coordenada* coordenada2)
+
     // PRE: 
     // POST: jugador elije una unidad y realiza un movimiento con ella
     // Jugador ingresa el numero de unidad para obtener su posicion, luego

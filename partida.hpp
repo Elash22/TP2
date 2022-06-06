@@ -107,7 +107,7 @@ public:
 
     // PRE: coordenadas validas
     // POST: Devuelve true si la coordenada2 es vecina de la coordenada1
-    bool esCoordenadaVecina(Coordenada* coordenada1, Coordenada* coordenada2)
+    bool esCoordenadaVecina(Coordenada* coordenada1, Coordenada* coordenada2);
 
     // PRE: 
     // POST: jugador elije una unidad y realiza un movimiento con ella

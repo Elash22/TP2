@@ -2,6 +2,7 @@
 #include "partida.hpp"
 #include "unidad.hpp"
 #include "jugador.hpp"
+#include "EasyBMP.h"
 
 using namespace std;
 
@@ -19,10 +20,10 @@ Partida::Partida(){
 void Partida::pedirDatos(int& mapaLargo, int& mapaAncho, int& mapaAlto){
     cout << "Bienvenidos, ingrese la cantidad de jugadores: ";
     this->cantidadDeJugadores = this->ingresarNumeroYValidar(MINIMO_JUGADORES, MAXIMO_JUGADORES);
-    cout << endl << "Ingrese la cantidad de soldados por jugador con la que van a jugar: ";
+    cout << "Ingrese la cantidad de soldados por jugador con la que van a jugar: ";
     this->cantidadDeSoldadosPorJugador = this->ingresarNumeroYValidar(MINIMO_SOLDADOS, MAXIMO_SOLDADOS);
 
-    cout << endl << "Ingrese el largo del mapa: ";
+    cout << "Ingrese el largo del mapa: ";
     mapaLargo = this->ingresarNumeroYValidar(MINIMO_LARGO_ANCHO_TABLERO,MAXIMO_LARGO_ANCHO_TABLERO);
     cout << "Ingrese el ancho del mapa: ";
     mapaAncho = this->ingresarNumeroYValidar(MINIMO_LARGO_ANCHO_TABLERO,MAXIMO_LARGO_ANCHO_TABLERO);
@@ -37,7 +38,7 @@ unsigned int Partida::ingresarNumeroYValidar(unsigned int minimo, unsigned int m
     unsigned int numeroIngresado;
     cin >> numeroIngresado;
     while(numeroIngresado < minimo || numeroIngresado > maximo){
-        cout << endl << "Entrada incorrecta. Ingrese una cantidad mayor a " << (minimo-1) << " y menor a " << maximo+1 << ": ";
+        cout << "Entrada incorrecta. Ingrese una cantidad mayor a " << (minimo-1) << " y menor a " << maximo+1 << ": ";
         cin >> numeroIngresado;
     }
     return numeroIngresado;
@@ -209,7 +210,7 @@ void Partida::setCantidadJugadores(int cantidadNueva){
 
 Casillero* Partida::pedirCoordenadasAtaque(){
     unsigned int largo, ancho, alto;
-    cout << endl << "Ingrese largo: ";
+    cout << "Ingrese largo: ";
     largo = this->ingresarNumeroYValidar(1,this->tablero->getLargo());
     cout << "Ingrese ancho: ";
     ancho = this->ingresarNumeroYValidar(1,this->tablero->getAncho());    
@@ -387,6 +388,47 @@ void Partida::moverUnidad(unsigned int nroJugador){
 // al comenzar el turno para un jugador se exporta el tablero para el solo
 void Partida::exportarTablero(unsigned int nroJugador){
     // TODO
+
+    /*
+    TipoTerreno terreno;
+    EstadoDeCasillero estado;
+    unsigned int largo = this->tablero->getLargo();
+    unsigned int ancho = this->tablero->getAncho();
+    unsigned int alto = this->tablero->getAlto();
+
+    for(unsigned int i=0; i<alto; i++){
+        int tamCasillero = 10;
+        BMP mapa;
+        mapa.SetSize(tamCasillero*largo, tamCasillero*ancho);
+        for(unsigned int j=0; j<largo; j++){
+            for(unsigned int k=0; k<ancho; k++){
+                Casillero* casillero = this->tablero->getCasillero(j, k, i);
+                for(int x=0; x<tamCasillero; x++){
+                    for(int y=0; y<tamCasillero; y++){
+                        estado = casillero->getEstado();
+                        terreno = casillero->getTipoDeTerreno();
+                        if(estado == inhabilitado){
+                            // amarillo inhabilitado
+                        }else if(estado == ocupado){
+                            tipo==soldado
+                            // color por uindad
+                        }else{
+                            if(terreno == tierra){
+                        }else if(terreno == agua){
+                            // azul
+                        }else{
+                        // celeste
+                        }
+                    }
+                }
+                }
+                
+
+            }
+        }
+
+    }
+    */
 }
 
 bool Partida::haTerminado(){

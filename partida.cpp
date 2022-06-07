@@ -187,7 +187,8 @@ int Partida::getTurno(){
 
 void Partida::siguienteTurno(){
     unsigned int nroJugadorEnTurno = this->getTurno() % this->getCantidadJugadores();
-    this->exportarTablero(nroJugadorEnTurno);
+    // cout << endl << "--TEST: exportar tablero";
+    // this->exportarTablero(nroJugadorEnTurno);
     this->realizarDisparosJugador(nroJugadorEnTurno, this->jugadores[nroJugadorEnTurno]->getCantidadDisparosDisponibles());
     if(this->haTerminado() == true){
         return;
@@ -210,7 +211,7 @@ void Partida::setCantidadJugadores(int cantidadNueva){
 
 Casillero* Partida::pedirCoordenadasAtaque(){
     unsigned int largo, ancho, alto;
-    cout << "Ingrese largo: ";
+    cout << endl << "Ingrese largo: ";
     largo = this->ingresarNumeroYValidar(1,this->tablero->getLargo());
     cout << "Ingrese ancho: ";
     ancho = this->ingresarNumeroYValidar(1,this->tablero->getAncho());    
@@ -226,7 +227,7 @@ Casillero* Partida::pedirCoordenadasUnidad(TipoDeUnidad tipo){
     unsigned int largo, ancho, alto;
     cout << endl << "Ingrese largo: ";
     largo = this->ingresarNumeroYValidar(1,this->tablero->getLargo());
-    cout << endl << "Ingrese ancho: ";
+    cout << "Ingrese ancho: ";
     ancho = this->ingresarNumeroYValidar(1,this->tablero->getAncho());
     if(tipo == soldado){
         while(this->tablero->getCasillero(largo, ancho, 1)->getTipoDeTerreno() == agua){
@@ -273,10 +274,10 @@ void Partida::asignarUnidadAlCasillero(Jugador* jugador, int nroUnidad, TipoDeUn
     }else{
         coordenadaVieja = unidad->getPosicion();
     }
-
     while(casillero->getEstado() == inhabilitado || !esCoordenadaVecina(coordenadaVieja, coordenadaNueva)){
         cout << endl << "El casillero ingresado se encuentra inhabilitado o no es vecino. Intente nuevamente";
         casillero = pedirCoordenadasUnidad(tipo);
+        coordenadaNueva = casillero->getCoordenada();
     }
     if(casillero->getEstado() == ocupado){
         cout << endl << "El soldado #" << nroUnidad << " del jugador #" << jugador->getNumeroJugador() << " ha muerto en combate cuerpo a cuerpo";
@@ -328,13 +329,17 @@ void Partida::inicializarSoldadosAJugadores(){
 
 void Partida::realizarDisparosJugador(unsigned int nroJugador, unsigned int disparos){
     while(disparos >0){
+        this->exportarTablero(nroJugador);
         cout << endl << "El jugador " << nroJugador << " posee " << disparos << " disparo(s)";
         cout << endl << "Ingrese una coordenada para atacar";
         Casillero* casillero = this->pedirCoordenadasAtaque();
+        Coordenada* coordenada = casillero->getCoordenada();
         if(casillero->getEstado() == inhabilitado){
-            cout << endl << "El casillero se encontraba inhabilitado";
+            // cout << endl << "El casillero se encontraba inhabilitado";
+            cout << "El casillero ("<<coordenada->getLargo()<<", "<<coordenada->getAncho()<<", "<<coordenada->getAlto()<<") se encontraba inhabilitado";
         }else if(casillero->getEstado() == vacio){
-            cout << endl << "El casillero se encontraba vacio";
+            // cout << endl << "El casillero se encontraba vacio";
+            cout << "El casillero ("<<coordenada->getLargo()<<", "<<coordenada->getAncho()<<", "<<coordenada->getAlto()<<") se encontraba vacio";
             casillero->inhabilitar();
         }else{
             // existe una unidad en el casillero
@@ -371,7 +376,7 @@ void Partida::moverUnidad(unsigned int nroJugador){
         throw "NUMERO DE JUGADOR INVALIDO AL MOVER UNA UNIDAD";
     }
     unsigned int nroUnidad;
-    cout << endl << "Inserte el numero de la unidad que desea mover: ";
+    cout << endl << "Jugador #"<< nroJugador<<". Inserte el numero de la unidad que desea mover: ";
     cin >> nroUnidad;
     Unidad* unidadAMover = this->jugadores[nroJugador]->buscarUnidad(nroUnidad);
     while(unidadAMover == NULL){
@@ -388,47 +393,68 @@ void Partida::moverUnidad(unsigned int nroJugador){
 // al comenzar el turno para un jugador se exporta el tablero para el solo
 void Partida::exportarTablero(unsigned int nroJugador){
     // TODO
-
-    /*
     TipoTerreno terreno;
     EstadoDeCasillero estado;
-    unsigned int largo = this->tablero->getLargo();
-    unsigned int ancho = this->tablero->getAncho();
-    unsigned int alto = this->tablero->getAlto();
+    Unidad* unidad;
+    TipoDeUnidad tipo;
 
-    for(unsigned int i=0; i<alto; i++){
-        int tamCasillero = 10;
-        BMP mapa;
-        mapa.SetSize(tamCasillero*largo, tamCasillero*ancho);
-        for(unsigned int j=0; j<largo; j++){
-            for(unsigned int k=0; k<ancho; k++){
+    int largo = this->tablero->getLargo();
+    int ancho = this->tablero->getAncho();
+    int alto = this->tablero->getAlto();
+
+    cout << endl;
+    for(int i=1; i<alto+1; i++){
+        cout << "ALTURA: "<< i << endl;
+        // int tamCasillero = 10;
+        // BMP mapa;
+        // mapa.SetSize(tamCasillero*largo, tamCasillero*ancho);
+        for(int j=1; j<largo+1; j++){
+            for(int k=1; k<ancho+1; k++){
                 Casillero* casillero = this->tablero->getCasillero(j, k, i);
-                for(int x=0; x<tamCasillero; x++){
-                    for(int y=0; y<tamCasillero; y++){
+                // for(int x=0; x<tamCasillero; x++){
+                    // for(int y=0; y<tamCasillero; y++){
                         estado = casillero->getEstado();
                         terreno = casillero->getTipoDeTerreno();
+
                         if(estado == inhabilitado){
-                            // amarillo inhabilitado
+                            cout << "X";
                         }else if(estado == ocupado){
-                            tipo==soldado
-                            // color por uindad
+                            unidad = casillero->getUnidad();
+                            if(unidad != NULL){
+                                tipo = unidad->getTipoDeUnidad();
+                                if(tipo == soldado){
+                                    // cout << nroJugador;
+                                    // --TEST
+                                    cout << casillero->getJugador()->getNumeroJugador();
+                                }else if(tipo == barco){
+                                    cout << "B";
+                                }else if(tipo == avion){
+                                    cout << "A";
+                                }
+                            }
                         }else{
+                            // el casillero esta vacio
                             if(terreno == tierra){
-                        }else if(terreno == agua){
-                            // azul
-                        }else{
-                        // celeste
-                        }
-                    }
-                }
+                                // marron
+                                cout << "T";
+                            }else if(terreno == agua){
+                                // azul
+                                cout << "~";
+                            }else if(terreno == aire){
+                                // celeste
+                                cout << "@";
+                            }
+                    // }
+                // }
                 }
                 
 
             }
+            cout << endl;
         }
-
+        cout << endl;
     }
-    */
+    
 }
 
 bool Partida::haTerminado(){

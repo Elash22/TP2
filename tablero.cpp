@@ -10,12 +10,13 @@ Tablero::Tablero(int largo, int ancho, int alto, int nroMapa){
   
     this->tablero = new Lista<Lista<Lista<Casillero*>*>*>();
     for(int x=1; x<=largo; x++){
+
         this->tablero->add(new Lista<Lista<Casillero*>*>(), x);
 	    for(int y=1; y<=ancho; y++){
+
 		    this->tablero->get(x)->add(new Lista<Casillero*>(), y);
 		    for(int z=1; z<=alto; z++){
-
-          // TODO: METODO
+                // TODO: METODO
                 if(nroMapa ==1){
                     if(x<largo/2 && y<ancho/2 && z==1){
                         this->tablero->get(x)->get(y)->add(new Casillero(x,y,z, agua), z);
@@ -50,15 +51,15 @@ Tablero::~Tablero(){
 }
 
 int Tablero::getLargo(){
-  return this->largo;
+    return this->largo;
 }
 
 int Tablero::getAncho(){
-  return this->ancho;
+    return this->ancho;
 }
 
 int Tablero::getAlto(){
-  return this->alto;
+    return this->alto;
 }
 
 Casillero* Tablero::getCasillero(int largo, int ancho, int alto){

@@ -156,7 +156,10 @@ void Partida::activarCartaHarakiri(unsigned int nroJugadorEnTurno){
     if(unidad == NULL){
         throw "PUNTERO A UNIDAD NULO EN CARTA HARAKIRI";
     }
+    Coordenada* coordenada = unidad->getPosicion();
+    Casillero* casillero = this->tablero->getCasillero(coordenada->getLargo(), coordenada->getAncho(), coordenada->getAlto());
     this->jugadores[nroJugadorEnTurno]->removerUnidad(unidad);
+    casillero->inhabilitar();
 }
 
 unsigned int Partida::getCantidadJugadores(){

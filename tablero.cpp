@@ -16,36 +16,37 @@ Tablero::Tablero(int largo, int ancho, int alto, int nroMapa){
 		    for(int z=1; z<=alto; z++){
 
           // TODO: METODO
-          if(nroMapa ==1){
-            if(x<largo/2 && y<ancho/2 && z==1){
-              this->tablero->get(x)->get(y)->add(new Casillero(x,y,z, agua), z);
-            }else if(z==1){
-              this->tablero->get(x)->get(y)->add(new Casillero(x,y,z, tierra), z);
-            }else{
-              this->tablero->get(x)->get(y)->add(new Casillero(x,y,z, aire), z);
-            }
-          }
+                if(nroMapa ==1){
+                    if(x<largo/2 && y<ancho/2 && z==1){
+                        this->tablero->get(x)->get(y)->add(new Casillero(x,y,z, agua), z);
+                    }else if(z==1){
+                        this->tablero->get(x)->get(y)->add(new Casillero(x,y,z, tierra), z);
+                    }else{
+                        this->tablero->get(x)->get(y)->add(new Casillero(x,y,z, aire), z);
+                    }
+                }
 		    }
 	    }
     }
 }
 
-// NECESITA TERMINARSE 
 Tablero::~Tablero(){
-/*
-	while(this->vacia() == false){
-		while(this->get(1)->vacia() == false){
-			while(this->get(1)->get(1)->vacia() == false){
-				delete this->get(1)->get(1)->get(1);
-				this->get(1)->get(1)->remover(1);
-			}
-			delete this->get(1)->get(1);
-			this->get(1)->remover(1);
-		}
-		delete this->get(1);
-		this->remover(1);
-	}
-*/
+
+    while(this->tablero->vacia() == false){
+
+        while(this->tablero->get(1)->vacia() == false){
+
+            while(this->tablero->get(1)->get(1)->vacia() == false){
+
+                delete ( this->tablero->get(1)->get(1)->get(1) );
+                this->tablero->get(1)->get(1)->remover(1);
+            }
+            delete ( this->tablero->get(1)->get(1) );
+            this->tablero->get(1)->remover(1);
+        }   
+        delete ( this->tablero->get(1) );
+        this->tablero->remover(1);
+    }
 }
 
 int Tablero::getLargo(){
@@ -61,9 +62,8 @@ int Tablero::getAlto(){
 }
 
 Casillero* Tablero::getCasillero(int largo, int ancho, int alto){
-    if(largo<1|| ancho<1 || alto<1 || 
-    largo>this->getLargo() || ancho>this->getAncho() || alto>this->getAlto() ){
-      return NULL;
+    if(largo<1|| ancho<1 || alto<1 || largo>this->getLargo() || ancho>this->getAncho() || alto>this->getAlto() ){
+        return NULL;
 	    //throw "El casillero solicitado se va del rango.";
     }
     return this->tablero->get(largo)->get(ancho)->get(alto);

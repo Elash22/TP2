@@ -48,8 +48,6 @@ private:
     // POST: 
     void activarCarta(Carta* carta);
 
-    void activarCartaMisil();
-
     void activarCartaSomnifero();
 
     void activarCartaHarakiri(unsigned int nroJugadorEnTurno);
@@ -111,6 +109,14 @@ public:
     // PRE: 
     // POST: jugador realiza disparos dependiendo del a cantidad de unidades y del tipo de unidades que posea
     void realizarDisparosJugador(unsigned int nroJugador, unsigned int disparos);
+
+    // PRE: casillero de tablero valido
+    // POST: realiza un disparo, elimina posible unidad e inhabilita el casillero
+    void realizarDisparoACasillero(Casillero* casillero);
+
+    // PRE: casillero de tablero valido
+    // POST: realiza disparos en un volumen de 27 casillero, elimina posible unidad e inhabilita el casillero
+    void lanzarMisilesJugador(unsigned int nroJugador, unsigned int cantMisiles);
 
     // PRE: coordenadas validas
     // POST: Devuelve true si la coordenada2 es vecina de la coordenada1

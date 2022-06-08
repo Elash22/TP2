@@ -94,8 +94,8 @@ void Partida::sacarCartaDelMazo(unsigned int nroJugador){
     Carta* carta = NULL;
     if (turno < cantidadDeCartas){
         carta = this->mazoDeCartas[turno];
+        this->activarCarta(carta);
     }
-    this->activarCarta(carta);
 }
 
 void Partida::activarCarta(Carta* carta){
@@ -109,19 +109,19 @@ void Partida::activarCarta(Carta* carta){
     if(tipo == Misil){
         this->activarCartaMisil();
     }else if(tipo == NuevoAvion){
-        cout << endl << "El jugador " << nroJugadorEnTurno << " saco la carta nuevo Avion";
+        cout << endl << "El jugador #" << nroJugadorEnTurno << " saco la carta nuevo Avion";
         this->asignarUnidadAlCasillero(jugadorEnTurno, cantidadTotalUnidades+1, avion);
     }else if(tipo == NuevoBarco){
-        cout << endl << "El jugador " << nroJugadorEnTurno << " saco la carta nuevo Barco";
+        cout << endl << "El jugador #" << nroJugadorEnTurno << " saco la carta nuevo Barco";
         this->asignarUnidadAlCasillero(jugadorEnTurno, cantidadTotalUnidades+1, barco);
     }else if(tipo == Somnifero){
-        cout << endl << "El jugador " << nroJugadorEnTurno << " saco la carta Somnifero. El jugador " << nroJugadorEnTurno+1 << " pierde su turno";
+        cout << endl << "El jugador #" << nroJugadorEnTurno << " saco la carta Somnifero. El jugador #" << (nroJugadorEnTurno+1) % this->getCantidadJugadores()<< " pierde su turno";
         this->activarCartaSomnifero();
     }else if(tipo == Francotirador){
-        cout << endl << "El jugador " << nroJugadorEnTurno << " saco la carta Francotirador.";
+        cout << endl << "El jugador #" << nroJugadorEnTurno << " saco la carta Francotirador.";
         this->realizarDisparosJugador(nroJugadorEnTurno, 1);
     }else if(tipo == Harakiri){
-        cout << endl << "El jugador " << nroJugadorEnTurno << " saco la carta Harakiri. Uno de sus soldados ha muerto";
+        cout << endl << "El jugador #" << nroJugadorEnTurno << " saco la carta Harakiri. Uno de sus soldados ha muerto";
         activarCartaHarakiri(nroJugadorEnTurno);
     }
 }
@@ -333,7 +333,7 @@ void Partida::inicializarSoldadosAJugadores(){
 void Partida::realizarDisparosJugador(unsigned int nroJugador, unsigned int disparos){
     while(disparos >0){
         this->exportarTablero(nroJugador);
-        cout << endl << "El jugador " << nroJugador << " posee " << disparos << " disparo(s)";
+        cout << "El jugador #" << nroJugador << " posee " << disparos << " disparo(s):";
         cout << endl << "Ingrese una coordenada para atacar";
         Casillero* casillero = this->pedirCoordenadasAtaque();
         Coordenada* coordenada = casillero->getCoordenada();
@@ -383,7 +383,7 @@ void Partida::moverUnidad(unsigned int nroJugador){
     cin >> nroUnidad;
     Unidad* unidadAMover = this->jugadores[nroJugador]->buscarUnidad(nroUnidad);
     while(unidadAMover == NULL){
-        cout << endl << "El numero es invalido";
+        cout << "El numero es invalido";
         cout << endl << "Inserte el numero de la unidad que desea mover: ";
         cin >> nroUnidad;
         unidadAMover = this->jugadores[nroJugador]->buscarUnidad(nroUnidad);
@@ -455,9 +455,7 @@ void Partida::exportarTablero(unsigned int nroJugador){
             }
             cout << endl;
         }
-        cout << endl;
     }
-    
 }
 
 bool Partida::haTerminado(){

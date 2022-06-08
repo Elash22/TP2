@@ -86,13 +86,13 @@ void Jugador::removerUnidad(Unidad* unidad){
 }
 
 unsigned int Jugador::getCantidadDisparosDisponibles(){
-    // std::cout << std::endl << "--TEST: El jugador "<< this->nroJugador <<" posee "<< this->cantidadSoldados << " soldados y " << this->cantidadAviones << " aviones";
+    std::cout << std::endl << "--TEST: El jugador "<< this->nroJugador <<" posee "<< this->cantidadSoldados << " soldados y " << this->cantidadAviones << " aviones";
     this->cantidadDisparosDisponibles = this->cantidadSoldados + this->cantidadAviones * 2;
     return this->cantidadDisparosDisponibles;
 }
 
 unsigned int Jugador::getCantidadMisilesDisponibles(){
-    // std::cout << std::endl << "--TEST: El jugador "<< this->nroJugador <<" posee "<< this->cantidadBarcos << " barcos";
+    std::cout << std::endl << "--TEST: El jugador "<< this->nroJugador <<" posee "<< this->cantidadBarcos << " barcos";
     unsigned int misilAdicional = 0;
     if(this->misilAdicionalEnProximoTurno == true){
         misilAdicional = 1;

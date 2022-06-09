@@ -19,7 +19,7 @@ int main(){
         while(!partida->haTerminado()){
             partida->siguienteTurno();
         }
-
+        delete partida;
         /*
         // EXPORTAR TABLERO PARA TODOS LOS JUGADORES, de forma tal que el jugador pueda ver el terreno antes de colocar sus soldados
 

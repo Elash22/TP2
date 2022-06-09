@@ -519,4 +519,21 @@ unsigned int Partida::jugadorGanador(){
 
 Partida::~Partida(){
     // TODO
+    delete tablero;
+    if(this->jugadores != NULL){
+        for(unsigned int i=0; i<this->cantidadDeJugadores; i++){
+            if(this->jugadores[i] != NULL){
+                delete this->jugadores[i];
+            }
+        }
+        delete[] this->jugadores;
+    }
+    if(this->mazoDeCartas != NULL){
+        for(unsigned int j=0; j<(this->cantidadDeJugadores*CANTIDAD_CARTAS_POR_JUGADOR); j++){
+            if(this->mazoDeCartas[j] != NULL){
+                delete this->mazoDeCartas[j];
+            }
+        }
+        delete[] this->mazoDeCartas;
+    }
 }

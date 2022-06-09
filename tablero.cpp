@@ -4,6 +4,9 @@
 using namespace std;
 
 Tablero::Tablero(int largo, int ancho, int alto, int nroMapa){
+    if(largo<1 || ancho<1 || alto <1){
+        throw "LOS PARAMETROS DEL TABLERO DEBEN SER MAYORES A 0";
+    }
     this->largo = largo;
     this->ancho = ancho;
     this->alto = alto;
@@ -48,6 +51,7 @@ Tablero::~Tablero(){
         delete ( this->tablero->get(1) );
         this->tablero->remover(1);
     }
+    delete this->tablero;
 }
 
 int Tablero::getLargo(){

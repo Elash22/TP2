@@ -77,6 +77,7 @@ void Jugador::removerUnidad(Unidad* unidad){
             }else{
                 this->cantidadBarcos--;
             }
+            delete unidad;
             return;
         }
         posicionUnidad++;
@@ -131,5 +132,9 @@ bool Jugador::poseeSoldados(){
 }
 
 Jugador::~Jugador(){
+    unidades->reiniciarCursor();
+    while(unidades->avanzarCursor()){
+        delete unidades->getCursor();
+    }
     delete unidades;
 }

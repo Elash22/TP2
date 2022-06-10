@@ -3,6 +3,7 @@
 #include "unidad.hpp"
 #include "jugador.hpp"
 #include "EasyBMP.h"
+#include "visuales.hpp"
 
 using namespace std;
 
@@ -318,7 +319,7 @@ void Partida::inicializarSoldadosAJugadores(){
 void Partida::realizarDisparosJugador(unsigned int nroJugador, unsigned int disparos){
     while(disparos >0){
         this->exportarTablero(nroJugador);
-        cout << "El jugador #" << nroJugador << " posee " << disparos << " disparo(s):";
+        cout << endl << "El jugador #" << nroJugador << " posee " << disparos << " disparo(s):";
         cout << endl << "Ingrese una coordenada para atacar:";
         Casillero* casillero = this->pedirCoordenadasAtaque();
         this->realizarDisparoACasillero(casillero);
@@ -406,76 +407,84 @@ void Partida::moverUnidad(unsigned int nroJugador){
     }
     // --TEST
     Coordenada* c = unidadAMover->getPosicion();
-    cout << "--TEST: la unidad a mover se encuentra en: ("
+    cout << "La unidad a mover se encuentra en: ("
         <<c->getLargo()<<", "<<c->getAncho()<<", "<<c->getAlto()<<")";
     // --TEST END
     this->asignarUnidadAlCasillero(this->jugadores[nroJugador], nroUnidad, soldado);
 }
 
-// PRE: 
-// POST: se crea un archivo bitmap con el mapa de la partida
-// al comenzar el turno para un jugador se exporta el tablero para el solo
 void Partida::exportarTablero(unsigned int nroJugador){
-    // TODO
     TipoTerreno terreno;
     EstadoDeCasillero estado;
     Unidad* unidad;
     TipoDeUnidad tipo;
+    BMP Mapa,Soldado,Barco,Avion,Agua,Tierra,Aire,TInhabilitado;
+    string jugadorStr = "jugador";
+    string nivelStr = "altura";
+    string extensionStr = ".bmp";
+    string archivoMapaSalida;
 
     int largo = this->tablero->getLargo();
     int ancho = this->tablero->getAncho();
     int alto = this->tablero->getAlto();
 
-    cout << endl;
+    char jcentena = (char)(48+((nroJugador%1000)/100));
+    char jdecena = (char)(48+((nroJugador%100)/10));
+    char junidad = (char)(48+(nroJugador%10));
+    char ncentena, ndecena, nunidad;
+
+    crearBMPTablero(Mapa,ancho,largo);
+    crearBMPUnidades(Soldado,Barco,Avion);
+    crearBMPTiposTerreno(Tierra,Agua,Aire,TInhabilitado);
+    // cout<<"Introduzca el nivel del mapa que se va a mostrar"<<endl;
+    // int nivelSolicitado= (ingresarNumeroYValidar(NIVEL_SUELO,alto));
+    
     for(int i=1; i<alto+1; i++){
-        cout << "ALTURA: "<< i << endl;
-        // int tamCasillero = 10;
-        // BMP mapa;
-        // mapa.SetSize(tamCasillero*largo, tamCasillero*ancho);
         for(int j=1; j<largo+1; j++){
             for(int k=1; k<ancho+1; k++){
                 Casillero* casillero = this->tablero->getCasillero(j, k, i);
-                // for(int x=0; x<tamCasillero; x++){
-                    // for(int y=0; y<tamCasillero; y++){
-                        estado = casillero->getEstado();
-                        terreno = casillero->getTipoDeTerreno();
 
-                        if(estado == inhabilitado){
-                            cout << "X";
-                        }else if(estado == ocupado){
-                            unidad = casillero->getUnidad();
-                            if(unidad != NULL){
-                                tipo = unidad->getTipoDeUnidad();
-                                if(tipo == soldado){
-                                    // cout << nroJugador;
-                                    // --TEST
-                                    cout << casillero->getJugador()->getNumeroJugador();
-                                }else if(tipo == barco){
-                                    cout << "B";
-                                }else if(tipo == avion){
-                                    cout << "A";
-                                }
-                            }
-                        }else{
-                            // el casillero esta vacio
-                            if(terreno == tierra){
-                                // marron
-                                cout << "T";
-                            }else if(terreno == agua){
-                                // azul
-                                cout << "~";
-                            }else if(terreno == aire){
-                                // celeste
-                                cout << "@";
-                            }
-                    // }
-                // }
-                }
-                
+                estado = casillero->getEstado();
+                terreno = casillero->getTipoDeTerreno();
+                Coordenada* Coordenada=casillero->getCoordenada();
 
+                if(estado == inhabilitado){
+                    copiarBMPAlMapa(Mapa,TInhabilitado,Coordenada->getAncho(),Coordenada->getLargo());
+
+                }else if(estado == ocupado && casillero->getJugador()->getNumeroJugador()==nroJugador){
+                    unidad = casillero->getUnidad();
+                    if(unidad != NULL){
+                        tipo = unidad->getTipoDeUnidad();
+                        if(tipo == soldado){
+                            copiarBMPAlMapa(Mapa,Soldado,Coordenada->getAncho(),Coordenada->getLargo());
+                        }else if(tipo == barco){
+                            copiarBMPAlMapa(Mapa,Barco,Coordenada->getAncho(),Coordenada->getLargo());
+                        }else if(tipo == avion){
+                            copiarBMPAlMapa(Mapa,Avion,Coordenada->getAncho(),Coordenada->getLargo());
+                        }
+                    }
+                }else{
+                    // El casillero esta vacio
+                    if(terreno == tierra){
+                        copiarBMPAlMapa(Mapa,Tierra,Coordenada->getAncho(),Coordenada->getLargo());
+                    }else if(terreno == agua){
+                        copiarBMPAlMapa(Mapa,Agua,Coordenada->getAncho(),Coordenada->getLargo());
+                    }else if(terreno == aire){
+                        copiarBMPAlMapa(Mapa,Aire,Coordenada->getAncho(),Coordenada->getLargo());
+                    }
+                }    
             }
-            cout << endl;
         }
+        ncentena = (char)(48+((i%1000)/100));
+        ndecena = (char)(48+((i%100)/10));
+        nunidad = (char)(48+(i%10));
+        archivoMapaSalida = jugadorStr + jcentena + jdecena + junidad + nivelStr + ncentena + ndecena + nunidad + extensionStr;
+        Mapa.WriteToFile(archivoMapaSalida.c_str());
+        /*
+        if(nivelSolicitado==i){
+            Mapa.WriteToFile("nivelSolicitado");
+        }
+        */
     }
 }
 
@@ -509,7 +518,6 @@ void Partida::jugadorEmprendeRetirada(unsigned int nroJugador){
     cout << endl << "Al morir todos sus soldados, las unidades del jugador #" << nroJugador << " han emprendido retirada";
 }
 
-
 // PRE:
 // POST: devuelve el jugador ganador de la partida, en caso de que haya terminado en empate retorna 0;
 unsigned int Partida::jugadorGanador(){
@@ -518,7 +526,6 @@ unsigned int Partida::jugadorGanador(){
 }
 
 Partida::~Partida(){
-    // TODO
     delete tablero;
     if(this->jugadores != NULL){
         for(unsigned int i=0; i<this->cantidadDeJugadores; i++){

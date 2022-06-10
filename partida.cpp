@@ -32,7 +32,7 @@ void Partida::pedirDatos(int& mapaLargo, int& mapaAncho, int& mapaAlto){
     mapaAlto = this->ingresarNumeroYValidar(MINIMO_ALTO_TABLERO,MAXIMO_ALTO_TABLERO);
 
     cout << "En que mapa desea jugar? (1 - " << CANTIDAD_MAPAS<< "): ";
-    this->nroMapa = this->ingresarNumeroYValidar(0,CANTIDAD_MAPAS);
+    this->nroMapa = this->ingresarNumeroYValidar(1,CANTIDAD_MAPAS);
 }
 
 unsigned int Partida::ingresarNumeroYValidar(unsigned int minimo, unsigned int maximo){
@@ -137,7 +137,7 @@ void Partida::activarCartaHarakiri(unsigned int nroJugadorEnTurno){
     if(unidad == NULL){
         throw "PUNTERO A UNIDAD NULO EN CARTA HARAKIRI";
     }
-    cout << "La unidad #" << unidad->getNroUnidad() << "ha muerto";
+    cout << "La unidad #" << unidad->getNroUnidad() << " ha muerto";
     Coordenada* coordenada = unidad->getPosicion();
     Casillero* casillero = this->tablero->getCasillero(coordenada->getLargo(), coordenada->getAncho(), coordenada->getAlto());
     this->jugadores[nroJugadorEnTurno]->removerUnidad(unidad);

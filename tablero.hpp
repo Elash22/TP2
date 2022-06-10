@@ -4,13 +4,17 @@
 #include "lista.hpp"
 #include "casillero.hpp"
 
+const int PRIMER_MAPA = 1;
+const int SEGUNDO_MAPA = 2;
+const int TERCER_MAPA = 3;
+const int CUARTO_MAPA = 4;
+
 class Tablero{
 private:
     int largo;
     int ancho;
     int alto;
-    //Cubo de listas
-    //Puntero a la estructura de casilleros
+
     Lista<Lista<Lista<Casillero*>*>*>* tablero; 
 
 public:
@@ -27,12 +31,29 @@ public:
     //Post: Devuelve el ancho del tablero
     int getAncho();
 
-    //Pre.
+    //Pre: 
     //Post: Devuelve el alto del tablero
     int getAlto();
-
-    //POST: devuelve un puntero a casillero según las coordenadas que se indiquen
+    
+    //Pre:
+    //Post: devuelve un puntero a casillero según las coordenadas que se indiquen
     Casillero* getCasillero(int largo, int ancho, int alto);
+
+    //Pre:
+    //Post:
+    void crearPrimerMapa(int x,int y,int z,int largo,int ancho);
+    
+    //Pre:
+    //Post:
+    void crearSegundoMapa(int x,int y,int z,int largo,int ancho);
+    
+    //Pre:
+    //Post:
+    void crearTercerMapa(int x,int y,int z,int largo,int ancho);
+    
+    //Pre:
+    //Post:
+    void crearCuartoMapa(int x,int y,int z,int largo,int ancho);
 
     //Pre.
     //Post: Destruye el tablero

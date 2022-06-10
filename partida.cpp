@@ -276,16 +276,17 @@ void Partida::asignarUnidadAlCasillero(Jugador* jugador, int nroUnidad, TipoDeUn
         if(unidad != NULL){
             Coordenada* aux =unidad->getPosicion();
             Casillero * viejoCasillero = this->tablero->getCasillero(aux->getLargo(), aux->getAncho(), aux->getAlto());
-            viejoCasillero->getJugador()->removerUnidad(casillero->getUnidad());
+            viejoCasillero->getJugador()->removerUnidad(unidad);
             viejoCasillero->setEstado(vacio);
             viejoCasillero->setJugador(NULL);
         }
         if(casillero->getUnidad() == NULL){
             throw "el puntero de la unidad que ocupa el casillero es NULL";
         }
-        cout << endl << "El "<< Unidad::imprimirTipo(tipo) << " #" << casillero->getUnidad()->getNroUnidad() << " del jugador #" << casillero->getJugador()->getNumeroJugador() << " ha muerto en combate cuerpo a cuerpo";
-        casillero->getJugador()->removerUnidad(casillero->getUnidad());
-        // delete casillero->getUnidad();
+        Unidad* unidadOcupante = casillero->getUnidad();
+        cout << endl << "El "<< Unidad::imprimirTipo(tipo) << " #" << unidadOcupante->getNroUnidad() << " del jugador #" << casillero->getJugador()->getNumeroJugador() << " ha muerto en combate cuerpo a cuerpo";
+        casillero->getJugador()->removerUnidad(unidadOcupante);
+        //delete unidadOcupante;
         casillero->inhabilitar();
         return;
     }
@@ -408,7 +409,7 @@ void Partida::moverUnidad(unsigned int nroJugador){
     }
     // --TEST
     Coordenada* c = unidadAMover->getPosicion();
-    cout << "La unidad a mover se encuentra en: ("
+    cout << "[***]\tLa unidad a mover se encuentra en: ("
         <<c->getLargo()<<", "<<c->getAncho()<<", "<<c->getAlto()<<")";
     // --TEST END
     this->asignarUnidadAlCasillero(this->jugadores[nroJugador], nroUnidad, soldado);

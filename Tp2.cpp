@@ -26,7 +26,6 @@ int main(){
             cout << "Juego finalizado, gana el jugador: " << jugadorActual.getNroJugador();
         }
         */
-
         delete partida;
     }catch(const char* e){
         cout << endl << e << endl ;

@@ -10,9 +10,9 @@ const int MAXIMO_JUGADORES= 10;
 const int MINIMO_SOLDADOS= 2;
 const int MAXIMO_SOLDADOS= 10;
 const int MINIMO_LARGO_ANCHO_TABLERO= 2;
-const int MAXIMO_LARGO_ANCHO_TABLERO= 20;
+const int MAXIMO_LARGO_ANCHO_TABLERO= 1000;
 const int MINIMO_ALTO_TABLERO= 2;
-const int MAXIMO_ALTO_TABLERO= 10;
+const int MAXIMO_ALTO_TABLERO= 20;
 const int CANTIDAD_MAPAS= 4;
 const int CANTIDAD_CARTAS_POR_JUGADOR= 4;
 const int CANTIDAD_DISTINTA_CARTAS = 6;
@@ -30,11 +30,11 @@ private:
 
     // PRE: 
     // POST: Solicita al usuario los datos necesarios de la partida
-    void pedirDatos(int& largo, int& ancho, int& alto);
+    void pedirDatos(unsigned int& largo, unsigned int& ancho, unsigned int& alto);
 
     // PRE: Ingreso de entero sin signo mayor o igual a 2
     // POST: solicita y valida si el dato ingresado es un entero sin signo, y lo retorna
-    unsigned int ingresarNumeroYValidar(unsigned int minimo, unsigned int maximo);
+    unsigned int ingresarNumeroYValidar(int minimo, int maximo);
 
     // PRE:
     // POST: crea punteros a Carta. Agrega cartas en forma aleatoria al vector de punteros a carta.

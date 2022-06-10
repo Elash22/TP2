@@ -3,7 +3,7 @@
 #include <iostream>
 using namespace std;
 
-Tablero::Tablero(int largo, int ancho, int alto, int nroMapa){
+Tablero::Tablero(unsigned int largo, unsigned int ancho, unsigned int alto, int nroMapa){
     if(largo<1 || ancho<1 || alto <1){
         throw "LOS PARAMETROS DEL TABLERO DEBEN SER MAYORES A 0";
     }
@@ -12,11 +12,11 @@ Tablero::Tablero(int largo, int ancho, int alto, int nroMapa){
     this->alto = alto;
   
     this->tablero = new Lista<Lista<Lista<Casillero*>*>*>();
-    for(int x=1; x<=largo; x++){
+    for(unsigned int x=1; x<=largo; x++){
         this->tablero->add(new Lista<Lista<Casillero*>*>(), x);
-	    for(int y=1; y<=ancho; y++){
+	    for(unsigned int y=1; y<=ancho; y++){
 		    this->tablero->get(x)->add(new Lista<Casillero*>(), y);
-		    for(int z=1; z<=alto; z++){
+		    for(unsigned int z=1; z<=alto; z++){
                 switch(nroMapa){
                     case PRIMER_MAPA:
                         crearPrimerMapa(x,y,z,largo,ancho);

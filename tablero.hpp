@@ -11,9 +11,9 @@ const int CUARTO_MAPA = 4;
 
 class Tablero{
 private:
-    int largo;
-    int ancho;
-    int alto;
+    unsigned int largo;
+    unsigned int ancho;
+    unsigned int alto;
 
     Lista<Lista<Lista<Casillero*>*>*>* tablero; 
 
@@ -21,7 +21,7 @@ public:
 
     //Pre: largo, ancho y alto deben ser mayores a 0
     //Post: Crea un tablero de juego
-    Tablero(int largo, int ancho, int alto, int nroMapa);
+    Tablero(unsigned int largo, unsigned int ancho, unsigned int alto, int nroMapa);
 
     //Pre:
     //Post: Devuelve el largo del tablero

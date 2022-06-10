@@ -18,7 +18,7 @@ Partida::Partida(){
     this->nroMapa = 1;
 }
 
-void Partida::pedirDatos(int& mapaLargo, int& mapaAncho, int& mapaAlto){
+void Partida::pedirDatos(unsigned int& mapaLargo, unsigned int& mapaAncho, unsigned int& mapaAlto){
     cout << "Bienvenidos, ingrese la cantidad de jugadores: ";
     this->cantidadDeJugadores = this->ingresarNumeroYValidar(MINIMO_JUGADORES, MAXIMO_JUGADORES);
     cout << "Ingrese la cantidad de soldados por jugador con la que van a jugar: ";
@@ -35,8 +35,8 @@ void Partida::pedirDatos(int& mapaLargo, int& mapaAncho, int& mapaAlto){
     this->nroMapa = this->ingresarNumeroYValidar(1,CANTIDAD_MAPAS);
 }
 
-unsigned int Partida::ingresarNumeroYValidar(unsigned int minimo, unsigned int maximo){
-    unsigned int numeroIngresado;
+unsigned int Partida::ingresarNumeroYValidar(int minimo, int maximo){
+    int numeroIngresado;
     cin >> numeroIngresado;
     while(numeroIngresado < minimo || numeroIngresado > maximo){
         cout << "Entrada incorrecta. Ingrese una cantidad mayor a " << (minimo-1) << " y menor a " << maximo+1 << ": ";
@@ -46,16 +46,16 @@ unsigned int Partida::ingresarNumeroYValidar(unsigned int minimo, unsigned int m
 }
 
 void Partida::inicializarPartida(){
-    int mapaLargo, mapaAncho, mapaAlto;
+    unsigned int mapaLargo, mapaAncho, mapaAlto;
     this->pedirDatos(mapaLargo, mapaAncho, mapaAlto);
+    this->tablero = new Tablero(mapaLargo, mapaAncho, mapaAlto, this->nroMapa);
 
-    this->jugadores = new Jugador*[this->getCantidadJugadores()];
-    
+    this->jugadores = new Jugador*[this->getCantidadJugadores()];    
     for(unsigned int i=0; i<this->getCantidadJugadores(); i++){
         this->jugadores[i] = new Jugador(i);
+        this->exportarTablero(i);
     }
 
-    this->tablero = new Tablero(mapaLargo, mapaAncho, mapaAlto, this->nroMapa);
     this->inicializarMazo();
     this->inicializarSoldadosAJugadores();
 }
@@ -108,22 +108,22 @@ void Partida::activarCarta(Carta* carta){
     Jugador* jugadorEnTurno = this->jugadores[nroJugadorEnTurno];
     unsigned int cantidadTotalUnidades = this->jugadores[nroJugadorEnTurno]->getCantidadTotalUnidades();
     if(tipo == Misil){
-        cout << endl << "El jugador #" << nroJugadorEnTurno << " saco la carta Misil, en su proximo turno tendra un misil adicional";
+        cout << endl << "El jugador #" << nroJugadorEnTurno << " saco la carta \"Misil\", en su proximo turno tendra un misil adicional";
         jugadorEnTurno->agregarMisilProximoTurno();
     }else if(tipo == NuevoAvion){
-        cout << endl << "El jugador #" << nroJugadorEnTurno << " saco la carta nuevo Avion";
+        cout << endl << "El jugador #" << nroJugadorEnTurno << " saco la carta \"Nuevo Avion\"";
         this->asignarUnidadAlCasillero(jugadorEnTurno, cantidadTotalUnidades+1, avion);
     }else if(tipo == NuevoBarco){
-        cout << endl << "El jugador #" << nroJugadorEnTurno << " saco la carta nuevo Barco";
+        cout << endl << "El jugador #" << nroJugadorEnTurno << " saco la carta \"Nuevo Barco\"";
         this->asignarUnidadAlCasillero(jugadorEnTurno, cantidadTotalUnidades+1, barco);
     }else if(tipo == Somnifero){
-        cout << endl << "El jugador #" << nroJugadorEnTurno << " saco la carta Somnifero. El jugador #" << (nroJugadorEnTurno+1) % this->getCantidadJugadores()<< " pierde su turno";
+        cout << endl << "El jugador #" << nroJugadorEnTurno << " saco la carta \"Somnifero\". El jugador #" << (nroJugadorEnTurno+1) % this->getCantidadJugadores()<< " pierde su turno";
         this->activarCartaSomnifero();
     }else if(tipo == Francotirador){
-        cout << endl << "El jugador #" << nroJugadorEnTurno << " saco la carta Francotirador.";
+        cout << endl << "El jugador #" << nroJugadorEnTurno << " saco la carta \"Francotirador\".";
         this->realizarDisparosJugador(nroJugadorEnTurno, 1);
     }else if(tipo == Harakiri){
-        cout << endl << "El jugador #" << nroJugadorEnTurno << " saco la carta Harakiri. ";
+        cout << endl << "El jugador #" << nroJugadorEnTurno << " saco la carta \"Harakiri\". ";
         activarCartaHarakiri(nroJugadorEnTurno);
     }
 }
@@ -217,18 +217,18 @@ Casillero* Partida::pedirCoordenadasUnidad(TipoDeUnidad tipo){
     ancho = this->ingresarNumeroYValidar(1,this->tablero->getAncho());
     if(tipo == soldado){
         while(this->tablero->getCasillero(largo, ancho, 1)->getTipoDeTerreno() == agua){
-            cout << endl << "Posicion Invalida. La posicion corresponde a agua.";
+            cout << "Posicion Invalida. La posicion corresponde a agua.";
             cout << endl << "Ingrese largo: ";
             largo = this->ingresarNumeroYValidar(1, this->tablero->getLargo());
-            cout << endl << "Ingrese ancho: ";
+            cout << "Ingrese ancho: ";
             ancho = this->ingresarNumeroYValidar(1, this->tablero->getAncho());
         }
     }else if(tipo == barco){
         while(this->tablero->getCasillero(largo, ancho, 1)->getTipoDeTerreno() == tierra){
-            cout << endl << "Posicion Invalida. La posicion corresponde a tierra firme.";
+            cout << "Posicion Invalida. La posicion corresponde a tierra firme.";
             cout << endl << "Ingrese largo: ";
             largo = this->ingresarNumeroYValidar(1, this->tablero->getLargo());
-            cout << endl << "Ingrese ancho: ";
+            cout << "Ingrese ancho: ";
             ancho = this->ingresarNumeroYValidar(1, this->tablero->getAncho());
         }
     }
@@ -247,6 +247,7 @@ void Partida::asignarUnidadAlCasillero(Jugador* jugador, int nroUnidad, TipoDeUn
     if(jugador==NULL){
         throw "PUNTERO A JUGADOR NULL AL ASIGNAR UNA UNIDAD AL CASILLERO";
     }
+    this->exportarTablero(jugador->getNumeroJugador());
     Unidad* unidad = jugador->buscarUnidad(nroUnidad);
 
     cout << endl << "Jugador #" << jugador->getNumeroJugador() << ", ingrese coordenadas para un " << Unidad::imprimirTipo(tipo)
@@ -353,7 +354,7 @@ void Partida::realizarDisparoACasillero(Casillero* casillero){
 void Partida::lanzarMisilesJugador(unsigned int nroJugador, unsigned int cantMisiles){
     while(cantMisiles >0){
         this->exportarTablero(nroJugador);
-        cout << "El jugador #" << nroJugador << " posee " << cantMisiles << " misil(es):";
+        cout << endl << "El jugador #" << nroJugador << " posee " << cantMisiles << " misil(es):";
         cout << endl << "Ingrese una coordenada para atacar";
         Casillero* casillero = this->pedirCoordenadasAtaque();
         Coordenada* coordenadaObjetivo = casillero->getCoordenada();

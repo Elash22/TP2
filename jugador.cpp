@@ -8,6 +8,7 @@ Jugador::Jugador(unsigned int numeroJugador){
     this->cantidadSoldados = 0;
     this->cantidadAviones = 0;
     this->cantidadBarcos = 0;
+    this->cantidadTotalUnidades = 0;
 
     this->cantidadDisparosDisponibles = 0;
     this->cantidadMisilesDisponibles = 0;

@@ -61,7 +61,7 @@ void Partida::inicializarPartida(){
 }
 
 void Partida::inicializarMazo(){
-    unsigned int cantidadDeCartas= this->getCantidadJugadores() * CANTIDAD_CARTAS_POR_JUGADOR;
+    unsigned int cantidadDeCartas= (this->getCantidadJugadores()+1) * CANTIDAD_CARTAS_POR_JUGADOR;
     this->mazoDeCartas = new Carta*[cantidadDeCartas]();
     srand((unsigned)time(0));
     int nroAnterior = -1;
@@ -108,22 +108,22 @@ void Partida::activarCarta(Carta* carta){
     Jugador* jugadorEnTurno = this->jugadores[nroJugadorEnTurno];
     unsigned int cantidadTotalUnidades = this->jugadores[nroJugadorEnTurno]->getCantidadTotalUnidades();
     if(tipo == Misil){
-        cout << endl << "El jugador #" << nroJugadorEnTurno << " saco la carta \"Misil\", en su proximo turno tendra un misil adicional";
+        cout << endl << "[***]\tEl jugador #" << nroJugadorEnTurno << " saco la carta \"Misil\", en su proximo turno tendra un misil adicional";
         jugadorEnTurno->agregarMisilProximoTurno();
     }else if(tipo == NuevoAvion){
-        cout << endl << "El jugador #" << nroJugadorEnTurno << " saco la carta \"Nuevo Avion\"";
+        cout << endl << "[***]\tEl jugador #" << nroJugadorEnTurno << " saco la carta \"Nuevo Avion\"";
         this->asignarUnidadAlCasillero(jugadorEnTurno, cantidadTotalUnidades+1, avion);
     }else if(tipo == NuevoBarco){
-        cout << endl << "El jugador #" << nroJugadorEnTurno << " saco la carta \"Nuevo Barco\"";
+        cout << endl << "[***]\tEl jugador #" << nroJugadorEnTurno << " saco la carta \"Nuevo Barco\"";
         this->asignarUnidadAlCasillero(jugadorEnTurno, cantidadTotalUnidades+1, barco);
     }else if(tipo == Somnifero){
-        cout << endl << "El jugador #" << nroJugadorEnTurno << " saco la carta \"Somnifero\". El jugador #" << (nroJugadorEnTurno+1) % this->getCantidadJugadores()<< " pierde su turno";
+        cout << endl << "[***]\tEl jugador #" << nroJugadorEnTurno << " saco la carta \"Somnifero\". El jugador #" << (nroJugadorEnTurno+1) % this->getCantidadJugadores()<< " pierde su turno";
         this->activarCartaSomnifero();
     }else if(tipo == Francotirador){
-        cout << endl << "El jugador #" << nroJugadorEnTurno << " saco la carta \"Francotirador\".";
+        cout << endl << "[***]\tEl jugador #" << nroJugadorEnTurno << " saco la carta \"Francotirador\".";
         this->realizarDisparosJugador(nroJugadorEnTurno, 1);
     }else if(tipo == Harakiri){
-        cout << endl << "El jugador #" << nroJugadorEnTurno << " saco la carta \"Harakiri\". ";
+        cout << endl << "[***]\tEl jugador #" << nroJugadorEnTurno << " saco la carta \"Harakiri\". ";
         activarCartaHarakiri(nroJugadorEnTurno);
     }
 }
@@ -172,6 +172,7 @@ int Partida::getTurno(){
 
 void Partida::siguienteTurno(){
     unsigned int nroJugadorEnTurno = this->getTurno() % this->getCantidadJugadores();
+    cout << endl << "[***]\tTurno del Jugador #" << nroJugadorEnTurno;
     this->realizarDisparosJugador(nroJugadorEnTurno, this->jugadores[nroJugadorEnTurno]->getCantidadDisparosDisponibles());
     if(this->haTerminado() == true){
         return;
@@ -188,6 +189,7 @@ void Partida::siguienteTurno(){
     if(this->haTerminado() == true){
         return;
     }
+    this->exportarTablero(nroJugadorEnTurno);
     this->turno++;
 }
 
@@ -263,7 +265,7 @@ void Partida::asignarUnidadAlCasillero(Jugador* jugador, int nroUnidad, TipoDeUn
         }
     }
     while(casillero->getEstado() == inhabilitado || !esCoordenadaVecina(coordenadaVieja, coordenadaNueva)){
-        cout << endl << "El casillero ingresado se encuentra inhabilitado o no es vecino. Intente nuevamente";
+        cout << endl << "[***]\tEl casillero ingresado se encuentra inhabilitado o no es vecino. Intente nuevamente";
         casillero = pedirCoordenadasUnidad(tipo);
         coordenadaNueva = casillero->getCoordenada();
         if(coordenadaVieja==coordenadaNueva){

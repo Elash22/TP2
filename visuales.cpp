@@ -69,9 +69,9 @@ void crearBMPAvion(BMP &Avion){
 void crearBMPBarco(BMP &Barco){
 	Barco.SetSize(9,9);
 	pintarArea(Barco,0,10,0,10,0,0,255);
-	pintarArea(Barco,4,5,2,8,0,0,0);
-	pintarArea(Barco,3,4,3,7,0,0,0);
-	pintarArea(Barco,5,6,3,7,0,0,0);
+	pintarArea(Barco,4,5,2,8,255,255,255);
+	pintarArea(Barco,3,4,3,7,255,255,255);
+	pintarArea(Barco,5,6,3,7,255,255,255);
 }
 void crearBMPUnidades(BMP &Soldado,BMP &Barco,BMP &Avion){
 	crearBMPSoldado(Soldado);
@@ -88,7 +88,7 @@ void crearBMPAgua(BMP &Agua){
 }
 void crearBMPAire(BMP &Aire){
 	Aire.SetSize(9,9);
-	pintarArea(Aire,0,10,0,10,255,255,255);
+	pintarArea(Aire,0,10,0,10,7,180,255);
 }
 void crearBMPTInhabilitado(BMP &TInhabilitado){
 	TInhabilitado.SetSize(9,9);

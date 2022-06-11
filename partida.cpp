@@ -182,6 +182,10 @@ int Partida::getTurno(){
 
 void Partida::siguienteTurno(){
     unsigned int nroJugadorEnTurno = this->getTurno() % this->getCantidadJugadores();
+    if(this->jugadores[nroJugadorEnTurno] == NULL){
+        this->turno++;
+        return;
+    }
     cout << endl << "[***]\tTurno del Jugador #" << nroJugadorEnTurno;
     this->realizarDisparosJugador(nroJugadorEnTurno, this->jugadores[nroJugadorEnTurno]->getCantidadDisparosDisponibles());
     if(this->haTerminado() == true){
@@ -294,7 +298,6 @@ void Partida::asignarUnidadAlCasillero(Jugador* jugador, int nroUnidad, TipoDeUn
         Unidad* unidadOcupante = casillero->getUnidad();
         cout << endl << "El "<< Unidad::imprimirTipo(tipo) << " #" << unidadOcupante->getNroUnidad() << " del jugador #" << casillero->getJugador()->getNumeroJugador() << " ha muerto en combate cuerpo a cuerpo";
         casillero->getJugador()->removerUnidad(unidadOcupante);
-        //delete unidadOcupante;
         casillero->inhabilitar();
         return;
     }
@@ -329,7 +332,6 @@ void Partida::realizarDisparosJugador(unsigned int nroJugador, unsigned int disp
         cout << endl << "Ingrese una coordenada para atacar:";
         Casillero* casillero = this->pedirCoordenadasAtaque();
         this->realizarDisparoACasillero(casillero);
-        // chequeo si el juego ha terminado
         if(this->haTerminado() == true){
             return;
         }
@@ -494,7 +496,8 @@ void Partida::jugadorEmprendeRetirada(unsigned int nroJugador){
     if(this->jugadores[nroJugador] == NULL){
         return;
     }
-    Unidad* unidad = this->jugadores[nroJugador]->buscarUnidad(1);
+    Unidad* unidad = this->jugadores[nroJugador]->buscarPrimerUnidad();
+
     Coordenada* coordenada;
     Casillero* casillero;
     while(unidad != NULL){
@@ -508,10 +511,11 @@ void Partida::jugadorEmprendeRetirada(unsigned int nroJugador){
         }
         this->jugadores[nroJugador]->removerUnidad(unidad);
         casillero->inhabilitar();
+        unidad = this->jugadores[nroJugador]->buscarPrimerUnidad();
     }
-    cout << endl << "Al morir todos sus soldados, las unidades del jugador #" << nroJugador << " han emprendido retirada";
-    // --TEST
-    // delete this->jugadores[i];
+    cout << endl << "[***]\tAl morir todos sus soldados, las unidades del jugador #" << nroJugador << " han emprendido retirada";
+    delete this->jugadores[nroJugador];
+    this->jugadores[nroJugador] = NULL;
 }
 
 void Partida::declararJugadorGanador(){

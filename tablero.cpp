@@ -47,6 +47,7 @@ void Tablero::crearPrimerMapa(int x,int y,int z,int largo,int ancho){
         this->tablero->get(x)->get(y)->add(new Casillero(x,y,z, aire), z);
     }
 }
+
 void Tablero::crearSegundoMapa(int x,int y,int z,int largo,int ancho){
     if(x>largo/3 && x<largo-(largo/3) && z==1){
         this->tablero->get(x)->get(y)->add(new Casillero(x,y,z, agua), z);
@@ -56,6 +57,7 @@ void Tablero::crearSegundoMapa(int x,int y,int z,int largo,int ancho){
         this->tablero->get(x)->get(y)->add(new Casillero(x,y,z, aire), z);
     }
 }
+
 void Tablero::crearTercerMapa(int x,int y,int z,int largo,int ancho){
     if(x>largo/6 && x<largo-(largo/6) && y>ancho/6 && y<ancho-(ancho/6) && z==1){
         this->tablero->get(x)->get(y)->add(new Casillero(x,y,z, tierra), z);
@@ -65,6 +67,7 @@ void Tablero::crearTercerMapa(int x,int y,int z,int largo,int ancho){
         this->tablero->get(x)->get(y)->add(new Casillero(x,y,z, aire), z);
   }
 }
+
 void Tablero::crearCuartoMapa(int x,int y,int z,int largo,int ancho){
     if(x>largo/4 && x<largo-(largo/4)&& z==1){
         this->tablero->get(x)->get(y)->add(new Casillero(x,y,z, tierra), z);

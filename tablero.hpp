@@ -40,27 +40,24 @@ public:
     Casillero* getCasillero(int largo, int ancho, int alto);
 
     //Pre:
-    //Post:
+    //Post: crea un mapa con un tipo de terreno en particular
     void crearPrimerMapa(int x,int y,int z,int largo,int ancho);
     
     //Pre:
-    //Post:
+    //Post: crea un mapa con un tipo de terreno en particular
     void crearSegundoMapa(int x,int y,int z,int largo,int ancho);
     
     //Pre:
-    //Post:
+    //Post: crea un mapa con un tipo de terreno en particular
     void crearTercerMapa(int x,int y,int z,int largo,int ancho);
     
     //Pre:
-    //Post:
+    //Post: crea un mapa con un tipo de terreno en particular
     void crearCuartoMapa(int x,int y,int z,int largo,int ancho);
 
     //Pre.
     //Post: Destruye el tablero
     virtual ~Tablero();
 };
-
-
-
 
 #endif /* TABLERO_H_ */

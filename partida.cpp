@@ -13,6 +13,7 @@ Partida::Partida(){
     this->mazoDeCartas = NULL;
 
     this->cantidadDeJugadores = 0;
+    this->cantidadDeCartas = 0;
     this->cantidadDeSoldadosPorJugador = 0;
     this->turno = 0;
     this->nroMapa = 1;
@@ -21,6 +22,7 @@ Partida::Partida(){
 void Partida::pedirDatos(unsigned int& mapaLargo, unsigned int& mapaAncho, unsigned int& mapaAlto){
     cout << "Bienvenidos, ingrese la cantidad de jugadores: ";
     this->cantidadDeJugadores = this->ingresarNumeroYValidar(MINIMO_JUGADORES, MAXIMO_JUGADORES);
+    this->setCantidadDeCartas((this->getCantidadJugadores()+1) * CANTIDAD_CARTAS_POR_JUGADOR);
     cout << "Ingrese la cantidad de soldados por jugador con la que van a jugar: ";
     this->cantidadDeSoldadosPorJugador = this->ingresarNumeroYValidar(MINIMO_SOLDADOS, MAXIMO_SOLDADOS);
 
@@ -61,7 +63,7 @@ void Partida::inicializarPartida(){
 }
 
 void Partida::inicializarMazo(){
-    unsigned int cantidadDeCartas= (this->getCantidadJugadores()+1) * CANTIDAD_CARTAS_POR_JUGADOR;
+    unsigned int cantidadDeCartas= this->getCantidadDeCartas();
     this->mazoDeCartas = new Carta*[cantidadDeCartas]();
     srand((unsigned)time(0));
     int nroAnterior = -1;
@@ -89,9 +91,17 @@ void Partida::inicializarMazo(){
     }
 }
 
+void Partida::setCantidadDeCartas(unsigned int cantidad){
+    this->cantidadDeCartas = cantidad;
+}
+
+unsigned int Partida::getCantidadDeCartas(){
+    return this->cantidadDeCartas;
+}
+
 void Partida::sacarCartaDelMazo(unsigned int nroJugador){
     unsigned int turno = this->getTurno();
-    unsigned int cantidadDeCartas= this->getCantidadJugadores() * CANTIDAD_CARTAS_POR_JUGADOR;
+    unsigned int cantidadDeCartas= this->getCantidadDeCartas();
     Carta* carta = NULL;
     if (turno < cantidadDeCartas){
         carta = this->mazoDeCartas[turno];
@@ -341,9 +351,9 @@ void Partida::realizarDisparoACasillero(Casillero* casillero){
     }
     Coordenada* coordenada = casillero->getCoordenada();
     if(casillero->getEstado() == inhabilitado){
-        cout << "El casillero ("<<coordenada->getLargo()<<", "<<coordenada->getAncho()<<", "<<coordenada->getAlto()<<") se encontraba inhabilitado";
+        cout << "[***]\tEl casillero ("<<coordenada->getLargo()<<", "<<coordenada->getAncho()<<", "<<coordenada->getAlto()<<") se encontraba inhabilitado";
     }else if(casillero->getEstado() == vacio){
-        cout << "El casillero ("<<coordenada->getLargo()<<", "<<coordenada->getAncho()<<", "<<coordenada->getAlto()<<") se encontraba vacio";
+        cout << "[***]\tEl casillero ("<<coordenada->getLargo()<<", "<<coordenada->getAncho()<<", "<<coordenada->getAlto()<<") se encontraba vacio";
         casillero->inhabilitar();
     }else{
         cout << endl << "El "<< Unidad::imprimirTipo(casillero->getUnidad()->getTipoDeUnidad()) << " #" << casillero->getUnidad()->getNroUnidad()
@@ -403,8 +413,8 @@ void Partida::moverUnidad(unsigned int nroJugador){
     cout << endl << "Jugador #"<< nroJugador<<". Inserte el numero de la unidad que desea mover: ";
     cin >> nroUnidad;
     Unidad* unidadAMover = this->jugadores[nroJugador]->buscarUnidad(nroUnidad);
-    while(unidadAMover == NULL){
-        cout << "El numero es invalido";
+    while(unidadAMover == NULL || unidadAMover->getTipoDeUnidad()!=soldado){
+        cout << "[***]\tEl numero es invalido, o no corresponde a un soldado";
         cout << endl << "Inserte el numero de la unidad que desea mover: ";
         cin >> nroUnidad;
         unidadAMover = this->jugadores[nroJugador]->buscarUnidad(nroUnidad);
@@ -540,7 +550,7 @@ Partida::~Partida(){
         delete[] this->jugadores;
     }
     if(this->mazoDeCartas != NULL){
-        for(unsigned int j=0; j<(this->cantidadDeJugadores*CANTIDAD_CARTAS_POR_JUGADOR); j++){
+        for(unsigned int j=0; j<(this->getCantidadDeCartas()); j++){
             if(this->mazoDeCartas[j] != NULL){
                 delete this->mazoDeCartas[j];
             }

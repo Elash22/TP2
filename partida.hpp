@@ -24,6 +24,7 @@ private:
     Carta** mazoDeCartas;
 
     unsigned int cantidadDeJugadores;
+    unsigned int cantidadDeCartas;
     unsigned int cantidadDeSoldadosPorJugador;
     unsigned int turno;
     unsigned int nroMapa;
@@ -39,6 +40,14 @@ private:
     // PRE:
     // POST: crea punteros a Carta. Agrega cartas en forma aleatoria al vector de punteros a carta.
     void inicializarMazo();
+
+    // PRE: exista el mazo
+    // POST: determina la cantidad de cartas que hay en el mazo de cartas
+    void setCantidadDeCartas(unsigned int);
+
+    // PRE: exista el mazo de cartas
+    // POST: retorna la cantidad de cartas que hay en el mazo de cartas
+    unsigned int getCantidadDeCartas();
 
     // PRE: mazo haya sido creado
     // POST: saca una carta en orden

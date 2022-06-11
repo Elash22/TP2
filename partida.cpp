@@ -160,7 +160,7 @@ unsigned int Partida::getCantidadJugadores(){
 
 unsigned int Partida::getCantidadJugadoresConSoldados(){
     unsigned int contador = 0;
-    for(unsigned int i=0; i<this->cantidadDeJugadores; i++){
+    for(unsigned int i=0; i<this->getCantidadJugadores(); i++){
         if(this->jugadores[i] != NULL){
             if(this->jugadores[i]->poseeSoldados() == true){
                 contador++;
@@ -201,10 +201,6 @@ void Partida::siguienteTurno(){
     }
     this->exportarTablero(nroJugadorEnTurno);
     this->turno++;
-}
-
-void Partida::setCantidadJugadores(int cantidadNueva){
-    this->cantidadDeJugadores = cantidadNueva;
 }
 
 Casillero* Partida::pedirCoordenadasAtaque(){
@@ -318,12 +314,8 @@ void Partida::asignarUnidadAlCasillero(Jugador* jugador, int nroUnidad, TipoDeUn
     casillero->setEstado(ocupado);
 }
 
-bool Partida::esSoldado(Unidad unidad){
-    return (unidad.getTipoDeUnidad() == soldado);
-}
-
 void Partida::inicializarSoldadosAJugadores(){
-    for(unsigned int i = 0; i < this->cantidadDeJugadores; i++){
+    for(unsigned int i = 0; i < this->getCantidadJugadores(); i++){
         for(unsigned int j = 1; j <= this->getCantidadDeSoldadosPorJugador(); j++){
             asignarUnidadAlCasillero(this->jugadores[i], j, soldado);
         }
@@ -359,7 +351,6 @@ void Partida::realizarDisparoACasillero(Casillero* casillero){
         cout << endl << "El "<< Unidad::imprimirTipo(casillero->getUnidad()->getTipoDeUnidad()) << " #" << casillero->getUnidad()->getNroUnidad()
                 << " del jugador #" << casillero->getJugador()->getNumeroJugador() << " ha muerto";
         casillero->getJugador()->removerUnidad(casillero->getUnidad());
-        // delete casillero->getUnidad();
         casillero->inhabilitar();
     }
 }
@@ -377,7 +368,6 @@ void Partida::lanzarMisilesJugador(unsigned int nroJugador, unsigned int cantMis
                     casillero = this->tablero->getCasillero(i, j, k);
                     if(casillero != NULL){
                         this->realizarDisparoACasillero(casillero);
-                        // --TEST formato
                         cout << endl;
                     }
                 }
@@ -419,11 +409,9 @@ void Partida::moverUnidad(unsigned int nroJugador){
         cin >> nroUnidad;
         unidadAMover = this->jugadores[nroJugador]->buscarUnidad(nroUnidad);
     }
-    // --TEST
-    Coordenada* c = unidadAMover->getPosicion();
+    Coordenada* coordenada = unidadAMover->getPosicion();
     cout << "[***]\tLa unidad a mover se encuentra en: ("
-        <<c->getLargo()<<", "<<c->getAncho()<<", "<<c->getAlto()<<")";
-    // --TEST END
+        <<coordenada->getLargo()<<", "<<coordenada->getAncho()<<", "<<coordenada->getAlto()<<")";
     this->asignarUnidadAlCasillero(this->jugadores[nroJugador], nroUnidad, soldado);
 }
 
@@ -450,8 +438,6 @@ void Partida::exportarTablero(unsigned int nroJugador){
     crearBMPTablero(Mapa,ancho,largo);
     crearBMPUnidades(Soldado,Barco,Avion);
     crearBMPTiposTerreno(Tierra,Agua,Aire,TInhabilitado);
-    // cout<<"Introduzca el nivel del mapa que se va a mostrar"<<endl;
-    // int nivelSolicitado= (ingresarNumeroYValidar(NIVEL_SUELO,alto));
     
     for(int i=1; i<alto+1; i++){
         for(int j=1; j<largo+1; j++){
@@ -494,17 +480,11 @@ void Partida::exportarTablero(unsigned int nroJugador){
         nunidad = (char)(48+(i%10));
         archivoMapaSalida = jugadorStr + jcentena + jdecena + junidad + nivelStr + ncentena + ndecena + nunidad + extensionStr;
         Mapa.WriteToFile(archivoMapaSalida.c_str());
-        /*
-        if(nivelSolicitado==i){
-            Mapa.WriteToFile("nivelSolicitado");
-        }
-        */
     }
 }
 
 bool Partida::haTerminado(){
     if(this->getCantidadJugadoresConSoldados() <= 1){
-        cout << endl << "El juego ha terminado!";
         return true;
     }
     return false;
@@ -530,19 +510,27 @@ void Partida::jugadorEmprendeRetirada(unsigned int nroJugador){
         casillero->inhabilitar();
     }
     cout << endl << "Al morir todos sus soldados, las unidades del jugador #" << nroJugador << " han emprendido retirada";
+    // --TEST
+    // delete this->jugadores[i];
 }
 
-// PRE:
-// POST: devuelve el jugador ganador de la partida, en caso de que haya terminado en empate retorna 0;
-unsigned int Partida::jugadorGanador(){
-    // TODO
-    return 0;
+void Partida::declararJugadorGanador(){
+    cout << endl << "El juego ha terminado!";
+    for(unsigned int i=0; i<this->getCantidadJugadores(); i++){
+        if(this->jugadores[i] != NULL){
+            if(this->jugadores[i]->poseeSoldados() == true){
+                cout << endl << "El jugador #"<< this->jugadores[i]->getNumeroJugador()<<" ha ganado la partida!";
+                return;
+            }
+        }
+    }
+    cout << endl << "El juego ha terminado en empate";
 }
 
 Partida::~Partida(){
     delete tablero;
     if(this->jugadores != NULL){
-        for(unsigned int i=0; i<this->cantidadDeJugadores; i++){
+        for(unsigned int i=0; i<this->getCantidadJugadores(); i++){
             if(this->jugadores[i] != NULL){
                 delete this->jugadores[i];
             }

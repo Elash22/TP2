@@ -7,9 +7,6 @@
 
 using namespace std;
 
-const int EN_JUEGO = 1;
-const int FINALIZADO = -1;
-
 int main(){
     try{
         Partida* partida = new Partida();
@@ -20,12 +17,8 @@ int main(){
             partida->siguienteTurno();
         }
 
-        /*
-        // OBTENER GANADOR DEL JUEGO, si no hay ganador el juego termino en empate
-        if(partida.getEstado() == FINALIZADO){
-            cout << "Juego finalizado, gana el jugador: " << jugadorActual.getNroJugador();
-        }
-        */
+        partida->declararJugadorGanador();
+
         delete partida;
     }catch(const char* e){
         cout << endl << e << endl ;

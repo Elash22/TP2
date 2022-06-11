@@ -65,6 +65,47 @@ private:
     // POST: Asigna soldados al iniciar la partida, pidiendo al usuario las coordenadas correspondientes.
     void inicializarSoldadosAJugadores();
 
+    // PRE: -
+    // POST: Solicita datos de una coordenada para realizar un ataque, retorna el casillero
+    Casillero* pedirCoordenadasAtaque();
+
+    // PRE: Las coordenadas deben ser validas, entre 1 y el tamaño del tablero.
+    // POST: Solicita datos de una coordenada para colocar una unidad, retorna el casillero correspondiente
+    Casillero* pedirCoordenadasUnidad(TipoDeUnidad tipo);
+
+    // PRE:
+    // POST:
+    void asignarUnidadAlCasillero(Jugador* jugador, int nroUnidad, TipoDeUnidad tipo);
+
+    // PRE: 
+    // POST: jugador realiza disparos dependiendo del a cantidad de unidades y del tipo de unidades que posea
+    void realizarDisparosJugador(unsigned int nroJugador, unsigned int disparos);
+
+    // PRE: casillero de tablero valido
+    // POST: realiza un disparo, elimina posible unidad e inhabilita el casillero
+    void realizarDisparoACasillero(Casillero* casillero);
+
+    // PRE: casillero de tablero valido
+    // POST: realiza disparos en un volumen de 27 casillero, elimina posible unidad e inhabilita el casillero
+    void lanzarMisilesJugador(unsigned int nroJugador, unsigned int cantMisiles);
+
+    // PRE: coordenadas validas
+    // POST: Devuelve true si la coordenada2 es vecina de la coordenada1
+    bool esCoordenadaVecina(Coordenada* coordenada1, Coordenada* coordenada2);
+
+    // PRE: 
+    // POST: jugador elije una unidad y realiza un movimiento con ella
+    void moverUnidad(unsigned int nroJugador);
+
+    // PRE: indice del jugador que no posee soldados
+    // POST: Las unidades que han quedado, emprenden retirada. Libera memoria
+    void jugadorEmprendeRetirada(unsigned int nroJugador);
+    
+    // PRE: 
+    // POST: se crea un archivo bitmap con el mapa de la partida
+    // al comenzar el turno para un jugador se exporta el tablero para el solo
+    void exportarTablero(unsigned int nroJugador);
+
 public:
     // PRE: -
     // POST: Crea una partida
@@ -94,65 +135,13 @@ public:
     // POST: Se juega el siguiente turno de la partida, añade uno a la cantidad de turnos
     void siguienteTurno();
 
-    // PRE: La nueva cantidad de jugadores no puede ser mayor a la anterior
-    // POST: En caso de tener que cambiar o reducir la cantidad de jugadores, cambiamos la cantidad de jugadores por una nueva
-    // es necesario?
-    void setCantidadJugadores(int cantidadNueva);
-
-    // PRE: -
-    // POST: Solicita datos de una coordenada para realizar un ataque, retorna el casillero
-    Casillero* pedirCoordenadasAtaque();
-
-    // PRE: Las coordenadas deben ser validas, entre 1 y el tamaño del tablero.
-    // POST: Solicita datos de una coordenada para colocar una unidad, retorna el casillero correspondiente
-    Casillero* pedirCoordenadasUnidad(TipoDeUnidad tipo);
-
-    // PRE:
-    // POST:
-    void asignarUnidadAlCasillero(Jugador* jugador, int nroUnidad, TipoDeUnidad tipo);
-
-    // PRE:
-    // POST:
-    bool esSoldado(Unidad unidad);
-
-    // PRE: 
-    // POST: jugador realiza disparos dependiendo del a cantidad de unidades y del tipo de unidades que posea
-    void realizarDisparosJugador(unsigned int nroJugador, unsigned int disparos);
-
-    // PRE: casillero de tablero valido
-    // POST: realiza un disparo, elimina posible unidad e inhabilita el casillero
-    void realizarDisparoACasillero(Casillero* casillero);
-
-    // PRE: casillero de tablero valido
-    // POST: realiza disparos en un volumen de 27 casillero, elimina posible unidad e inhabilita el casillero
-    void lanzarMisilesJugador(unsigned int nroJugador, unsigned int cantMisiles);
-
-    // PRE: coordenadas validas
-    // POST: Devuelve true si la coordenada2 es vecina de la coordenada1
-    bool esCoordenadaVecina(Coordenada* coordenada1, Coordenada* coordenada2);
-
-    // PRE: 
-    // POST: jugador elije una unidad y realiza un movimiento con ella
-    // Jugador ingresa el numero de unidad para obtener su posicion, luego
-    // usar pedirCoordenadasUnidad() y asignarUnidadAlCasillero()
-    void moverUnidad(unsigned int nroJugador);
-    
-    // PRE: 
-    // POST: se crea un archivo bitmap con el mapa de la partida
-    // al comenzar el turno para un jugador se exporta el tablero para el solo
-    void exportarTablero(unsigned int nroJugador);
-
     // PRE
     // POST: chequea si el juego ha terminado
     bool haTerminado();
 
-    // PRE: indice del jugador que no posee soldados
-    // POST: Las unidades que han quedado, emprenden retirada. Libera memoria
-    void jugadorEmprendeRetirada(unsigned int nroJugador);
-
     // PRE:
-    // POST: devuelve el jugador ganador de la partida, en caso de que haya terminado en empate retorna 0;
-    unsigned int jugadorGanador();
+    // POST: determina el jugador ganador o, en caso que no haya, empate
+    void declararJugadorGanador();
 
     // PRE:
     // POST: Destruye la partida

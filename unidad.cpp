@@ -34,7 +34,5 @@ std::string Unidad::imprimirTipo(TipoDeUnidad tipo){
     }
 }
 
-
 Unidad::~Unidad(){
-    // TODO
 }

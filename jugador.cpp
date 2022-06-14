@@ -8,6 +8,7 @@ Jugador::Jugador(unsigned int numeroJugador){
     this->cantidadSoldados = 0;
     this->cantidadAviones = 0;
     this->cantidadBarcos = 0;
+    this->cantidadTotalUnidades = 0;
 
     this->cantidadDisparosDisponibles = 0;
     this->cantidadMisilesDisponibles = 0;
@@ -77,6 +78,7 @@ void Jugador::removerUnidad(Unidad* unidad){
             }else{
                 this->cantidadBarcos--;
             }
+            delete unidad;
             return;
         }
         posicionUnidad++;
@@ -129,5 +131,9 @@ bool Jugador::poseeSoldados(){
 }
 
 Jugador::~Jugador(){
+    unidades->reiniciarCursor();
+    while(unidades->avanzarCursor()){
+        delete unidades->getCursor();
+    }
     delete unidades;
 }

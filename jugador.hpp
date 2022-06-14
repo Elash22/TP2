@@ -79,7 +79,7 @@ public:
     bool poseeSoldados();
 
     // PRE: exista el jugador
-    // POST: 
+    // POST: elimina el jugador y las unidades del jugador
     virtual ~Jugador();
 };
 

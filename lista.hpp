@@ -15,61 +15,19 @@ private:
 	Nodo<T>* cursor;
 	
 public:
-
-	//Pre:
-	//Post:
 	Lista();
-
-	//Pre:
-	//Post:
 	Lista(Lista<T> &otraLista);
-
-	//Pre:
-	//Post:
 	bool vacia()const;
-
-	//Pre:
-	//Post:
 	unsigned int contarElementos()const;
-
-	//Pre:
-	//Post:
 	void add(T elemento);
-
-	//Pre:
-	//Post:
 	void add(T elemento, unsigned int posicion);
-
-	//Pre:
-	//Post:
 	void add(Lista<T> &otraLista);
-
-	//Pre:
-	//Post:
 	T get(unsigned int posicion);
-
-	//Pre:
-	//Post:
 	void asignar(T elemento, unsigned int posicion);
-
-	//Pre:
-	//Post:
 	void remover(unsigned int posicion);
-
-	//Pre:
-	//Post:
 	void reiniciarCursor();
-
-	//Pre:
-	//Post:
 	bool avanzarCursor();
-
-	//Pre:
-	//Post:
 	T getCursor()const;
-
-	//Pre:
-	//Post:
 	~Lista();
 
 private:

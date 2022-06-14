@@ -21,11 +21,11 @@ public:
     // POST: crea una unidad con un tipo, numero y posicion
     Unidad(TipoDeUnidad tipo, unsigned int nroUnidad, Coordenada* posicion);
 
-    // PRE: 
+    // PRE: -
     // POST: devuelve el tipo de unidad
     TipoDeUnidad getTipoDeUnidad();
 
-    // PRE: 
+    // PRE: -
     // POST: devuelve el ID de la unidad
     unsigned int getNroUnidad();
 
